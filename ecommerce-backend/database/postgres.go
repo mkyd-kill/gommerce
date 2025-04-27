@@ -6,7 +6,7 @@ import (
 	"os"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"ecommerce-backend/models"
+	// "ecommerce-backend/models"
 )
 
 var DB *gorm.DB
@@ -30,12 +30,12 @@ func Connect() {
 	DB.AutoMigrate()
 
 	// dummy product
-	DB.Create(&models.Product{
-		Name: "Men's Sneakers",
-		Description: "Comfortable and Stylish",
-		Price: 59.99,
-		Category: "Shoes",
-		ImageURL: "https://example.com/sneakers.jpg",
-		Stock: 20,
-	})
+	// DB.Create(&models.Product{
+	// 	Name: "Women's Lingerie",
+	// 	Description: "Comfortable and Stylish",
+	// 	Price: 89.99,
+	// 	Category: "Women's Clothing",
+	// 	ImageURL: "https://example.com/lingerie.jpg",
+	// 	Stock: 20,
+	// })
 }
