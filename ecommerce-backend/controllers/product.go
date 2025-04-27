@@ -17,3 +17,56 @@ func GetProducts(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, products)
 }
+
+func GetProduct(c *gin.Context) {
+	var product models.Product
+	
+	if err := database.DB.First(&product, c.Param("id")).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "Product Not Found",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, product)
+}
+
+func CreateProduct(c *gin.Context) {
+	var product models.Product
+	if err := c.ShouldBindJSON(&product); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	database.DB.Create(&product)
+	c.JSON(http.StatusCreated, gin.H{"message": "Product Created"})
+}
+
+func UpdateProduct(c *gin.Context) {
+	var product models.Product
+	id := c.Param("id")
+
+	if err:= database.DB.First(&product, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Product Not Found"})
+		return
+	}
+
+	if err := c.ShouldBindJSON(&product); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	database.DB.Save(&product)
+	c.JSON(http.StatusOK, product)
+}
+
+func DeleteProduct(c *gin.Context) {
+	var product models.Product
+	id := c.Param("id")
+
+	if err := database.DB.First(&product, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Product Not Found"})
+		return
+	}
+
+	database.DB.Delete(&product)
+	c.JSON(http.StatusOK, gin.H{"message": "Product Deleted"})
+}
