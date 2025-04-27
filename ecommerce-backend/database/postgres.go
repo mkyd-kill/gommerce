@@ -6,6 +6,7 @@ import (
 	"os"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"ecommerce-backend/models"
 )
 
 var DB *gorm.DB
@@ -24,4 +25,17 @@ func Connect() {
 	if err != nil {
 		log.Fatal("Failed to connect to database:", err)
 	}
+
+	// auto migration of models
+	DB.AutoMigrate()
+
+	// dummy product
+	DB.Create(&models.Product{
+		Name: "Men's Sneakers",
+		Description: "Comfortable and Stylish",
+		Price: 59.99,
+		Category: "Shoes",
+		ImageURL: "https://example.com/sneakers.jpg",
+		Stock: 20,
+	})
 }
