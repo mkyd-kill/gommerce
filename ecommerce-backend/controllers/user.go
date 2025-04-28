@@ -15,7 +15,7 @@ import (
 func Register (c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"BadRequest Error [User]": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"Bad Request Error [User]": err.Error()})
 		return
 	}
 
@@ -39,17 +39,17 @@ func Login(c *gin.Context) {
 	var user models.User
 
 	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"BadRequest Error [User]": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"Bad Request Error [User]": err.Error()})
 		return
 	}
 
 	if err := database.DB.Where("email = ?", input.Email).First(&user).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"Unauthorized Access": err.Error()})
+		c.JSON(http.StatusUnauthorized, gin.H{"Unauthorized Access": "Invalid Credentials"})
 		return
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"Unauthorized Access": err.Error()})
+		c.JSON(http.StatusUnauthorized, gin.H{"Unauthorized Access": "Invalid Credentials"})
 		return
 	}
 
