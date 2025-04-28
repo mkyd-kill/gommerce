@@ -2,12 +2,31 @@
 import { useState } from "react";
 import { login } from "@/services/auth";
 import { useRouter } from "next/navigation";
+import eye from "../../assets/eye.svg";
+import eyeOff from "../../assets/eye-off.svg";
+import google from "../../assets/sigup/Social button.svg";
+import facebook from "../../assets/sigup/Social button groups (1).svg";
+import apple from "../../assets/sigup/Social button groups.svg";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [icon, setIcon] = useState(eyeOff);
+  const [type, setType] = useState("password");
+
+  const handleToggle = () => {
+    if (type === "password") {
+      setIcon(eye);
+      setType("text");
+    } else {
+      setIcon(eyeOff);
+      setType("password");
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,40 +38,108 @@ export default function LoginPage() {
       localStorage.setItem("username", res.username);
       localStorage.setItem("email", res.email);
       router.push("/");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err?.response?.data?.error || "Login Failed");
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-20 p-8 shadow-lg rounded-xl">
-      <h2 className="text-2xl font-bold mb-4">Account Login</h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <form onSubmit={handleLogin} className="space-y-4">
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full px-4 py-3 border rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full px-4 py-3 border rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded"
-        >
-          Login
-        </button>
-      </form>
+    <div className="flex w-full justify-between my-6">
+      <div className="flex flex-col justify-center items-center self-stretch flex-grow mx-auto p-4 sm:p-0">
+        <div className="flex flex-col justify-center items-center gap-8 w-full max-w-md">
+          <div className="flex flex-col justify-start items-center self-stretch gap-6 w-full">
+            <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-3">
+              <p className="self-stretch flex-grow-0 flex-shrink-0 text-3xl font-semibold text-center text-[#101828]">
+                Welcome back
+              </p>
+              <p className="self-stretch flex-grow-0 flex-shrink-0 text-base text-center text-[#667085]">
+                Please enter your details.
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col justify-start items-center self-stretch gap-6 rounded-xl w-full">
+
+            {/* login form */}
+            <form onSubmit={handleLogin} className="flex flex-col justify-start items-center self-stretch gap-6 rounded-xl w-full">
+              <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-5">
+                <div className="flex flex-col w-full justify-start items-start flex-grow relative gap-1.5">
+                  <label className="flex-grow-0  flex-shrink-0 text-xs font-medium text-left text-[#344054]">
+                    Email
+                  </label>
+                  <input
+                    className="put appearance-none w-full  border border-[#d0d5dd] rounded-md py-2.5 px-3 text-white  focus:outline-none"
+                    type="email"
+                    placeholder="Enter your email address"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+
+                <div className="flex flex-col w-full justify-start items-start flex-grow relative gap-1.5">
+                  <label className="flex-grow-0  flex-shrink-0 text-xs font-medium text-left text-[#344054]">
+                    Password
+                  </label>
+                  <div className="relative w-full">
+                    <input
+                      className="put appearance-none w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-white pr-8 focus:outline-none"
+                      type={type}
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      autoComplete="current-password"
+                    />
+                    <span
+                      className="absolute top-1/2 transform -translate-y-1/2 right-2 cursor-pointer"
+                      onClick={handleToggle}
+                    >
+                      <Image src={icon} alt="icon" />
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2 px-[18px] py-2.5 rounded-lg bg-[#66004b] border border-[#66004b] cursor-pointer"
+                style={{
+                  boxShadow: "0px 1px 2px 0 rgba(16,24,40,0.05)",
+                }}
+              >
+                <button
+                  type="submit"
+                  className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-white cursor-pointer"
+                >
+                  Sign in
+                </button>
+              </div>
+            </form>
+
+            {/* sign in by accounts */}
+            <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-4">
+              <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-4">
+                <div className="flex justify-center items-center flex-grow gap-3 cursor-pointer">
+                  <Image src={apple} alt="apple" />
+                </div>
+                <div className="flex justify-center items-center flex-grow gap-3 cursor-pointer">
+                  <Image src={google} alt="google" />
+                </div>
+                <div className="flex justify-center items-center flex-grow gap-3 cursor-pointer">
+                  <Image src={facebook} alt="facebook" />
+                </div>
+              </div>
+
+              <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2">
+                <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#475467]">
+                  Don&apos;t have an account?{" "}
+                  <span className="text-[#66004b] cursor-pointer">
+                    <Link href="/register">
+                    Sign Up
+                    </Link>
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
