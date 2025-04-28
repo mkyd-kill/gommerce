@@ -51,24 +51,26 @@ export default function LoginPage() {
           <div className="flex flex-col justify-start items-center self-stretch gap-6 w-full">
             <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-3">
               <p className="self-stretch flex-grow-0 flex-shrink-0 text-3xl font-semibold text-center text-[#101828]">
-                Welcome back
+                One of Us ?
               </p>
               <p className="self-stretch flex-grow-0 flex-shrink-0 text-base text-center text-[#667085]">
-                Please enter your details.
+                Continue Shopping...
               </p>
             </div>
           </div>
           <div className="flex flex-col justify-start items-center self-stretch gap-6 rounded-xl w-full">
-
             {/* login form */}
-            <form onSubmit={handleLogin} className="flex flex-col justify-start items-center self-stretch gap-6 rounded-xl w-full">
+            <form
+              onSubmit={handleLogin}
+              className="flex flex-col justify-start items-center self-stretch gap-6 rounded-xl w-full"
+            >
               <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-5">
                 <div className="flex flex-col w-full justify-start items-start flex-grow relative gap-1.5">
                   <label className="flex-grow-0  flex-shrink-0 text-xs font-medium text-left text-[#344054]">
                     Email
                   </label>
                   <input
-                    className="put appearance-none w-full  border border-[#d0d5dd] rounded-md py-2.5 px-3 text-white  focus:outline-none"
+                    className="put appearance-none w-full  border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black  focus:outline-none"
                     type="email"
                     placeholder="Enter your email address"
                     onChange={(e) => setEmail(e.target.value)}
@@ -81,7 +83,7 @@ export default function LoginPage() {
                   </label>
                   <div className="relative w-full">
                     <input
-                      className="put appearance-none w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-white pr-8 focus:outline-none"
+                      className="put appearance-none w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black pr-8 focus:outline-none"
                       type={type}
                       placeholder="Password"
                       value={password}
@@ -114,6 +116,9 @@ export default function LoginPage() {
 
             {/* sign in by accounts */}
             <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-4">
+              <p className="self-stretch flex-grow-0 flex-shrink-0 text-base text-[#667085]">
+                Or sign in with:
+              </p>
               <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-4">
                 <div className="flex justify-center items-center flex-grow gap-3 cursor-pointer">
                   <Image src={apple} alt="apple" />
@@ -130,9 +135,7 @@ export default function LoginPage() {
                 <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#475467]">
                   Don&apos;t have an account?{" "}
                   <span className="text-[#66004b] cursor-pointer">
-                    <Link href="/register">
-                    Sign Up
-                    </Link>
+                    <Link href="/register">Sign Up</Link>
                   </span>
                 </p>
               </div>
