@@ -12,7 +12,7 @@ func GetProducts(c *gin.Context) {
 	result := database.DB.Find(&products)
 
 	if result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"Error": result.Error.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"Server Error [Product]": result.Error.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, products)
@@ -23,7 +23,7 @@ func GetProduct(c *gin.Context) {
 	
 	if err := database.DB.First(&product, c.Param("id")).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
-			"error": "Product Not Found",
+			"Database Error [Product]": "Product Not Found",
 		})
 		return
 	}
@@ -33,7 +33,7 @@ func GetProduct(c *gin.Context) {
 func CreateProduct(c *gin.Context) {
 	var product models.Product
 	if err := c.ShouldBindJSON(&product); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"BadRequest Error [Product]": err.Error()})
 		return
 	}
 	database.DB.Create(&product)
