@@ -6,7 +6,7 @@ import (
 	"os"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	// "ecommerce-backend/models"
+	"ecommerce-backend/models"
 )
 
 var DB *gorm.DB
@@ -27,7 +27,7 @@ func Connect() {
 	}
 
 	// auto migration of models
-	DB.AutoMigrate()
+	DB.AutoMigrate(&models.Product{}, &models.User{})
 
 	// dummy product
 	// DB.Create(&models.Product{
