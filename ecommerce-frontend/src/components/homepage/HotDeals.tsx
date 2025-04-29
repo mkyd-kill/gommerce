@@ -1,6 +1,6 @@
 import fire from "../../assets/Fire.svg";
 import Image from "next/image";
-import { Deal } from "@/types/category";
+import { Deal } from "@/types/productMeta";
 import fire2 from "../../assets/1F525_Fire_v13_Still 1.svg";
 import product2 from "../../assets/Product.svg";
 import Selected from "../../assets/State=Selected.svg";
