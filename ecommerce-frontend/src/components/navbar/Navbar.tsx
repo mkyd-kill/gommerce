@@ -15,7 +15,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gray-800 text-white px-4 py-4 flex justify-between">
+    <nav className="bg-gray-800 text-white px-5 py-5 flex justify-between">
       <div className="space-x-5">
         <Link href="/">Home</Link>
         <Link href="/products">Products</Link>
