@@ -1,4 +1,4 @@
-import CategoryCard from "@/components/category/CategoryCard";
+import CategoryCard from "@/components/homepage/CategoryCard";
 
 export default function Home() {
     return (
