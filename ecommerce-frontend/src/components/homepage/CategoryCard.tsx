@@ -8,7 +8,7 @@ import headphone from "../../assets/Headphone.svg";
 import jewery from "../../assets/Ring.svg";
 import plus from "../../assets/2795_PlusSign_1024px_01_02 1.svg";
 import bag from "../../assets/Shopping bags.svg";
-import { CategoryModel } from "@/types/category";
+import { CategoryModel } from "@/types/productMeta";
 
 const Category = () => {
   const categories: CategoryModel[] = [
