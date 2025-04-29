@@ -5,7 +5,7 @@ import seat2 from "../../assets/seat2.svg";
 import mobile2 from "../../assets/mobile2.svg";
 import Image from "next/image";
 
-const FeatureCard: React.FC = () => {
+const FeatureCard = () => {
   const features: Feature[] = [
     {
       id: 1,
@@ -25,9 +25,6 @@ const FeatureCard: React.FC = () => {
 
   return (
     <div
-      style={{
-        // width: "fit-content",
-      }}
       className="items-center justify-between grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 xs:grid-cols-1 2xs:grid-cols-1 gap-4"
     >
       {features.map((feature) => (

@@ -13,11 +13,7 @@ function FeaturedProduct() {
         </p>
       </div>
       <div
-        style={{
-          width: "fit-content",
-          maxWidth: "1248px",
-        }}
-        className="px-4 justify-between my-8 flex gap-3 xl:flex lg:flex md:flex-col sm:flex-col xs:flex-col"
+        className="justify-center items-center 2xl:flex xl:flex lg:flex gap-2 my-8"
       >
         <div className="">
           <FeatureCard />

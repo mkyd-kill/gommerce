@@ -72,7 +72,7 @@ function Footer() {
           </svg>
           <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative px-2 py-0.5 rounded-2xl bg-[#fff0fb] border border-[#ffb8ec] mix-blend-multiply">
             <p className="flex-grow-0 flex-shrink-0 text-xs font-medium text-center text-[#4d0039]">
-              Private Beta
+              Beta
             </p>
           </div>
         </div>
