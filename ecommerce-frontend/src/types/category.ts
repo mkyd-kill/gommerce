@@ -1,9 +1,16 @@
-export interface Category {
+export interface CategoryModel {
     id: number;
     name: string;
     image: string;
-    color: string;
     style: {
         backgroundColor: string;
     }
+}
+
+export interface Deal {
+    id: number;
+    name: string;
+    image: string;
+    price: number;
+    left: number;
 }
