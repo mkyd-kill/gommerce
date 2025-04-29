@@ -3,7 +3,7 @@ import Image from "next/image";
 import FeatureCard from "./FeatureCard";
 import FeatureCard2 from "./FeatureCard2";
 
-export const FeaturedProduct = () => {
+function FeaturedProduct() {
   return (
     <div className="mx-4">
       <div className="flex px-4">
@@ -12,17 +12,22 @@ export const FeaturedProduct = () => {
           Featured Products
         </p>
       </div>
-
       <div
         style={{
           width: "fit-content",
           maxWidth: "1248px",
         }}
-        className="flex px-4 justify-between my-8 gap-3 xl:flex lg:flex md:flex-col sm:flex-col xs:flex-col"
+        className="px-4 justify-between my-8 flex gap-3 xl:flex lg:flex md:flex-col sm:flex-col xs:flex-col"
       >
+        <div className="">
           <FeatureCard />
+        </div>
+        <div className="">
           <FeatureCard2 />
+        </div>
       </div>
     </div>
   );
-};
+}
+
+export default FeaturedProduct;

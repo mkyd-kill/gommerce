@@ -10,7 +10,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Navbar />
-        <main className="p-4 m-2">{children}</main>
+        <main className="m-2 p-2">{children}</main>
       </body>
     </html>
   );
