@@ -14,3 +14,12 @@ export interface Deal {
     price: number;
     left: number;
 }
+
+export interface Feature {
+    id: number;
+    name: string;
+    image: string;
+    price: number;
+    time: string;
+    left?: number;
+}
