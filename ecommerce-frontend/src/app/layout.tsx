@@ -1,6 +1,5 @@
 "use client";
 import Navbar from "@/components/navbar/Navbar";
-import Footer from "@/components/footer/Footer";
 import { ToastContainer } from "react-toastify";
 import { UserProvider } from "@/context/useAuth";
 import "./globals.css";
@@ -19,7 +18,6 @@ export default function RootLayout({
             <ToastContainer />
             {children}
           </main>
-          <Footer />
         </UserProvider>
       </body>
     </html>
