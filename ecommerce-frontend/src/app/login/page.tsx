@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
-import { login } from "@/services/auth";
-import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/useAuth";
 import eye from "../../assets/eye.svg";
 import eyeOff from "../../assets/eye-off.svg";
 import google from "../../assets/sigup/Social button.svg";
@@ -9,10 +8,9 @@ import facebook from "../../assets/sigup/Social button groups (1).svg";
 import apple from "../../assets/sigup/Social button groups.svg";
 import Image from "next/image";
 import Link from "next/link";
-import { toast } from "react-toastify";
 
 export default function LoginPage() {
-  const router = useRouter();
+  const { loginUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -32,18 +30,7 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    try {
-      const res = await login(email, password);
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("refresh", res.refresh);
-      localStorage.setItem("username", res.username);
-      localStorage.setItem("email", res.email);
-      toast.success("Login Successfull!");
-      router.push("/cart");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setError(err?.response?.data?.error || "Login Failed");
-    }
+    loginUser(email, password);
   };
 
   return (

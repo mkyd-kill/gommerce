@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
-import { register } from "@/services/auth";
-import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/useAuth";
 import eye from "../../assets/eye.svg";
 import eyeOff from "../../assets/eye-off.svg";
 import google from "../../assets/sigup/Social button.svg";
@@ -9,10 +8,9 @@ import facebook from "../../assets/sigup/Social button groups (1).svg";
 import apple from "../../assets/sigup/Social button groups.svg";
 import Image from "next/image";
 import Link from "next/link";
-import { toast } from "react-toastify";
 
 export default function RegisterPage() {
-  const router = useRouter();
+  const { registerUser } = useAuth();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,14 +31,7 @@ export default function RegisterPage() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    try {
-      await register(username, email, password);
-      toast.success("Registration Successfull!");
-      router.push("/login");
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setError(err?.response?.data?.error || "Registration Failed");
-    }
+    registerUser(email, username, password);
   };
 
   return (
