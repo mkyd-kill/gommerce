@@ -1,7 +1,10 @@
 package main
 
 import (
+	"os"
+	"time"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 	"ecommerce-backend/routes"
 	"ecommerce-backend/config"
 	"ecommerce-backend/database"
@@ -16,6 +19,16 @@ func main() {
 
 	// router setup
 	r := gin.Default()
+
+	// cors middleware
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{os.Getenv("NEXT_API_URL")},
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders: []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge: 12 * time.Hour,
+	}))
 
 	// loading routes
 	routes.SetupRoutes(r)
