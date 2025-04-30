@@ -46,8 +46,8 @@ export const UserProvider = ({ children }: Props) => {
     await registerAPI(username, email, password)
       .then((res) => {
         if (res) {
-          toast.success("Registration Successfull!");
           router.push("/login");
+          toast.success("Registration Successfull!");
         }
       })
       .catch(() => toast.warning("Server error occured"));
@@ -65,8 +65,8 @@ export const UserProvider = ({ children }: Props) => {
           localStorage.setItem("user", JSON.stringify(userObj));
           setAccessToken(res?.data.token);
           setUser(userObj!)
-          toast.success("Login Successfull!");
           router.push("/cart");
+          toast.success("Login Successfull!");
         } else {
           toast.error("Invalid Login Credentials");
         }
@@ -83,8 +83,8 @@ export const UserProvider = ({ children }: Props) => {
     localStorage.removeItem("user");
     setUser(null);
     setAccessToken("");
-    toast.success("Logout Successfull!");
     router.push("/");
+    toast.success("Logout Successfull!");
   };
 
   return (
