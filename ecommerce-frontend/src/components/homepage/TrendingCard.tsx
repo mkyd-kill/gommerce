@@ -106,7 +106,7 @@ const TrendingCard = () => {
                       Kshs.
                     </p>
                     <p className="flex-grow-0 flex-shrink-0 text-xl font-semibold text-center text-[#870064]">
-                      {deal.price}
+                      {deal.price.toLocaleString()}
                     </p>
                   </div>
                 </div>

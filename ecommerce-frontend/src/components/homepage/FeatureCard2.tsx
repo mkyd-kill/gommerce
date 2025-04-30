@@ -118,7 +118,7 @@ const FeatureCard2: React.FC = () => {
                     Kshs.
                   </p>
                   <p className="flex-grow-0 flex-shrink-0 text-xs font-medium text-left text-[#870064]">
-                    {deal.price}
+                    {deal.price.toLocaleString()}
                   </p>
                 </div>
               </div>
