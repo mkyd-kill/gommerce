@@ -12,6 +12,7 @@ import cart from "../../assets/Button.svg";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import ProtectedRoute from "@/lib/ProtectedRoute";
+import Link from "next/link";
 
 interface shoppingProps {
   id: number;
@@ -86,7 +87,6 @@ export default function CartPage() {
 
   const [, setWindowWidth] = useState(window.innerWidth);
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   useEffect(() => {
     // Function to update windowWidth when the window is resized
     const handleResize = () => {
@@ -99,9 +99,10 @@ export default function CartPage() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   return (
     <ProtectedRoute>
-        <div className="mx-2">
+        <div className="mx-1">
           <div className="flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 gap-2.5 p-4">
             <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2">
               <svg
@@ -121,13 +122,13 @@ export default function CartPage() {
                   strokeLinejoin="round"
                 />
               </svg>
-              <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-[#475467]">
+              <Link href="/products" className="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-[#475467] hover:text-blue-300">
                 Continue Shopping
-              </p>
+              </Link>
             </div>
           </div>
           {/* second part */}
-          <div className="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 h-[72px] p-4 bg-white">
+          <div className="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 h-[62px] p-2 bg-gray-300 rounded mb-1">
             <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-1">
               <Image
                 src={shoppingCart}
@@ -140,7 +141,7 @@ export default function CartPage() {
             </div>
           </div>
           {/* third part */}
-          <div className="2xl: xl:flex-wrap  md:flex-wrap md:mx-2 sm:flex-wrap xs:flex-wrap  flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-10 px-4 pb-12 bg-white">
+          <div className="xl:flex-wrap md:flex-wrap md:mx-2 sm:flex-wrap xs:flex-wrap flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-10 px-4 pb-10 bg-white">
             <div className="flex flex-col justify-start items-start flex-grow gap-2">
               <div className="lg:hidden md:hidden sm:hidden xs:hidden xl:hidden flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 py-8 bg-white border-t-0 border-r-0 border-b border-l-0 border-[#eaecf0]">
                 <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-3">
@@ -148,7 +149,7 @@ export default function CartPage() {
                     Item
                   </p>
                 </div>
-                <div className="mr-20 flex justify-end items-center flex-grow-0 flex-shrink-0  h-10 gap-">
+                <div className="mr-20 flex justify-end items-center flex-grow-0 flex-shrink-0 h-10 gap-">
                   <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-32 relative gap-1">
                     <p className="flex-grow-0 text-start flex-shrink-0 text-lg font-bold  text-black">
                       Subtotal
@@ -164,7 +165,7 @@ export default function CartPage() {
               {/* mapping  */}
               {shopping.map((item) => (
                 <div
-                  className="sm:h-[190px] lg:flex-col  xl:flex-col xl:justify-start md:flex-col md:mx-2 sm:flex-wrap sm:mx-2 xs:flex-wrap xs:mx-2 flex justify-between  self-stretch flex-grow-0 flex-shrink-0 h-40 bg-white border-t-0 border-r-0 border-b border-l-0 border-[#eaecf0]"
+                  className="sm:h-[180px] lg:flex-col  xl:flex-col xl:justify-start md:flex-col md:mx-2 sm:flex-wrap sm:mx-2 xs:flex-wrap xs:mx-2 flex justify-between self-stretch flex-grow-0 flex-shrink-0 h-40 bg-white border-t-0 border-r-0 border-b border-l-0 border-[#eaecf0]"
                   key={item.id}
                 >
                   <div className="flex justify-start items-center flex-grow gap-3 sm:gap-2">
@@ -202,29 +203,22 @@ export default function CartPage() {
                   </div>
                   <div className="2xl:my-12 mb-1 md:justify-between lg:justify-between  xl:justify-between sm:justify-between  lg:flex-wrap lg:mr-4 md:my-0 flex sm:gap-0  items-center flex-grow-0 flex-shrink-0  h-10 gap-1">
                     <div className="flex justify-center items-center">
-                      <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative overflow-hidden gap-1 p-1 rounded-lg">
-                        <Image
-                          src={deletebutton}
-                          alt="minus"
-                          className="flex-grow-0 flex-shrink-0 relative"
-                        />
-                      </div>
                       <div className="flex xs:w-[90px]  justify-start items-center flex-grow-0 flex-shrink-0 w-32 sm:w-24 xs:w-18 relative gap-1">
                         <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-[#475467]">
                           Kshs.
                         </p>
                         <p className="flex-grow w-[87px] xs:w-[50px] text-sm font-medium text-left text-black">
-                          {calculateTotalPrice(item)}
+                          {calculateTotalPrice(item).toLocaleString()}
                         </p>
                       </div>
                     </div>
                     <div className="flex">
-                      <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-32 sm:w-24  relative overflow-hidden  xs:px-2 px-4 py-2.5 rounded-lg bg-white border border-[#f2f4f7]">
+                      <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-32 sm:w-24  relative overflow-hidden xs:px-2 px-4 py-2.5 rounded-lg bg-white border border-[#f2f4f7]">
                         <Image
                           onClick={() => handleDecrement(item.id)}
                           src={minus}
                           alt="minus"
-                          className="flex-grow-0 flex-shrink-0 relative"
+                          className="flex-grow-0 flex-shrink-0 relative cursor-pointer"
                         />
                         <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#344054]">
                           {item.quantityInCart}
@@ -233,11 +227,17 @@ export default function CartPage() {
                           onClick={() => handleIncrement(item.id)}
                           src={plus}
                           alt="plus"
-                          className="flex-grow-0 flex-shrink-0 relative"
+                          className="flex-grow-0 flex-shrink-0 relative cursor-pointer"
                         />
                       </div>
                       <div>
-                        <Image src={cart} alt="button" className="mx-2" />
+                      <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative overflow-hidden gap-1 p-1 rounded-lg cursor-pointer">
+                        <Image
+                          src={deletebutton}
+                          alt="minus"
+                          className="flex-grow-0 flex-shrink-0 relative mx-2"
+                        />
+                      </div>
                       </div>
                     </div>
                   </div>
@@ -349,9 +349,9 @@ export default function CartPage() {
                 className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2 px-5 py-3 rounded-lg bg-[#66004b] border border-[#66004b]"
                 style={{ boxShadow: "0px 1px 2px 0 rgba(16,24,40,0.05)" }}
               >
-                <p className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-white">
+                <Link href="/checkout" className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-white">
                   Check Out
-                </p>
+                </Link>
                 <svg
                   width={20}
                   height={20}
