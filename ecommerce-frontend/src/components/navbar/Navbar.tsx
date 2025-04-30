@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -37,10 +36,7 @@ export default function Navbar() {
             >
               Login
             </Link>
-            <Link
-              href="/register"
-              className="cursor-pointer"
-            >
+            <Link href="/register" className="cursor-pointer">
               Register
             </Link>
           </>
