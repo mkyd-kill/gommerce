@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { useAuth } from "@/context/useAuth";
+import Image from "next/image";
+import avatar from "../../assets/default-avatar.jpg";
 
 export default function Navbar() {
   const { isLoggedIn, user, logout } = useAuth();
@@ -18,9 +20,10 @@ export default function Navbar() {
       </div>
       <div>
         {isLoggedIn() ? (
-          <div className="flex items-center space-x-6 text-black">
+          <div className="flex items-center space-x-4">
+            <Image src={avatar} alt="user-avatar" className="flex-grow-0 flex-shrink-0 w-8 h-8 relative overflow-hidden rounded-[44px] bg-cover bg-no-repeat bg-center" />
             <div className="text-white text-semibold">
-              Welcome, {user?.username}
+              Welcome back, {user?.username.toLocaleUpperCase()}
             </div>
             <button
               onClick={logout}
