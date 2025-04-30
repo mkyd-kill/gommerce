@@ -16,7 +16,7 @@ export default function Navbar() {
         <Link href="/products" className="hover:text-blue-500">
           Products
         </Link>
-        {isLoggedIn() ? <Link href="/cart">Cart</Link> : <></>}
+        {isLoggedIn() ? <Link href="/cart" className="hover:text-blue-500 hover:text-bold">Cart</Link> : <></>}
       </div>
       <div>
         {isLoggedIn() ? (
