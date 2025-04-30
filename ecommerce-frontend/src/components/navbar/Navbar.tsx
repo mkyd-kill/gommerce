@@ -25,16 +25,24 @@ export default function Navbar() {
         {loggedIn ? (
           <button
             onClick={handleLogout}
-            className="bg-red-500 px-3 py-1 rounded"
+            className="bg-red-500 px-3 py-1 rounded cursor-pointer hover:opacity-70"
           >
             Logout
           </button>
         ) : (
           <>
-            <Link href="/login" className="mr-4">
+            <Link
+              href="/login"
+              className="mr-4 bg-green-600 rounded px-4 py-3 cursor-pointer"
+            >
               Login
             </Link>
-            <Link href="/register">Register</Link>
+            <Link
+              href="/register"
+              className="cursor-pointer"
+            >
+              Register
+            </Link>
           </>
         )}
       </div>
