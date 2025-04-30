@@ -1,15 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import api from "@/lib/axios";
-import { Product } from "@/types/product";
+import { ProductModel } from "@/types/product";
+import { getAllProductAPI } from "@/services/productAPI";
 
 export default function ProductPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductModel[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await api.get("/product/all");
-      setProducts(res.data);
+      const res = await getAllProductAPI();
+      setProducts(res);
     };
     fetchProducts();
   }, []);

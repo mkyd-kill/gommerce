@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { UserProfile } from "@/types/user";
 import { useRouter } from "next/navigation";
-import { loginAPI, registerAPI } from "@/services/auth";
+import { loginAPI, registerAPI } from "@/services/authAPI";
 import { toast } from "react-toastify";
 import React from "react";
 import api from "@/lib/axios";
