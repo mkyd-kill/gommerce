@@ -1,33 +1,34 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
+
+import { useAuth } from "@/context/useAuth";
 
 export default function Navbar() {
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setLoggedIn(!!localStorage.getItem("token"));
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.clear();
-    window.location.href = "/login";
-  };
+  const { isLoggedIn, user, logout } = useAuth();
 
   return (
     <nav className="bg-gray-800 text-white px-5 py-5 flex justify-between">
       <div className="space-x-5">
         <Link href="/">Home</Link>
         <Link href="/products">Products</Link>
-        {loggedIn && <Link href="/cart">Cart</Link>}
+        {isLoggedIn() ? (
+          <Link href="/cart">Cart</Link>
+        ): (
+          <div></div>
+        )}
       </div>
       <div>
-        {loggedIn ? (
+        {isLoggedIn() ? (
+          <div className="flex items-center space-x-6 text-black">
+            <div className="text-white text-semibold">
+            Welcome, {user?.username}
+          </div>
           <button
-            onClick={handleLogout}
+            onClick={logout}
             className="bg-red-500 px-3 py-1 rounded cursor-pointer hover:opacity-70"
           >
             Logout
           </button>
+          </div>
         ) : (
           <>
             <Link
