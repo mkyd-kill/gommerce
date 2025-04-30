@@ -9,6 +9,7 @@ import facebook from "../../assets/sigup/Social button groups (1).svg";
 import apple from "../../assets/sigup/Social button groups.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -34,7 +35,8 @@ export default function RegisterPage() {
     setError("");
     try {
       await register(username, email, password);
-      router.push("/");
+      toast.success("Registration Successfull!");
+      router.push("/login");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err?.response?.data?.error || "Registration Failed");
@@ -72,6 +74,7 @@ export default function RegisterPage() {
                     type="text"
                     placeholder="Enter your username"
                     onChange={(e) => setUsername(e.target.value)}
+                    required
                   />
                 </div>
                 <div className="flex flex-col w-full justify-start items-start flex-grow relative gap-1.5">
@@ -83,6 +86,7 @@ export default function RegisterPage() {
                     type="email"
                     placeholder="Enter your email address"
                     onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -108,19 +112,18 @@ export default function RegisterPage() {
                   </div>
                 </div>
               </div>
-              <div
+              <button type="submit"
                 className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2 px-[18px] py-2.5 rounded-lg bg-[#66004b] border border-[#66004b] cursor-pointer"
                 style={{
                   boxShadow: "0px 1px 2px 0 rgba(16,24,40,0.05)",
                 }}
               >
-                <button
-                  type="submit"
+                <div
                   className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-white cursor-pointer"
                 >
                   Sign up
-                </button>
-              </div>
+                </div>
+              </button>
             </form>
 
             {/* sign in by accounts */}
