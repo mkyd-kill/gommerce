@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import ProtectedRoute from "@/lib/ProtectedRoute";
 import { useAuth } from "@/context/useAuth";
 import shoppingCart from "../../assets/Shopping cart.svg";
@@ -9,55 +8,12 @@ import deleteIcon from "../../assets/DeleteButton.svg";
 import plus from "../../assets/plus.svg";
 import minus from "../../assets/minus.svg";
 import clipboard from "../../assets/Clipboard.svg";
-
-interface ShoppingItem {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  quantityInCart: number;
-}
+import { useCart } from "@/context/CartContext";
 
 export default function CartPage() {
   const { isLoggedIn } = useAuth();
-  const [cart, setCart] = useState<ShoppingItem[]>([]);
+  const { cart, increment, decrement, removeFromCart } = useCart();
 
-  // Load cart from localStorage on mount
-  useEffect(() => {
-    const stored = localStorage.getItem("cart");
-    if (stored) {
-      setCart(JSON.parse(stored));
-    }
-  }, []);
-
-  // Update localStorage on cart change
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
-
-  const handleIncrement = (itemId: number) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === itemId
-          ? { ...item, quantityInCart: item.quantityInCart + 1 }
-          : item
-      )
-    );
-  };
-
-  const handleDecrement = (itemId: number) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === itemId
-          ? { ...item, quantityInCart: Math.max(1, item.quantityInCart - 1) }
-          : item
-      )
-    );
-  };
-
-  const handleRemove = (itemId: number) => {
-    setCart((prev) => prev.filter((item) => item.id !== itemId));
-  };
 
   const calculateSubtotal = () =>
     cart.reduce((sum, item) => sum + item.price * item.quantityInCart, 0);
@@ -127,7 +83,7 @@ export default function CartPage() {
                       alt="decrement"
                       width={20}
                       className="cursor-pointer"
-                      onClick={() => handleDecrement(item.id)}
+                      onClick={() => decrement(item.id)}
                     />
                     <span className="px-3">{item.quantityInCart}</span>
                     <Image
@@ -135,7 +91,7 @@ export default function CartPage() {
                       alt="increment"
                       width={20}
                       className="cursor-pointer"
-                      onClick={() => handleIncrement(item.id)}
+                      onClick={() => increment(item.id)}
                     />
                   </div>
                   <p className="text-sm font-semibold">
@@ -146,7 +102,7 @@ export default function CartPage() {
                     alt="remove"
                     width={20}
                     className="cursor-pointer"
-                    onClick={() => handleRemove(item.id)}
+                    onClick={() => removeFromCart(item.id)}
                   />
                 </div>
               </div>
