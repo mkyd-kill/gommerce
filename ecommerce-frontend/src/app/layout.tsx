@@ -11,6 +11,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <title>Gommerce</title>
       <body>
         <UserProvider>
           <Navbar />
