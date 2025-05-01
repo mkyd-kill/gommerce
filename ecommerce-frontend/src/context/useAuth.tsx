@@ -1,95 +1,92 @@
-import { createContext, useEffect, useState } from "react";
-import { UserProfile } from "@/types/user";
+import React, { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { loginAPI, registerAPI } from "@/services/authAPI";
 import { toast } from "react-toastify";
-import React from "react";
+import { UserProfile } from "@/types/user";
+import { loginAPI, registerAPI } from "@/services/authAPI";
 import api from "@/lib/axios";
 
 type UserContextType = {
-    user: UserProfile | null;
-    accessToken: string | null;
-    registerUser: (email: string, username: string, password: string) => void;
-    loginUser: (email: string, password: string) => void;
-    logout: () => void;
-    isLoggedIn: () => boolean;
+  user: UserProfile | null;
+  accessToken: string | null;
+  registerUser: (email: string, username: string, password: string) => void;
+  loginUser: (email: string, password: string) => void;
+  logout: () => void;
+  isLoggedIn: () => boolean;
 };
-
-type Props = { children: React.ReactNode };
 
 const UserContext = createContext<UserContextType>({} as UserContextType);
 
+type Props = { children: React.ReactNode };
+
 export const UserProvider = ({ children }: Props) => {
-    const router = useRouter();
-    const [accessToken, setAccessToken] = useState<string | null>(null);
-    const [user, setUser] = useState<UserProfile | null>(null);
+  const router = useRouter();
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [user, setUser] = useState<UserProfile | null>(null);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    const accessToken = localStorage.getItem("accessToken");
-    if (user && accessToken) {
-      setUser(JSON.parse(user));
-      setAccessToken(accessToken);
-      api.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
-      router.push("/profile");
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("accessToken");
+
+    if (storedUser && storedToken) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        setAccessToken(storedToken);
+        api.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
+        router.push("/profile");
+      } catch {
+        localStorage.removeItem("user");
+        localStorage.removeItem("accessToken");
+      }
     }
+
     setIsReady(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const registerUser = async (
-    email: string,
-    username: string,
-    password: string
-  ) => {
-    await registerAPI(username, email, password)
-      .then((res) => {
-        if (res) {
-          router.push("/login");
-          toast.success("Registration Successfull!");
-        }
+  const registerUser = (email: string, username: string, password: string) => {
+    registerAPI(username, email, password)
+      .then(() => {
+        toast.success("Registration successful!");
+        router.push("/login");
       })
-      .catch(() => toast.warning("Server error occured"));
+      .catch(() => toast.error("Server error occurred"));
   };
 
-  const loginUser = async (email: string, password: string) => {
-    await loginAPI(email, password)
+  const loginUser = (email: string, password: string) => {
+    loginAPI(email, password)
       .then((res) => {
-        if (res) {
-          localStorage.setItem("accessToken", res?.data.token);
-          const userObj = {
-            username: res?.data.username,
-            email: res?.data.email,
-          };
-          localStorage.setItem("user", JSON.stringify(userObj));
-          setAccessToken(res?.data.token);
-          setUser(userObj!)
-          router.push("/profile");
-          toast.success("Login Successfull!");
-        } else {
-          toast.error("Invalid Login Credentials");
-        }
-      })
-      .catch(() => toast.error("Server error occured"));
-  };
+        const { token, username, email } = res.data;
 
-  const isLoggedIn = () => {
-    return !!user;
+        const userObj = { username, email };
+        localStorage.setItem("accessToken", token);
+        localStorage.setItem("user", JSON.stringify(userObj));
+
+        setAccessToken(token);
+        setUser(userObj);
+        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+        toast.success("Login successful!");
+        router.push("/profile");
+      })
+      .catch(() => toast.error("Invalid login credentials"));
   };
 
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
     setUser(null);
-    setAccessToken("");
+    setAccessToken(null);
+    toast.success("Logout successful!");
     router.push("/");
-    toast.success("Logout Successfull!");
   };
+
+  const isLoggedIn = () => !!user;
 
   return (
     <UserContext.Provider
-      value={{ loginUser, user, accessToken, logout, isLoggedIn, registerUser }}
+      value={{ user, accessToken, loginUser, registerUser, logout, isLoggedIn }}
     >
       {isReady ? children : null}
     </UserContext.Provider>
