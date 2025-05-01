@@ -8,7 +8,6 @@ import rev2 from "../../assets/rev2.png";
 import rev3 from "../../assets/rev3.png";
 import rev4 from "../../assets/rev4.png";
 import clipboard from "../../assets/Clipboard.svg";
-import cart from "../../assets/Button.svg";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import ProtectedRoute from "@/lib/ProtectedRoute";
