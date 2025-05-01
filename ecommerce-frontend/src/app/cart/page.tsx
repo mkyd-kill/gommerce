@@ -1,68 +1,43 @@
 "use client";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import ProtectedRoute from "@/lib/ProtectedRoute";
+import { useAuth } from "@/context/useAuth";
 import shoppingCart from "../../assets/Shopping cart.svg";
-import deletebutton from "../../assets/DeleteButton.svg";
+import deleteIcon from "../../assets/DeleteButton.svg";
 import plus from "../../assets/plus.svg";
 import minus from "../../assets/minus.svg";
-import rev1 from "../../assets/rev1.png";
-import rev2 from "../../assets/rev2.png";
-import rev3 from "../../assets/rev3.png";
-import rev4 from "../../assets/rev4.png";
 import clipboard from "../../assets/Clipboard.svg";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import ProtectedRoute from "@/lib/ProtectedRoute";
-import Link from "next/link";
 
-interface shoppingProps {
+interface ShoppingItem {
   id: number;
   name: string;
   price: number;
   image: string;
-  quantity: number;
   quantityInCart: number;
 }
 
 export default function CartPage() {
-  const shoppingItems: shoppingProps[] = [
-    {
-      id: 1,
-      name: 'Contemporary Accent Table Nightstand Drawer Storage Bedside Cabinet - 16  L x 16 W x 18"H Off-White 2 Piece Set Nightstands',
-      price: 54438,
-      image: rev1,
-      quantity: 1,
-      quantityInCart: 1,
-    },
-    {
-      id: 2,
-      name: "Flower Moon Spray Perfume",
-      price: 38544,
-      image: rev2,
-      quantity: 1,
-      quantityInCart: 1,
-    },
-    {
-      id: 3,
-      name: "TEVISE T845 Casual Style Men Wrist Watch Date Display Full Steel Band Quartz Watch - NO.2",
-      price: 37407,
-      image: rev3,
-      quantity: 1,
-      quantityInCart: 1,
-    },
-    {
-      id: 4,
-      name: "Mens Jacquard Pullover Hoodie - Navy/L",
-      price: 24434,
-      image: rev4,
-      quantity: 1,
-      quantityInCart: 1,
-    },
-  ];
+  const { isLoggedIn } = useAuth();
+  const [cart, setCart] = useState<ShoppingItem[]>([]);
 
-  const [shopping, setShopping] = useState(shoppingItems);
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem("cart");
+    if (stored) {
+      setCart(JSON.parse(stored));
+    }
+  }, []);
+
+  // Update localStorage on cart change
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   const handleIncrement = (itemId: number) => {
-    setShopping((prevItems) =>
-      prevItems.map((item) =>
+    setCart((prev) =>
+      prev.map((item) =>
         item.id === itemId
           ? { ...item, quantityInCart: item.quantityInCart + 1 }
           : item
@@ -71,307 +46,158 @@ export default function CartPage() {
   };
 
   const handleDecrement = (itemId: number) => {
-    setShopping((prevItems) =>
-      prevItems.map((item) =>
+    setCart((prev) =>
+      prev.map((item) =>
         item.id === itemId
-          ? { ...item, quantityInCart: Math.max(item.quantityInCart - 1, 1) }
+          ? { ...item, quantityInCart: Math.max(1, item.quantityInCart - 1) }
           : item
       )
     );
   };
 
-  function calculateTotalPrice(item: shoppingProps) {
-    return item.price * item.quantityInCart;
-  }
+  const handleRemove = (itemId: number) => {
+    setCart((prev) => prev.filter((item) => item.id !== itemId));
+  };
 
-  const [, setWindowWidth] = useState(window.innerWidth);
+  const calculateSubtotal = () =>
+    cart.reduce((sum, item) => sum + item.price * item.quantityInCart, 0);
 
-  useEffect(() => {
-    // Function to update windowWidth when the window is resized
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    // Attach the event listener to window resize
-    window.addEventListener("resize", handleResize);
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const formatCurrency = (value: number) =>
+    value.toLocaleString("en-KE", { minimumFractionDigits: 2 });
+
+  if (!isLoggedIn()) return null;
 
   return (
     <ProtectedRoute>
-        <div className="mx-1">
-          <div className="flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 gap-2.5 p-4">
-            <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-2">
-              <svg
-                width={20}
-                height={20}
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="flex-grow-0 flex-shrink-0 w-5 h-5 relative"
-                preserveAspectRatio="xMidYMid meet"
-              >
-                <path
-                  d="M16.6668 10H3.3335M3.3335 10L8.3335 15M3.3335 10L8.3335 5"
-                  stroke="#4D0039"
-                  strokeWidth="1.66667"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <Link href="/products" className="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-[#475467] hover:text-blue-300">
-                Continue Shopping
-              </Link>
-            </div>
+      <div className="p-4">
+        {/* Back to Products */}
+        <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+          <svg
+            width={20}
+            height={20}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16.6668 10H3.3335M3.3335 10L8.3335 15M3.3335 10L8.3335 5"
+              stroke="#4D0039"
+              strokeWidth="1.66667"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <Link href="/products" className="hover:text-blue-500">
+            Continue Shopping
+          </Link>
+        </div>
+
+        {/* Header */}
+        <div className="flex items-center bg-gray-300 p-3 rounded mb-4">
+          <Image src={shoppingCart} alt="cart" width={24} height={24} />
+          <h2 className="ml-2 text-xl font-bold text-black">Shopping Cart</h2>
+        </div>
+
+        {/* Cart Items */}
+        {cart.length === 0 ? (
+          <p className="text-gray-600 text-center">Your cart is empty.</p>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {cart.map((item) => (
+              <div key={item.id} className="flex items-center justify-between p-4 border rounded-md">
+                <div className="flex items-center gap-4">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    width={80}
+                    height={80}
+                    className="object-contain rounded"
+                  />
+                  <div>
+                    <p className="font-semibold">{item.name}</p>
+                    <p className="text-sm text-gray-500">
+                      Kshs. {formatCurrency(item.price)} each
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center border rounded px-2 py-1">
+                    <Image
+                      src={minus}
+                      alt="decrement"
+                      width={20}
+                      className="cursor-pointer"
+                      onClick={() => handleDecrement(item.id)}
+                    />
+                    <span className="px-3">{item.quantityInCart}</span>
+                    <Image
+                      src={plus}
+                      alt="increment"
+                      width={20}
+                      className="cursor-pointer"
+                      onClick={() => handleIncrement(item.id)}
+                    />
+                  </div>
+                  <p className="text-sm font-semibold">
+                    Kshs. {formatCurrency(item.price * item.quantityInCart)}
+                  </p>
+                  <Image
+                    src={deleteIcon}
+                    alt="remove"
+                    width={20}
+                    className="cursor-pointer"
+                    onClick={() => handleRemove(item.id)}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
-          {/* second part */}
-          <div className="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 h-[62px] p-2 bg-gray-300 rounded mb-1">
-            <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-1">
-              <Image
-                src={shoppingCart}
-                alt="shopping cart"
-                className="flex-grow-0 relative"
-              />
-              <p className="flex-grow-0 flex-shrink-0 text-2xl font-semibold text-center text-black">
-                Shopping Cart
+        )}
+
+        {/* Summary */}
+        {cart.length > 0 && (
+          <div className="mt-8 border-t pt-4 max-w-md mx-auto bg-gray-50 p-4 rounded shadow">
+            <div className="flex items-center mb-2">
+              <Image src={clipboard} alt="summary" width={20} />
+              <p className="ml-2 font-semibold text-lg">Order Summary</p>
+            </div>
+            <div className="flex justify-between mb-2">
+              <p>Subtotal</p>
+              <p>Kshs. {formatCurrency(calculateSubtotal())}</p>
+            </div>
+            <div className="flex justify-between mb-2">
+              <p>Shipping</p>
+              <p>Kshs. 500.00</p>
+            </div>
+            <div className="flex justify-between mb-2">
+              <p>Tax (14%)</p>
+              <p>
+                Kshs. {formatCurrency(calculateSubtotal() * 0.14)}
               </p>
             </div>
-          </div>
-          {/* third part */}
-          <div className="xl:flex-wrap md:flex-wrap md:mx-2 sm:flex-wrap xs:flex-wrap flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-10 px-4 pb-10 bg-white">
-            <div className="flex flex-col justify-start items-start flex-grow gap-2">
-              <div className="lg:hidden md:hidden sm:hidden xs:hidden xl:hidden flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 py-8 bg-white border-t-0 border-r-0 border-b border-l-0 border-[#eaecf0]">
-                <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-3">
-                  <p className="flex-grow w-10 text-lg font-bold text-left text-black">
-                    Item
-                  </p>
-                </div>
-                <div className="mr-20 flex justify-end items-center flex-grow-0 flex-shrink-0 h-10 gap-">
-                  <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-32 relative gap-1">
-                    <p className="flex-grow-0 text-start flex-shrink-0 text-lg font-bold  text-black">
-                      Subtotal
-                    </p>
-                  </div>
-                  <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-32 relative gap-1">
-                    <p className="flex-grow-0 flex-shrink-0 ml-10 text-lg font-bold text-center text-black">
-                      Quantity
-                    </p>
-                  </div>
-                </div>
-              </div>
-              {/* mapping  */}
-              {shopping.map((item) => (
-                <div
-                  className="sm:h-[180px] lg:flex-col  xl:flex-col xl:justify-start md:flex-col md:mx-2 sm:flex-wrap sm:mx-2 xs:flex-wrap xs:mx-2 flex justify-between self-stretch flex-grow-0 flex-shrink-0 h-40 bg-white border-t-0 border-r-0 border-b border-l-0 border-[#eaecf0]"
-                  key={item.id}
-                >
-                  <div className="flex justify-start items-center flex-grow gap-3 sm:gap-2">
-                    <div className="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 h-24 w-24 relative overflow-hidden gap-5 rounded-xl bg-white border border-[#eaecf0]">
-                      <Image
-                        src={item.image}
-                        alt="Image"
-                        className="self-stretch flex-grow object-contain"
-                      />
-                    </div>
-                    <div className="  lg:h-[112px] sm:justify-center flex sm:gap-0 sm:h-24 xs:h-24 flex-col justify-start items-start flex-grow h-24  overflow-hidden gap-2">
-                      <div className="flex  2xl:w-72 xl:64 lg:72  justify-center items-start self-stretch flex-grow-0 flex-shrink-0 relative">
-                        <p className="line-clamp-2 flex-grow 2xl:w-72 xl:72 lg:72 md:72 text-sm font-semibold text-left text-black">
-                          {item.name}
-                        </p>
-                      </div>
-                      <div className="lg:flex-wrap xs:h-[112px] md:flex-row sm:flex-wrap sm:gap-1 items-start  xs:flex-col flex justify-start  self-stretch flex-grow-0 flex-shrink-0 gap-2">
-                        <div className=" flex justify-center items-center flex-grow-0 flex-shrink-0 gap-[3px] px-2  rounded-md bg-white border border-[#eaecf0]">
-                          <p className="xs:mt-0 flex-grow-0 my-0.5 flex-shrink-0 text-xs text-center text-[#475467]">
-                            Designer Edition
-                          </p>
-                        </div>
-                        <div className="flex mt-0.5 xs:mt-0 justify-start items-center flex-grow-0 flex-shrink-0 gap-1">
-                          <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative">
-                            <div className="flex-grow-0 flex-shrink-0 w-5 h-5 relative overflow-hidden rounded-[10px] bg-gradient-to-tr from-[#ff7a00] to-[#ffd439]" />
-                          </div>
-                          <div className="flex justify-center items-start flex-grow-0 flex-shrink-0 relative">
-                            <p className="flex-grow-0 flex-shrink-0 text-xs text-center text-[#475467]">
-                              Sunset Golden Yellow
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="2xl:my-12 mb-1 md:justify-between lg:justify-between  xl:justify-between sm:justify-between  lg:flex-wrap lg:mr-4 md:my-0 flex sm:gap-0  items-center flex-grow-0 flex-shrink-0  h-10 gap-1">
-                    <div className="flex justify-center items-center">
-                      <div className="flex xs:w-[90px]  justify-start items-center flex-grow-0 flex-shrink-0 w-32 sm:w-24 xs:w-18 relative gap-1">
-                        <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-[#475467]">
-                          Kshs.
-                        </p>
-                        <p className="flex-grow w-[87px] xs:w-[50px] text-sm font-medium text-left text-black">
-                          {calculateTotalPrice(item).toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex">
-                      <div className="flex justify-between items-center flex-grow-0 flex-shrink-0 w-32 sm:w-24  relative overflow-hidden xs:px-2 px-4 py-2.5 rounded-lg bg-white border border-[#f2f4f7]">
-                        <Image
-                          onClick={() => handleDecrement(item.id)}
-                          src={minus}
-                          alt="minus"
-                          className="flex-grow-0 flex-shrink-0 relative cursor-pointer"
-                        />
-                        <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-[#344054]">
-                          {item.quantityInCart}
-                        </p>
-                        <Image
-                          onClick={() => handleIncrement(item.id)}
-                          src={plus}
-                          alt="plus"
-                          className="flex-grow-0 flex-shrink-0 relative cursor-pointer"
-                        />
-                      </div>
-                      <div>
-                      <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 relative overflow-hidden gap-1 p-1 rounded-lg cursor-pointer">
-                        <Image
-                          src={deletebutton}
-                          alt="minus"
-                          className="flex-grow-0 flex-shrink-0 relative mx-2"
-                        />
-                      </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <div className="flex justify-between mb-4">
+              <p>Discount</p>
+              <p>Kshs. 0.00</p>
             </div>
-
-            <div className="flex flex-col justify-start items-center flex-grow-0 flex-shrink-0  max-w-[336px] relative overflow-hidden gap-8 p-6 rounded-xl border border-[#d0d5dd]">
-              <div className="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0  py-2">
-                <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-1">
-                  <Image src={clipboard} alt="logo" />
-                  <p className="flex-grow-0 flex-shrink-0 text-2xl font-semibold text-center text-black">
-                    Order Summary
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col justify-start items-center self-stretch flex-grow-0 flex-shrink-0 gap-4">
-                <div className="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-1">
-                  <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-[#475467]">
-                    Subtotal
-                  </p>
-                  <div className="flex justify-end items-center flex-grow-0 flex-shrink-0 relative gap-1">
-                    <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-[#475467]">
-                      Kshs.
-                    </p>
-                    <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-black">
-                      63,073.00
-                    </p>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-1">
-                  <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-[#475467]">
-                    Shipping
-                  </p>
-                  <div className="flex justify-end items-center flex-grow-0 flex-shrink-0 relative gap-1">
-                    <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-[#475467]">
-                      Kshs.
-                    </p>
-                    <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-black">
-                      80,020.00
-                    </p>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-1">
-                  <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-[#475467]">
-                    Tax
-                  </p>
-                  <div className="flex justify-end items-center flex-grow-0 flex-shrink-0 relative gap-1">
-                    <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-[#475467]">
-                      Kshs.
-                    </p>
-                    <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-black">
-                      70,977.00
-                    </p>
-                    <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-black">
-                      (14%)
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-1">
-                  <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-[#475467]">
-                    Discount
-                  </p>
-                  <div className="flex justify-end items-center flex-grow-0 flex-shrink-0 relative gap-1">
-                    <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-[#475467]">
-                      Kshs.
-                    </p>
-                    <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-black">
-                      56,536.00
-                    </p>
-                    <p className="flex-grow-0 flex-shrink-0 text-sm font-semibold text-left text-black">
-                      (7%)
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <svg
-                width={288}
-                height={1}
-                viewBox="0 0 288 1"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="self-stretch flex-grow-0 flex-shrink-0"
-                preserveAspectRatio="xMidYMid meet"
-              >
-                <line
-                  y1="0.5"
-                  x2={288}
-                  y2="0.5"
-                  stroke="#D0D5DD"
-                  strokeDasharray="4 4"
-                />
-              </svg>
-              <div className="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-1">
-                <p className="flex-grow-0 flex-shrink-0 text-lg font-bold text-center text-[#0c111d]">
-                  Total
-                </p>
-                <div className="flex justify-end items-center flex-grow-0 flex-shrink-0 relative gap-1">
-                  <p className="flex-grow-0 flex-shrink-0 text-lg font-bold text-center text-[#0c111d]">
-                    Kshs.
-                  </p>
-                  <p className="flex-grow-0 flex-shrink-0 text-lg font-bold text-left text-[#0c111d]">
-                    95,434.00
-                  </p>
-                </div>
-              </div>
-              <div
-                className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2 px-5 py-3 rounded-lg bg-[#66004b] border border-[#66004b]"
-                style={{ boxShadow: "0px 1px 2px 0 rgba(16,24,40,0.05)" }}
-              >
-                <Link href="/checkout" className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-white">
-                  Check Out
-                </Link>
-                <svg
-                  width={20}
-                  height={20}
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="flex-grow-0 flex-shrink-0 w-5 h-5 relative"
-                  preserveAspectRatio="xMidYMid meet"
-                >
-                  <path
-                    d="M3.33301 10H16.6663M16.6663 10L11.6663 5M16.6663 10L11.6663 15"
-                    stroke="white"
-                    strokeWidth="1.66667"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
+            <hr />
+            <div className="flex justify-between font-bold text-lg mt-2">
+              <p>Total</p>
+              <p>
+                Kshs.{" "}
+                {formatCurrency(
+                  calculateSubtotal() * 1.14 + 500
+                )}
+              </p>
             </div>
+            <Link
+              href="/checkout"
+              className="block text-center bg-[#66004b] text-white py-2 rounded mt-4"
+            >
+              Proceed to Checkout →
+            </Link>
           </div>
-        </div>
+        )}
+      </div>
     </ProtectedRoute>
   );
 }
