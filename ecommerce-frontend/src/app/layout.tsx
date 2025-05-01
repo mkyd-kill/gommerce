@@ -1,4 +1,5 @@
 "use client";
+import "react-toastify/dist/ReactToastify.css";
 import Navbar from "@/components/navbar/Navbar";
 import { ToastContainer } from "react-toastify";
 import { UserProvider } from "@/context/useAuth";
@@ -18,7 +19,7 @@ export default function RootLayout({
           <Navbar />
           <CartProvider>
           <main className="m-2 p-2">
-            <ToastContainer />
+            <ToastContainer autoClose={3000} />
             {children}
           </main>
           </CartProvider>

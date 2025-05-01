@@ -61,7 +61,7 @@ export default function Navbar() {
               <div>Welcome, {user?.username?.toUpperCase()}</div>
               <button
                 onClick={logout}
-                className="bg-red-500 px-3 py-1 rounded hover:opacity-75"
+                className="bg-red-500 px-3 py-1 rounded hover:opacity-75 cursor-pointer"
               >
                 Logout
               </button>
