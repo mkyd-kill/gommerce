@@ -1,5 +1,6 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export interface CartItem {
   id: number;
@@ -34,18 +35,22 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addToCart = (item: CartItem) => {
     setCart((prev) => {
-      const existing = prev.find((p) => p.id === item.id);
-      if (existing) {
+      const exists = prev.find((p) => p.id === item.id);
+      if (exists) {
+        toast.success(`Increased quantity of ${item.name}`);
         return prev.map((p) =>
           p.id === item.id ? { ...p, quantityInCart: p.quantityInCart + 1 } : p
         );
       }
+      toast.success(`${item.name} added to cart`);
       return [...prev, { ...item, quantityInCart: 1 }];
     });
   };
 
   const removeFromCart = (id: number) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+    const item = cart.find((i) => i.id === id);
+    if (item) toast.info(`${item.name} removed`);
+    setCart((prev) => prev.filter((i) => i.id !== id));
   };
 
   const increment = (id: number) => {
@@ -56,6 +61,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           : item
       )
     );
+    toast.success("Quantity increased");
   };
 
   const decrement = (id: number) => {
@@ -66,6 +72,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           : item
       )
     );
+    toast.warning("Quantity decreased");
   };
 
   const clearCart = () => setCart([]);
