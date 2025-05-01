@@ -16,17 +16,32 @@ export default function Navbar() {
         <Link href="/products" className="hover:text-blue-500">
           Products
         </Link>
-        {isLoggedIn() ? 
-        <>
-        <Link href="/cart" className="hover:text-blue-500 hover:text-bold">Cart</Link>
-        <Link href="/checkout" className="hover:text-blue-500 hover:text-bold">Checkout</Link>
-        </> 
-        : <></>}
+        {isLoggedIn() ? (
+          <>
+            <Link href="/cart" className="hover:text-blue-500 hover:text-bold">
+              Cart
+            </Link>
+            <Link
+              href="/checkout"
+              className="hover:text-blue-500 hover:text-bold"
+            >
+              Checkout
+            </Link>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
       <div>
         {isLoggedIn() ? (
           <div className="flex items-center space-x-4">
-            <Image src={avatar} alt="user-avatar" className="flex-grow-0 flex-shrink-0 w-8 h-8 relative overflow-hidden rounded-[44px] bg-cover bg-no-repeat bg-center" />
+            <Link href="/profile">
+              <Image
+                src={avatar}
+                alt="user-avatar"
+                className="flex-grow-0 flex-shrink-0 w-8 h-8 relative overflow-hidden rounded-[44px] bg-cover bg-no-repeat bg-center"
+              />
+            </Link>
             <div className="text-white text-semibold">
               Welcome back, {user?.username.toUpperCase()}
             </div>
