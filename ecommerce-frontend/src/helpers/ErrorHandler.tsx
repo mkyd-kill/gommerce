@@ -1,25 +1,30 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { toast } from "react-toastify";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const handleError = (error: any) => {
+export const handleError = (error: unknown) => {
   if (axios.isAxiosError(error)) {
-    const err = error.response;
-    if (Array.isArray(err?.data.errors)) {
-      for (const val of err?.data.errors) {
-        toast.warning(val.description);
-      }
-    } else if (typeof err?.data.errors === "object") {
-      for (const e in err?.data.errors) {
-        toast.warning(err.data.errors[e][0]);
-      }
-    } else if (err?.data) {
-      toast.warning(err.data);
-    } else if (err?.status == 401) {
+    const res = error.response;
+
+    if (!res) toast.error("Network error. Try again later...");
+
+    const { errors, message} = res.data;
+
+    if (Array.isArray(errors)) {
+      errors.forEach((e: any) => toast.warning(e.description));
+    } else if (typeof errors === "object") {
+      Object.values(errors).flat().forEach((e: any) => toast.warning(e));
+    } else if (errors || message) {
+      toast.warning(errors || message);
+    } else if (res.status === 401) {
       toast.warning("Please login");
-      window.history.pushState({}, "/login");
-    } else if (err) {
-      toast.warning(err?.data);
+      window.location.href = "/login";
+    } else if (res.status === 409) {
+      toast.warning("Email or Username already in use...");
+    } else {
+      toast.warning("An unkown error occurred");
     }
+  } else {
+    toast.error("Unexpected error");
   }
 };
