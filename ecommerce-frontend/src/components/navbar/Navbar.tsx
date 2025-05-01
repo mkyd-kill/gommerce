@@ -1,73 +1,88 @@
+"use client";
 import Link from "next/link";
 import { useAuth } from "@/context/useAuth";
 import Image from "next/image";
 import avatar from "../../assets/default-avatar.jpg";
+import { useState } from "react";
 
 export default function Navbar() {
   const { isLoggedIn, user, logout } = useAuth();
+  const [open, setOpen] = useState(false);
 
   return (
-    <nav className="bg-gray-800 text-white px-5 py-5 flex justify-between shadow-md">
-      <div className="space-x-5 flex items-center">
+    <nav className="bg-gray-800 text-white px-4 py-4 shadow-md">
+      <div className="flex justify-between items-center">
         <div className="text-xl font-bold text-green-500">Gommerce</div>
-        <Link href="/" className="hover:text-blue-500">
-          Home
-        </Link>
-        <Link href="/products" className="hover:text-blue-500">
-          Products
-        </Link>
-        {isLoggedIn() ? (
-          <>
-            <Link href="/cart" className="hover:text-blue-500 hover:text-bold">
-              Cart
-            </Link>
-            <Link
-              href="/checkout"
-              className="hover:text-blue-500 hover:text-bold"
-            >
-              Checkout
-            </Link>
-          </>
-        ) : (
-          <></>
-        )}
+
+        <button
+          onClick={() => setOpen(!open)}
+          className="text-white md:hidden focus:outline-none"
+        >
+          ☰
+        </button>
       </div>
-      <div>
-        {isLoggedIn() ? (
-          <div className="flex items-center space-x-4">
-            <Link href="/profile">
-              <Image
-                src={avatar}
-                alt="user-avatar"
-                className="flex-grow-0 flex-shrink-0 w-8 h-8 relative overflow-hidden rounded-[44px] bg-cover bg-no-repeat bg-center"
-              />
-            </Link>
-            <div className="text-white text-semibold">
-              Welcome back, {user?.username.toUpperCase()}
-            </div>
-            <button
-              onClick={logout}
-              className="bg-red-500 px-3 py-1 rounded cursor-pointer hover:opacity-70"
-            >
-              Logout
-            </button>
-          </div>
-        ) : (
-          <>
-            <Link
-              href="/login"
-              className="mr-4 bg-green-600 rounded px-4 py-3 cursor-pointer hover:text-black hover:text-bold"
-            >
-              Login
-            </Link>
-            <Link
-              href="/register"
-              className="cursor-pointer hover:text-blue-500 hover:text-bold"
-            >
-              Register
-            </Link>
-          </>
-        )}
+
+      <div
+        className={`mt-4 md:mt-0 md:flex justify-between items-center ${
+          open ? "block" : "hidden"
+        } md:flex-row`}
+      >
+        <div className="space-y-2 md:space-y-0 md:space-x-6 flex flex-col md:flex-row items-start md:items-center">
+          <Link href="/" className="hover:text-blue-400">
+            Home
+          </Link>
+          <Link href="/products" className="hover:text-blue-400">
+            Products
+          </Link>
+          {isLoggedIn() && (
+            <>
+              <Link href="/cart" className="hover:text-blue-400">
+                Cart
+              </Link>
+              <Link href="/checkout" className="hover:text-blue-400">
+                Checkout
+              </Link>
+            </>
+          )}
+        </div>
+
+        <div className="mt-4 md:mt-0 flex flex-col md:flex-row md:items-center md:space-x-4 space-y-2 md:space-y-0">
+          {isLoggedIn() ? (
+            <>
+              <Link href="/profile">
+                <Image
+                  src={avatar}
+                  alt="user-avatar"
+                  width={32}
+                  height={32}
+                  className="rounded-full"
+                />
+              </Link>
+              <div>Welcome, {user?.username?.toUpperCase()}</div>
+              <button
+                onClick={logout}
+                className="bg-red-500 px-3 py-1 rounded hover:opacity-75"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="bg-green-600 px-4 py-2 rounded hover:bg-green-700"
+              >
+                Login
+              </Link>
+              <Link
+                href="/register"
+                className="border border-blue-400 px-4 py-2 rounded hover:bg-blue-500 hover:text-white"
+              >
+                Register
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   );
