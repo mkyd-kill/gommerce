@@ -32,7 +32,7 @@ export const UserProvider = ({ children }: Props) => {
       setUser(JSON.parse(user));
       setAccessToken(accessToken);
       api.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
-      router.push("/cart");
+      router.push("/profile");
     }
     setIsReady(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -65,7 +65,7 @@ export const UserProvider = ({ children }: Props) => {
           localStorage.setItem("user", JSON.stringify(userObj));
           setAccessToken(res?.data.token);
           setUser(userObj!)
-          router.push("/cart");
+          router.push("/profile");
           toast.success("Login Successfull!");
         } else {
           toast.error("Invalid Login Credentials");
