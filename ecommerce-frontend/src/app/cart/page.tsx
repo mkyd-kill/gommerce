@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ProtectedRoute from "@/lib/ProtectedRoute";
 import { useAuth } from "@/context/useAuth";
-import shoppingCart from "../../assets/Shopping cart.svg";
+import shoppingCart from "../../assets/shopping-cart-03.svg";
 import deleteIcon from "../../assets/DeleteButton.svg";
 import plus from "../../assets/plus.svg";
 import minus from "../../assets/minus.svg";
