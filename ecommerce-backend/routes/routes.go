@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"ecommerce-backend/controllers"
+	"ecommerce-backend/middleware"
 )
 
 func SetupRoutes(r *gin.Engine) {
@@ -11,6 +12,9 @@ func SetupRoutes(r *gin.Engine) {
 	{
 		productRoutes.GET("all", controllers.GetProducts)
 		productRoutes.GET("get/:id", controllers.GetProduct)
+
+		// set up private routes
+		productRoutes.Use(middleware.AuthMiddleware())
 		productRoutes.POST("create", controllers.CreateProduct)
 		productRoutes.PUT("update/:id", controllers.UpdateProduct)
 		productRoutes.DELETE("delete/:id", controllers.DeleteProduct)
