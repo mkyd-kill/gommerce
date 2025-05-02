@@ -21,10 +21,17 @@ func SetupRoutes(r *gin.Engine) {
 	}
 
 	// user routes
-	userRoutes := r.Group("/api/users/")
+	userRoutes := r.Group("/api/user/")
 	{
 		userRoutes.POST("register", controllers.Register)
 		userRoutes.POST("login", controllers.Login)
 		userRoutes.POST("refresh", controllers.RefreshToken)
+
+		// user order
+		orderRoutes := r.Group("/order/")
+		{
+			orderRoutes.Use(middleware.AuthMiddleware())
+			orderRoutes.POST("create", controllers.CreateOrder)
+		}
 	}
 }
