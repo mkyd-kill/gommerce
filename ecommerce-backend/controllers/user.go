@@ -4,12 +4,14 @@ import (
 	"net/http"
 	"strings"
 	"time"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"ecommerce-backend/models"
 	"ecommerce-backend/database"
 	"ecommerce-backend/utils"
+	"github.com/dgrijalva/jwt-go"
 )
 
 func Register (c *gin.Context) {
@@ -61,5 +63,40 @@ func Login(c *gin.Context) {
 		"refresh":	refreshToken,
 		"username":	user.Username,
 		"email":	user.Email,
+	})
+}
+
+func RefreshToken(c *gin.Context) {
+	type RefreshRequest struct {
+		Token string `json:"token"`
+	}
+
+	var req RefreshRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing refresh token"})
+		return
+	}
+
+	tokenStr := req.Token
+	claims := &utils.Claims{}
+
+	token, err := jwt.ParseWithClaims(tokenStr, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+
+	if err != nil || !token.Valid {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired refresh token"})
+		return
+	}
+
+	// Issue a new access token
+	newAccess, _ := utils.GenerateToken(claims.Username, claims.Email, time.Minute*15)
+	newRefresh, _ := utils.GenerateToken(claims.Username, claims.Email, time.Hour*24*7)
+
+	c.JSON(http.StatusOK, gin.H{
+		"token":    newAccess,
+		"refresh":  newRefresh,
+		"username": claims.Username,
+		"email":    claims.Email,
 	})
 }

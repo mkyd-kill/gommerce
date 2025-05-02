@@ -25,5 +25,6 @@ func SetupRoutes(r *gin.Engine) {
 	{
 		userRoutes.POST("register", controllers.Register)
 		userRoutes.POST("login", controllers.Login)
+		userRoutes.POST("refresh", controllers.RefreshToken)
 	}
 }
