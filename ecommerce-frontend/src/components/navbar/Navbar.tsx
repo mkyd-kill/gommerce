@@ -6,7 +6,7 @@ import avatar from "../../assets/default-avatar.jpg";
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 
-export default function Navbar() {
+const Navbar = () => {
   const { isLoggedIn, user, logout } = useAuth();
   const [open, setOpen] = useState(false);
   const { cart } = useCart();
@@ -99,3 +99,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+export default Navbar;
