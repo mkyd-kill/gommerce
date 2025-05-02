@@ -27,11 +27,13 @@ interface Order {
 export default function OrderHistory() {
   const { user } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
+  const [page, setPage] = useState(1);
+  const limit = 5;
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const data = await getOrdersAPI(user?.email || "");
+        const data = await getOrdersAPI(user?.email || "", page, limit);
         setOrders(data);
       } catch {
         toast.error("Failed to load orders");
@@ -39,7 +41,7 @@ export default function OrderHistory() {
     };
 
     if (user?.email) fetchOrders();
-  }, [user]);
+  }, [user, page]);
 
   return (
     <ProtectedRoute>
@@ -74,48 +76,65 @@ export default function OrderHistory() {
           <p className="text-gray-600 text-center">No orders found.</p>
         ) : (
           <div className="space-y-6">
-            {Array.isArray(orders) && orders.map((order) => (
-              <div
-                key={order.id}
-                className="border rounded-lg p-4 shadow-sm bg-white"
-              >
-                <div className="flex justify-between items-center mb-3">
-                  <div>
-                    <p className="font-semibold text-lg">Order #{order.id}</p>
-                    <p className="text-sm text-gray-500">
-                      Placed on{" "}
-                      {new Date(order.created_at).toLocaleDateString()}
+            {Array.isArray(orders) &&
+              orders.map((order) => (
+                <div
+                  key={order.id}
+                  className="border rounded-lg p-4 shadow-sm bg-white"
+                >
+                  <div className="flex justify-center gap-4 mt-6">
+                    <button
+                      onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                      disabled={page === 1}
+                      className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+                    >
+                      Previous
+                    </button>
+                    <span className="px-3 py-1 text-gray-700">Page {page}</span>
+                    <button
+                      onClick={() => setPage((p) => p + 1)}
+                      className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                    >
+                      Next
+                    </button>
+                  </div>
+                  <div className="flex justify-between items-center mb-3">
+                    <div>
+                      <p className="font-semibold text-lg">Order #{order.id}</p>
+                      <p className="text-sm text-gray-500">
+                        Placed on{" "}
+                        {new Date(order.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <p className="text-lg font-bold text-[#66004b]">
+                      Kshs. {order.total.toLocaleString()}
                     </p>
                   </div>
-                  <p className="text-lg font-bold text-[#66004b]">
-                    Kshs. {order.total.toLocaleString()}
-                  </p>
-                </div>
 
-                <div className="text-sm text-gray-600 mb-3">
-                  <p>
-                    <strong>Shipping To:</strong> {order.full_name} —{" "}
-                    {order.address}
-                  </p>
-                  <p>
-                    <strong>Phone:</strong> {order.phone}
-                  </p>
-                </div>
+                  <div className="text-sm text-gray-600 mb-3">
+                    <p>
+                      <strong>Shipping To:</strong> {order.full_name} —{" "}
+                      {order.address}
+                    </p>
+                    <p>
+                      <strong>Phone:</strong> {order.phone}
+                    </p>
+                  </div>
 
-                <ul className="divide-y">
-                  {order.items.map((item, index) => (
-                    <li key={index} className="py-2 flex justify-between">
-                      <span>
-                        {item.product_name} × {item.quantity}
-                      </span>
-                      <span>
-                        Kshs. {(item.price * item.quantity).toLocaleString()}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+                  <ul className="divide-y">
+                    {order.items.map((item, index) => (
+                      <li key={index} className="py-2 flex justify-between">
+                        <span>
+                          {item.product_name} × {item.quantity}
+                        </span>
+                        <span>
+                          Kshs. {(item.price * item.quantity).toLocaleString()}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
           </div>
         )}
       </div>
