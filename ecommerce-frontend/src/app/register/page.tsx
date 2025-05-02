@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
 import { useAuth } from "@/context/useAuth";
-import eye from "../../assets/eye.svg";
-import eyeOff from "../../assets/eye-off.svg";
-import google from "../../assets/sigup/Social button.svg";
-import facebook from "../../assets/sigup/Social button groups (1).svg";
-import apple from "../../assets/sigup/Social button groups.svg";
+import eye from "../../assets/auth/eye.svg";
+import eyeOff from "../../assets/auth/eye-off.svg";
+import google from "../../assets/auth/google.svg";
+import facebook from "../../assets/auth/facebook.svg";
+import apple from "../../assets/auth/apple.svg";
 import Image from "next/image";
 import Link from "next/link";
 
