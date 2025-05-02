@@ -4,7 +4,7 @@ import { handleError } from "@/helpers/ErrorHandler";
 
 export const loginAPI = async (email: string, password: string) => {
   try {
-    const res = await api.post<AuthResponse>("/users/login", {
+    const res = await api.post<AuthResponse>("/user/login", {
       email,
       password,
     });
@@ -20,7 +20,7 @@ export const registerAPI = async (
   password: string
 ) => {
   try {
-    const res = await api.post("/users/register", {
+    const res = await api.post("/user/register", {
       username,
       email,
       password,

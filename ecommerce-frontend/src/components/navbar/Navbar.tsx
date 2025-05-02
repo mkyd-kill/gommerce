@@ -4,10 +4,12 @@ import { useAuth } from "@/context/useAuth";
 import Image from "next/image";
 import avatar from "../../assets/default-avatar.jpg";
 import { useState } from "react";
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const { isLoggedIn, user, logout } = useAuth();
   const [open, setOpen] = useState(false);
+  const { cart } = useCart();
 
   return (
     <nav className="bg-gray-800 text-white px-4 py-4 shadow-md">
@@ -36,9 +38,15 @@ export default function Navbar() {
           </Link>
           {isLoggedIn() && (
             <>
-              <Link href="/cart" className="hover:text-blue-400">
+              <Link href="/cart" className="relative hover:text-blue-400">
                 Cart
+                {Array.isArray(cart) && cart.length > 0 && (
+                  <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full">
+                    {cart.reduce((sum, item) => sum + item.quantityInCart, 0)}
+                  </span>
+                )}
               </Link>
+
               <Link href="/checkout" className="hover:text-blue-400">
                 Checkout
               </Link>
