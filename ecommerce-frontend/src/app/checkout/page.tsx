@@ -6,9 +6,12 @@ import { useCart } from "@/context/CartContext";
 import ProtectedRoute from "@/lib/ProtectedRoute";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { createOrderAPI } from "@/services/orderAPI";
+import { useAuth } from "@/context/useAuth";
 
 export default function CheckOut() {
   const { cart, clearCart } = useCart();
+  const { user } = useAuth();
 
   const [shippingInfo, setShippingInfo] = useState({
     name: "",
@@ -31,15 +34,34 @@ export default function CheckOut() {
     return subtotal + tax + shipping;
   };
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     if (!shippingInfo.name || !shippingInfo.address || !shippingInfo.phone) {
       toast.warning("Please fill in all shipping fields");
       return;
     }
-
-    // Here you’d normally POST to backend API
-    toast.success("Order placed successfully!");
-    clearCart();
+  
+    const order = {
+      user_email: user?.email,
+      full_name: shippingInfo.name,
+      address: shippingInfo.address,
+      phone: shippingInfo.phone,
+      total: calculateTotal(),
+      items: cart.map((item) => ({
+        product_id: item.id,
+        product_name: item.name,
+        quantity: item.quantityInCart,
+        price: item.price,
+      })),
+    };
+  
+    try {
+      await createOrderAPI(order);
+      toast.success("Order placed successfully!");
+      clearCart();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("Failed to place order. Try again.");
+    }
   };
 
   return (
