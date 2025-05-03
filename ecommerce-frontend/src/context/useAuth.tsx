@@ -48,8 +48,8 @@ export const UserProvider = ({ children }: Props) => {
   const registerUser = (email: string, username: string, password: string) => {
     registerAPI(username, email, password)
       .then(() => {
-        toast.success("Registration successful!");
         router.push("/login");
+        toast.success("Registration successful!");
       })
       .catch(() => toast.error("Server error occurred"));
   };
@@ -67,8 +67,8 @@ export const UserProvider = ({ children }: Props) => {
         setUser(userObj);
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-        toast.success("Login successful!");
         router.push("/profile");
+        toast.success("Login successful!");
       })
       .catch(() => toast.error("Invalid login credentials"));
   };
