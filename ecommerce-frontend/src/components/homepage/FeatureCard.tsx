@@ -28,7 +28,7 @@ const FeatureCard = () => {
       className="items-center justify-between grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 xs:grid-cols-1 2xs:grid-cols-1 gap-4"
     >
       {features.map((feature) => (
-        <Link href="/detail" key={feature.id}>
+        <Link href={`/product-details/`} key={feature.id}>
           <div className="myComponent max-w-[336px] gap-3 hover:bg-gradient-to-r from-[#F6CEEC] to-[#D939cd] p-0.5 hover:rounded-2xl border border-[#eaecf0] rounded-xl">
             <div className=" h-[592px] flex flex-col justify-between items-center flex-grow-0 flex-shrink-0relative overflow-hidden pb-3 rounded-xl bg-white ">
               <div className="self-stretch flex-grow-0 flex-shrink-0 h-[336px] relative overflow-hidden">

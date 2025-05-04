@@ -89,7 +89,7 @@ const HotDeals = () => {
 
       <div className="px-4 gap-4 justify-center items-center grid 2xl:grid-cols-7 xl:grid-cols-7 lg:grid-cols-7 md:grid-cols-5 sm:grid-cols-4 sm:gap-3 xs:grid-cols-2 xs:gap-3 2xs:grid-cols-1 my-8">
         {deals.map((deal) => (
-          <Link href={`/detail/${deal.id}`} key={deal.id}>
+          <Link href={`/product-details/${deal.id}`} key={deal.id}>
             <div className="myComponent max-w-[160px] min-w-[135px] hover:bg-gradient-to-r from-[#F6CEEC] to-[#D939cd] p-0.5 hover:rounded-2xl border border-[#eaecf0] rounded-xl">
               <div className=" flex flex-col justify-between items-center rounded-xl flex-grow-0 flex-shrink-0 h-72 relative overflow-hidden pb-3 bg-white">
                 <div className="self-stretch flex-grow-0 rounded-tr-xl rounded-tl-xl flex-shrink-0 h-40 relative overflow-hidden bg-[#d0d5dd]">
