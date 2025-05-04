@@ -65,12 +65,12 @@ const Navbar = () => {
                 <Image
                   src={avatar}
                   alt="user-avatar"
-                  width={32}
-                  height={32}
+                  width={24}
+                  height={24}
                   className="rounded-full"
                 />
               </Link>
-              <div>Welcome, {user?.username?.toUpperCase()}</div>
+              <div>Welcome back, {user?.username?.toUpperCase()}</div>
               <button
                 onClick={logout}
                 className="bg-red-500 px-3 py-1 rounded hover:opacity-75 cursor-pointer"
