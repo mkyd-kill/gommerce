@@ -149,6 +149,14 @@ export default function Profile() {
               </button>
             </form>
           </div>
+
+          <div className="bg-white p-4 rounded">
+            <h3 className="text-lg font-semibold mb-4">Card Details</h3>
+            
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
+              
+            </div>
+          </div>
         </div>
       </div>
     </ProtectedRoute>
