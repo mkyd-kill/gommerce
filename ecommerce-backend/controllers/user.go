@@ -14,7 +14,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-func Register (c *gin.Context) {
+func Register(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"Bad Request Error [User]": err.Error()})
@@ -99,4 +99,22 @@ func RefreshToken(c *gin.Context) {
 		"username": claims.Username,
 		"email":    claims.Email,
 	})
+}
+
+func UpdateProfile(c *gin.Context) {
+	var user models.User
+	id := c.Param("id")
+
+	if err := database.DB.First(&user, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User Not Found"})
+		return
+	}
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	database.DB.Save(&user)
+	c.JSON(http.StatusOK, user)
 }
