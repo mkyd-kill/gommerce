@@ -13,7 +13,6 @@ export default function LoginPage() {
   const { loginUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [icon, setIcon] = useState(eyeOff);
   const [type, setType] = useState("password");
 
@@ -29,7 +28,6 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
     loginUser(email, password);
   };
 
