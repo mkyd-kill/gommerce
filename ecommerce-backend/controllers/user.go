@@ -4,14 +4,12 @@ import (
 	"net/http"
 	"strings"
 	"time"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"ecommerce-backend/models"
 	"ecommerce-backend/database"
 	"ecommerce-backend/utils"
-	"github.com/dgrijalva/jwt-go"
 )
 
 func Register(c *gin.Context) {
@@ -66,55 +64,41 @@ func Login(c *gin.Context) {
 	})
 }
 
-func RefreshToken(c *gin.Context) {
-	type RefreshRequest struct {
-		Token string `json:"token"`
-	}
-
-	var req RefreshRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing refresh token"})
-		return
-	}
-
-	tokenStr := req.Token
-	claims := &utils.Claims{}
-
-	token, err := jwt.ParseWithClaims(tokenStr, claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(os.Getenv("JWT_SECRET")), nil
-	})
-
-	if err != nil || !token.Valid {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired refresh token"})
-		return
-	}
-
-	// Issue a new access token
-	newAccess, _ := utils.GenerateToken(claims.Username, claims.Email, time.Minute*15)
-	newRefresh, _ := utils.GenerateToken(claims.Username, claims.Email, time.Hour*24*7)
-
-	c.JSON(http.StatusOK, gin.H{
-		"token":    newAccess,
-		"refresh":  newRefresh,
-		"username": claims.Username,
-		"email":    claims.Email,
-	})
-}
-
 func UpdateProfile(c *gin.Context) {
 	var user models.User
-	id := c.Param("id")
+	var input models.User
 
-	if err := database.DB.First(&user, id).Error; err != nil {
+	if err := database.DB.First(&user).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "User Not Found"})
 		return
 	}
 
-	if err := c.ShouldBindJSON(&user); err != nil {
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	database.DB.Save(&user)
-	c.JSON(http.StatusOK, user)
+	// updating fields
+	user.Firstname = input.Firstname
+	user.Lastname = input.Lastname
+	user.PhoneNumber = input.PhoneNumber
+
+	if input.Password != "" {
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), 14)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Failed to hash password"})
+			return
+		}
+		user.Password = string(hashedPassword)
+	}
+
+	if err := database.DB.Save(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"Server Error": "Failed to update user"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Profile updated successfully",
+		"user":    user,
+	})
 }
