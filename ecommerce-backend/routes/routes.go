@@ -25,11 +25,10 @@ func SetupRoutes(r *gin.Engine) {
 	{
 		userRoutes.POST("register", controllers.Register)
 		userRoutes.POST("login", controllers.Login)
-		userRoutes.POST("refresh", controllers.RefreshToken)
 
 		// private routes
 		userRoutes.Use(middleware.AuthMiddleware())
-		userRoutes.PUT("profile-update/:id", controllers.UpdateProfile)
+		userRoutes.PUT("profile-update", controllers.UpdateProfile)
 	}
 
 	// user order
