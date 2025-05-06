@@ -3,13 +3,13 @@
 import ProtectedRoute from "@/lib/ProtectedRoute";
 import Image from "next/image";
 import Link from "next/link";
-import user from "../../assets/profile/user-01.svg";
+import user_profile from "../../assets/profile/user-01.svg";
 import eye from "../../assets/auth/eye.svg";
 import eyeOff from "../../assets/auth/eye-off.svg";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import api from "@/lib/axios";
+import { useAuth } from "@/context/useAuth";
 
 export default function Profile() {
   const [firstname, setFirstname] = useState("");
@@ -20,11 +20,13 @@ export default function Profile() {
   const [type, setType] = useState("password");
   const [loading, setLoading] = useState(false);
   const [cards, setCards] = useState([]);
+  const { user } = useAuth();
+  const user_id = user?.user_id;
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.get("/user/profile-update");
+        const res = await api.get(`/user/profile-update/${user_id}`);
         const { profile, cards } = res.data;
         setFirstname(profile.firstname || "");
         setLastname(profile.lastname || "");
@@ -35,7 +37,7 @@ export default function Profile() {
       }
     };
     fetchProfile();
-  }, []);
+  }, [user_id]);
 
   const handleToggle = () => {
     setIcon(type === "password" ? eye : eyeOff);
@@ -47,11 +49,7 @@ export default function Profile() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/user/profile", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await api.put(`/user/profile-update/${user_id}`, {
         body: JSON.stringify({
           firstname,
           lastname,
@@ -59,11 +57,6 @@ export default function Profile() {
           newPassword,
         }),
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to update profile");
-      }
-
       toast.success("Profile updated successfully!");
     } catch (err) {
       toast.error("An error occurred while updating your profile.");
@@ -99,7 +92,7 @@ export default function Profile() {
 
         {/* Header */}
         <div className="flex items-center bg-gray-300 p-3 rounded mb-4">
-          <Image src={user} alt="user profile" width={24} height={24} />
+          <Image src={user_profile} alt="user profile" width={24} height={24} />
           <h2 className="ml-2 text-xl font-bold text-black">
             User Account Profile
           </h2>
@@ -189,7 +182,7 @@ export default function Profile() {
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-4 flex justify-center items-center px-[18px] py-2.5 rounded-lg bg-[#66004b] text-white font-semibold border border-[#66004b] hover:bg-[#55003f] transition-colors"
+                className="mt-4 flex justify-center items-center px-[18px] py-2.5 rounded-lg bg-[#66004b] text-white font-semibold border border-[#66004b] hover:bg-[#55003f] transition-colors cursor-pointer"
               >
                 {loading ? "Updating..." : "Update Profile"}
               </button>
