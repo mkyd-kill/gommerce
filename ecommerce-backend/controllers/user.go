@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strings"
 	"time"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -67,11 +68,19 @@ func Login(c *gin.Context) {
 
 func UpdateProfile(c *gin.Context) {
 	var user models.User
-	var input models.User
+	id := c.Param("id")
+	user_id, _ := strconv.Atoi(id)
 
-	if err := database.DB.First(&user).Error; err != nil {
+	if err := database.DB.First(&user, user_id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "User Not Found"})
 		return
+	}
+
+	var input struct {
+		Firstname   string `json:"firstname"`
+		Lastname    string `json:"lastname"`
+		PhoneNumber string `json:"phoneNumber"`
+		Password    string `json:"newPassword"`
 	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -79,22 +88,23 @@ func UpdateProfile(c *gin.Context) {
 		return
 	}
 
-	// updating fields
+	// Update fields
 	user.Firstname = input.Firstname
 	user.Lastname = input.Lastname
 	user.PhoneNumber = input.PhoneNumber
 
+	// Update password only if provided
 	if input.Password != "" {
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), 14)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Failed to hash password"})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
 			return
 		}
 		user.Password = string(hashedPassword)
 	}
 
 	if err := database.DB.Save(&user).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"Server Error": "Failed to update user"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
 		return
 	}
 
