@@ -57,9 +57,9 @@ export const UserProvider = ({ children }: Props) => {
   const loginUser = (email: string, password: string) => {
     loginAPI(email, password)
       .then((res) => {
-        const { token, username, email } = res.data;
+        const { user_id, token, username, email } = res.data;
 
-        const userObj = { username, email };
+        const userObj = { user_id, username, email };
         localStorage.setItem("accessToken", token);
         localStorage.setItem("user", JSON.stringify(userObj));
 
