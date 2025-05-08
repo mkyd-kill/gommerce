@@ -1,7 +1,13 @@
 "use client";
+import { ProductModel } from "@/types/product";
+import RelatedProduct from "@/components/related/Related";
+import { useState, useEffect } from "react";
 
-export default function ProductDetails() {
+export default function ProductDetails(id: number) {
+    const [product, setProduct] = useState<ProductModel[]>([]);
     return (
-        <h3>(Coming Soon)</h3>
+        <div className="my-4">
+            <RelatedProduct />
+        </div>
     )
 }

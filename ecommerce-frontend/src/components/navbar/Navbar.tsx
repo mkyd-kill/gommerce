@@ -12,7 +12,7 @@ const Navbar = () => {
   const { cart } = useCart();
 
   return (
-    <nav className="bg-gray-800 text-white px-4 py-4 shadow-md">
+    <nav className="bg-gray-800 text-white px-4 py-2 shadow-md">
       <div className="flex justify-between items-center">
         <div className="text-xl font-bold text-green-500">Gommerce</div>
 
@@ -29,7 +29,7 @@ const Navbar = () => {
           open ? "block" : "hidden"
         } md:flex-row`}
       >
-        <div className="space-y-2 md:space-y-0 md:space-x-6 flex flex-col md:flex-row items-start md:items-center">
+        <div className="space-y-1 md:space-y-0 md:space-x-6 flex flex-col md:flex-row items-start md:items-center">
           <Link href="/" className="hover:text-blue-400">
             Home
           </Link>
