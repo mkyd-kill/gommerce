@@ -12,7 +12,6 @@ export default function ProtectedRoute ({ children }: { children: React.ReactNod
         if (!isLoggedIn()) {
             router.push("/login");
             toast.warning("Authentication required to access page");
-
         } else {
             setChecked(true);
         }

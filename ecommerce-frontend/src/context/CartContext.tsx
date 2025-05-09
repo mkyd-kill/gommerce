@@ -1,14 +1,7 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
-export interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  quantityInCart: number;
-}
+import { CartItem } from "@/types/product";
 
 interface CartContextType {
   cart: CartItem[];
