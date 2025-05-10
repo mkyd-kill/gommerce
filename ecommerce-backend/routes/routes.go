@@ -28,8 +28,8 @@ func SetupRoutes(r *gin.Engine) {
 
 		// private routes
 		userRoutes.Use(middleware.AuthMiddleware())
-		userRoutes.PUT("profile-update/:id", controllers.UpdateProfile)
-		userRoutes.GET("profile-update/:id", controllers.UpdateProfile)
+		userRoutes.GET("profile/:user_id", controllers.GetUserProfile)
+		userRoutes.PUT("profile-update/:user_id", controllers.UpdateProfile)
 	}
 
 	// user order

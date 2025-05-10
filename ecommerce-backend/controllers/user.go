@@ -4,17 +4,18 @@ import (
 	"net/http"
 	"strings"
 	"time"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"ecommerce-backend/models"
 	"ecommerce-backend/database"
 	"ecommerce-backend/utils"
+	helper "ecommerce-backend/helpers"
 )
 
 func Register(c *gin.Context) {
 	var user models.User
+
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"Bad Request Error [User]": err.Error()})
 		return
@@ -66,13 +67,31 @@ func Login(c *gin.Context) {
 	})
 }
 
+func GetUserProfile(c *gin.Context) {
+	userId := c.Param("user_id")
+
+	if err := helper.MatchUserTypeToUid(c, userId); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user models.User
+
+	if err := database.DB.First(&user, userId).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"Database Error": "User Not Found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
+}
+
 func UpdateProfile(c *gin.Context) {
 	var user models.User
-	id := c.Param("id")
-	user_id, _ := strconv.Atoi(id)
+	user_id := c.Param("user_id")
+
 
 	if err := database.DB.First(&user, user_id).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "User Not Found"})
+		c.JSON(http.StatusNotFound, gin.H{"Database Error": "User Not Found"})
 		return
 	}
 

@@ -12,5 +12,5 @@ type User struct {
 	Email string		`json:"email" gorm:"uniqueIndex"`
 	Password string		`json:"-"`
 	PhoneNumber string	`json:"phone_number"`
-	UserType string		`json:"user_type"`
+	UserType string		`json:"user_type" validate:"eq=ADMIN|eq=USER"`
 }
