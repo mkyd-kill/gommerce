@@ -26,7 +26,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.get(`/user/profile-update/${userID}`);
+        const res = await api.get(`/user/profile/${userID}`);
         const { profile, cards } = res.data;
         setFirstname(profile.firstname || "");
         setLastname(profile.lastname || "");
