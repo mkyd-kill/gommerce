@@ -21,12 +21,12 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [cards, setCards] = useState([]);
   const { user } = useAuth();
-  const user_id = user?.user_id;
+  const userID = user?.user_id;
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.get(`/user/profile-update/${user_id}`);
+        const res = await api.get(`/user/profile-update/${userID}`);
         const { profile, cards } = res.data;
         setFirstname(profile.firstname || "");
         setLastname(profile.lastname || "");
@@ -37,7 +37,7 @@ export default function Profile() {
       }
     };
     fetchProfile();
-  }, [user_id]);
+  }, [userID]);
 
   const handleToggle = () => {
     setIcon(type === "password" ? eye : eyeOff);
@@ -49,7 +49,7 @@ export default function Profile() {
     setLoading(true);
 
     try {
-      const response = await api.put(`/user/profile-update/${user_id}`, {
+      const response = await api.put(`/user/profile-update/${userID}`, {
         body: JSON.stringify({
           firstname,
           lastname,

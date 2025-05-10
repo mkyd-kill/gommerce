@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import ProtectedRoute from "@/lib/ProtectedRoute";
-import { useAuth } from "@/context/useAuth";
 import shoppingCart from "../../assets/shopping-cart-03.svg";
 import deleteIcon from "../../assets/DeleteButton.svg";
 import plus from "../../assets/plus.svg";
@@ -11,7 +10,6 @@ import clipboard from "../../assets/Clipboard.svg";
 import { useCart } from "@/context/CartContext";
 
 export default function CartPage() {
-  const { isLoggedIn } = useAuth();
   const { cart, increment, decrement, removeFromCart } = useCart();
 
 
@@ -21,7 +19,6 @@ export default function CartPage() {
   const formatCurrency = (value: number) =>
     value.toLocaleString("en-KE", { minimumFractionDigits: 2 });
 
-  if (!isLoggedIn()) return null;
 
   return (
     <ProtectedRoute>

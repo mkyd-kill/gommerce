@@ -14,7 +14,7 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func GenerateToken(username, email string, duration time.Duration) (string, error) {
+func GenerateToken(username string, email string, duration time.Duration) (string, error) {
 	claims := &Claims{
 		Username: username,
 		Email:    email,

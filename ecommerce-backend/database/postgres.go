@@ -28,14 +28,4 @@ func Connect() {
 
 	// auto migration of models
 	DB.AutoMigrate(&models.Product{}, &models.User{}, &models.Order{}, &models.OrderItem{})
-
-	// dummy product
-	// DB.Create(&models.Product{
-	// 	Name: "Women's Lingerie",
-	// 	Description: "Comfortable and Stylish",
-	// 	Price: 89.99,
-	// 	Category: "Women's Clothing",
-	// 	ImageURL: "https://example.com/lingerie.jpg",
-	// 	Stock: 20,
-	// })
 }

@@ -41,7 +41,7 @@ const Navbar = () => {
               <Link href="/cart" className="relative hover:text-blue-400">
                 Cart
                 {Array.isArray(cart) && cart.length > 0 && (
-                  <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full">
+                  <span className="absolute top-2 right-3 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full">
                     {cart.reduce((sum, item) => sum + item.quantityInCart, 0)}
                   </span>
                 )}

@@ -33,10 +33,10 @@ func SetupRoutes(r *gin.Engine) {
 	}
 
 	// user order
-	orderRoutes := r.Group("/order/")
+	orderRoutes := r.Group("/api/order/")
 	{
 		orderRoutes.Use(middleware.AuthMiddleware())
 		orderRoutes.POST("create", controllers.CreateOrder)
-		orderRoutes.GET("")
+		orderRoutes.GET("", controllers.GetOrdersByUser)
 	}
 }
