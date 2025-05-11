@@ -57,7 +57,7 @@ export default function LoginPage() {
                     Email
                   </label>
                   <input
-                    className="put appearance-none w-full  border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black  focus:outline-none"
+                    className="put appearance-none w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black  focus:outline-none"
                     type="email"
                     placeholder="Enter your email address"
                     onChange={(e) => setEmail(e.target.value)}
