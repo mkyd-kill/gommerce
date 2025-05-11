@@ -1,3 +1,6 @@
+import Image from "next/image";
+import search from "../../assets/search-sm.svg";
+
 const SearchBar = () => {
   return (
     <div className="mx-4">
@@ -43,6 +46,18 @@ const SearchBar = () => {
             </p>
           </div>
         </div>
+        <form className="flex flex-col gap-3 w-full items-center justify-center">
+          <div className="relative">
+            <input
+              className="w-full border rounded-xl border-[#d0d5dd] rounded-md py-2 px-4 text-black"
+              placeholder="search bar"
+              type="text"
+            />
+            <span className="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer">
+            <Image src={search} alt="search" />
+            </span>
+          </div>
+        </form>
       </div>
     </div>
   );
