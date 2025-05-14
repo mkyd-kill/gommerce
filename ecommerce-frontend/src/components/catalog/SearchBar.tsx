@@ -1,7 +1,19 @@
 import Image from "next/image";
 import search from "../../assets/search-sm.svg";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const SearchBar = () => {
+  const [productSearch, setProductSearch] = useState("");
+
+  const handleProductQuery = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!productSearch) {
+      toast.warning("Query search needed!!!");
+    }
+  };
+
   return (
     <div className="mx-4">
       <div className="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-3 p-4">
@@ -46,16 +58,22 @@ const SearchBar = () => {
             </p>
           </div>
         </div>
-        <form className="flex flex-col gap-3 w-full items-center justify-center">
+        <form
+          className="flex flex-col gap-3 w-full items-center justify-center"
+          onSubmit={handleProductQuery}
+        >
           <div className="relative">
             <input
-              className="w-full border rounded-xl border-[#d0d5dd] rounded-md py-2 px-4 text-black"
+              className="put w-full border rounded-xl border-[#d0d5dd] rounded-md py-2 px-4 text-black focus:outline-none"
               placeholder="search bar"
               type="text"
+              onChange={(e) => setProductSearch(e.target.value)}
             />
-            <span className="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer">
-            <Image src={search} alt="search" />
-            </span>
+            <button type="submit" className="cursor-pointer">
+              <span className="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer">
+                <Image src={search} alt="search" />
+              </span>
+            </button>
           </div>
         </form>
       </div>
