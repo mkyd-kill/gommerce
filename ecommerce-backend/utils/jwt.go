@@ -3,7 +3,7 @@ package utils
 import (
 	"time"
 	"os"
-	"github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 )
 
 var jwtKey = []byte(os.Getenv("JWT_SECRET"))
@@ -19,9 +19,10 @@ func GenerateToken(username string, email string, duration time.Duration) (strin
 		Username: username,
 		Email:    email,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(duration).Unix(),
+			ExpiresAt: time.Now().Local().Add(duration).Unix(),
 		},
 	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtKey)
+	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString(jwtKey)
+
+	return token, err
 }

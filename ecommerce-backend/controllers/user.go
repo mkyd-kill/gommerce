@@ -55,8 +55,8 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	accessToken, _ := utils.GenerateToken(user.Username, user.Email, time.Minute*20)
-	refreshToken, _ := utils.GenerateToken(user.Username, user.Email, time.Hour*24*7)
+	accessToken, _ := utils.GenerateToken(user.Username, user.Email, time.Minute * 20)
+	refreshToken, _ := utils.GenerateToken(user.Username, user.Email, time.Hour * 24 * 7)
 
 	c.JSON(http.StatusOK, gin.H{
 		"token":	accessToken,
