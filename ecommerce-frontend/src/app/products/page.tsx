@@ -1,21 +1,22 @@
 "use client";
 import { useEffect, useState } from "react";
 import { ProductModel } from "@/types/product";
-import { getAllProductAPI } from "@/services/productAPI";
 import SearchBar from "@/components/catalog/SearchBar";
 import { useCart } from "@/context/CartContext";
+import { useProduct } from "@/context/ProductContext";
 
 export default function ProductPage() {
   const [products, setProducts] = useState<ProductModel[]>([]);
+  const { getProducts } = useProduct();
   const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await getAllProductAPI();
+      const res = await getProducts();
       setProducts(res);
     };
     fetchProducts();
-  }, []);
+  }, [getProducts]);
 
   return (
     <>

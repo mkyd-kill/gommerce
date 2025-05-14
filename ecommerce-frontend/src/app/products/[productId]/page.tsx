@@ -1,31 +1,30 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 import { ProductModel } from "@/types/product";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/useAuth";
 import Image from "next/image";
 import placeholder from "../../../assets/featurechair.svg";
 import { toast } from "react-toastify";
-import { getProductById } from "@/services/productAPI";
+import { useProduct } from "@/context/ProductContext";
 
-export default function ProductDetails() {
-  const { id } = useParams();
+export default function ProductDetails({ params }: { params: {productid: number} }) {
   const [product, setProduct] = useState<ProductModel | null>(null);
   const { addToCart } = useCart();
   const { isLoggedIn } = useAuth();
+  const { getProductById } = useProduct();
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const data = await getProductById(id);
+        const data = await getProductById(params.productid);
         setProduct(data);
       } catch {
         toast.error("Failed to load product");
       }
     };
     fetchProduct();
-  }, [id]);
+  }, [params.productid, getProductById, product]);
 
   return (
     <div className="p-4 max-w-5xl mx-auto">
