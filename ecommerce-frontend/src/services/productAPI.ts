@@ -10,7 +10,7 @@ export const getAllProductAPI = async () => {
     }
 };
 
-export const getProductById = async (productId: number) => {
+export const getProductByIdAPI = async (productId: number) => {
     try {
         const res = await api.get(`/product/get/${productId}`);
         return res.data;
