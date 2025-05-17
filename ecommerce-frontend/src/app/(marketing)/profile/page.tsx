@@ -3,9 +3,9 @@
 import ProtectedRoute from "@/lib/ProtectedRoute";
 import Image from "next/image";
 import Link from "next/link";
-import user_profile from "../../assets/profile/user-01.svg";
-import eye from "../../assets/auth/eye.svg";
-import eyeOff from "../../assets/auth/eye-off.svg";
+import user_profile from "../../../assets/profile/user-01.svg";
+import eye from "../../../assets/auth/eye.svg";
+import eyeOff from "../../../assets/auth/eye-off.svg";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import api from "@/lib/axios";
