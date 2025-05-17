@@ -9,12 +9,12 @@ import (
 
 func GetProducts(c *gin.Context) {
 	var products []models.Product
-	result := database.DB.Find(&products)
-
-	if result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"Server Error [Product]": result.Error.Error()})
+	
+	if err := database.DB.Find(&products).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"Server Error [Product]": err.Error()})
 		return
 	}
+
 	c.JSON(http.StatusOK, products)
 }
 
