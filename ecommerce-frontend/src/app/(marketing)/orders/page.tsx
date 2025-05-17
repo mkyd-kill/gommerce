@@ -6,7 +6,7 @@ import ProtectedRoute from "@/lib/ProtectedRoute";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import Link from "next/link";
-import receipt from "../../assets/profile/receipt-check1.svg";
+import receipt from "../../../assets/profile/receipt-check1.svg";
 
 interface OrderItem {
   product_name: string;

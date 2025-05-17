@@ -2,11 +2,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import ProtectedRoute from "@/lib/ProtectedRoute";
-import shoppingCart from "../../assets/shopping-cart-03.svg";
-import deleteIcon from "../../assets/DeleteButton.svg";
-import plus from "../../assets/plus.svg";
-import minus from "../../assets/minus.svg";
-import clipboard from "../../assets/Clipboard.svg";
+import shoppingCart from "../../../assets/shopping-cart-03.svg";
+import deleteIcon from "../../../assets/DeleteButton.svg";
+import plus from "../../../assets/plus.svg";
+import minus from "../../../assets/minus.svg";
+import clipboard from "../../../assets/Clipboard.svg";
 import { useCart } from "@/context/CartContext";
 
 export default function CartPage() {

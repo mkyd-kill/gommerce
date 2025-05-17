@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import truck from "../../assets/Delivery truck.svg";
+import truck from "../../../assets/Delivery truck.svg";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import ProtectedRoute from "@/lib/ProtectedRoute";
