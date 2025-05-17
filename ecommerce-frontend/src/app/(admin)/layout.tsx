@@ -29,9 +29,10 @@ export default function AdminLayout({
               icon={<LayoutDashboard size={20} />}
               text="Dashboard"
               active
+              href="/admin"
             />
-            <SidebarItem icon={<UserCircle size={20} />} text="Users" alert />
-            <SidebarItem icon={<Boxes size={20} />} text="Products" alert />
+            <SidebarItem icon={<UserCircle size={20} />} text="Users" />
+            <SidebarItem icon={<Boxes size={20} />} text="Products" href="/admin/products" />
             <SidebarItem icon={<Receipt size={20} />} text="Billings" />
             <SidebarItem icon={<Package size={20} />} text="Orders" />
             <hr className="my-3" />

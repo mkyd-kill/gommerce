@@ -8,10 +8,10 @@ interface SidebarContextType {
   expanded: boolean;
 }
 
-export const SidebarContext = createContext<SidebarContextType>({ expanded: true });
+export const SidebarContext = createContext<SidebarContextType>({ expanded: false });
 
 export default function Sidebar({ children }: { children: ReactNode }) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <aside className="h-screen">
@@ -29,7 +29,7 @@ export default function Sidebar({ children }: { children: ReactNode }) {
           />
           <button
             onClick={() => setExpanded((curr) => !curr)}
-            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
+            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 cursor-pointer"
           >
             {expanded ? <ChevronFirst /> : <ChevronLast />}
           </button>
