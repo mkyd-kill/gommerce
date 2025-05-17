@@ -3,20 +3,20 @@ import { useEffect, useState } from "react";
 import { ProductModel } from "@/types/product";
 import SearchBar from "@/components/catalog/SearchBar";
 import { useCart } from "@/context/CartContext";
-import { useProduct } from "@/context/ProductContext";
+import { useProductContext } from "@/context/ProductContext";
 
 export default function ProductPage() {
   const [products, setProducts] = useState<ProductModel[]>([]);
-  const { getProducts } = useProduct();
+  const { refreshProducts } = useProductContext();
   const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await getProducts();
-      setProducts(res);
+      const data = await refreshProducts();
+      setProducts(data);
     };
     fetchProducts();
-  }, [getProducts]);
+  }, [refreshProducts]);
 
   return (
     <>

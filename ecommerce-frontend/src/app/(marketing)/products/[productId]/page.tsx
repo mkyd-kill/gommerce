@@ -1,79 +1,85 @@
 "use client";
 import { useEffect, useState } from "react";
-import { ProductModel } from "@/types/product";
+import { useParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/useAuth";
-import Image from "next/image";
-import placeholder from "../../../assets/featurechair.svg";
+import { fetchProductById } from "@/services/productAPI";
+import { ProductModel } from "@/types/product";
 import { toast } from "react-toastify";
-import { useProduct } from "@/context/ProductContext";
+import Image from "next/image";
+import placeholder from "../../../../assets/hoodie.svg";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-export default function ProductDetails({ params }: { params: {productid: number} }) {
+export default function ProductDetailsPage() {
+  const { id } = useParams();
   const [product, setProduct] = useState<ProductModel | null>(null);
+  const [reviewText, setReviewText] = useState("");
+  const [reviewRating, setReviewRating] = useState(5);
   const { addToCart } = useCart();
-  const { isLoggedIn } = useAuth();
-  const { getProductById } = useProduct();
+  const { isLoggedIn, user } = useAuth();
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const loadProduct = async () => {
       try {
-        const data = await getProductById(params.productid);
+        const data = await fetchProductById(id as string);
         setProduct(data);
       } catch {
-        toast.error("Failed to load product");
+        toast.error("Product not found.");
       }
     };
-    fetchProduct();
-  }, [params.productid, getProductById, product]);
+    if (id) loadProduct();
+  }, [id]);
+
+  const handleReviewSubmit = async () => {
+    try {
+      const res = await fetch(`/api/products/${id}/reviews`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: reviewText,
+          rating: reviewRating,
+          user_email: user?.email,
+        }),
+      });
+      if (!res.ok) throw new Error();
+      toast.success("Review submitted!");
+      setReviewText("");
+      setReviewRating(5);
+    } catch {
+      toast.error("Failed to submit review");
+    }
+  };
+
+  if (!product) return <p className="p-4">Loading product...</p>;
 
   return (
     <div className="p-4 max-w-5xl mx-auto">
-      {/* Top: Image + Info */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Product Image */}
-        <div className="bg-white border rounded p-4 flex justify-center items-center">
-          <Image
-            src={product.image || placeholder}
-            alt={product.name}
-            width={400}
-            height={400}
-            className="object-contain"
-          />
-        </div>
+      <div className="grid md:grid-cols-2 gap-6">
+        <Image src={placeholder} alt="Placeholder" width={400} height={400} />
 
-        {/* Product Info */}
-        <div className="bg-white p-4 rounded border">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            {product.name}
-          </h1>
-          <p className="text-sm text-gray-600 mb-4">{product.description}</p>
-          <p className="text-xl text-[#66004b] font-bold mb-2">
+        <div>
+          <h1 className="text-2xl font-bold">{product.name}</h1>
+          <p className="text-sm text-gray-600">{product.description}</p>
+          <p className="text-xl text-[#66004b] font-bold my-2">
             Kshs. {product.price.toLocaleString()}
           </p>
 
-          <div className="flex flex-col gap-1 mb-4">
-            <p className="text-sm text-gray-500">
-              Category: <span className="font-medium">{product.category}</span>
-            </p>
-            <p className="text-sm text-gray-500">
-              Stock: <span className="font-medium">{product.stock}</span>
-            </p>
-            <p className="text-sm text-gray-500">
-              Rating:{" "}
-              {[...Array(5)].map((_, i) => (
-                <span
-                  key={i}
-                  className={
-                    i < product.rating ? "text-yellow-400" : "text-gray-300"
-                  }
-                >
-                  ★
-                </span>
-              ))}
-            </p>
+          <p className="text-sm text-gray-600">Stock: {product.stock}</p>
+          <div className="my-3">
+            {[...Array(5)].map((_, i) => (
+              <span
+                key={i}
+                className={
+                  i < product.rating ? "text-yellow-500" : "text-gray-300"
+                }
+              >
+                ★
+              </span>
+            ))}
           </div>
 
           <button
+            className="bg-[#66004b] text-white px-4 py-2 rounded hover:bg-[#55003f]"
             onClick={() => {
               addToCart({
                 id: product.id,
@@ -84,52 +90,46 @@ export default function ProductDetails({ params }: { params: {productid: number}
               });
               toast.success("Added to cart");
             }}
-            className="bg-[#66004b] text-white px-4 py-2 rounded hover:bg-[#55003f]"
           >
             Add to Cart
           </button>
         </div>
       </div>
 
-      {/* Related Products */}
       <div className="mt-10">
-        <h2 className="text-lg font-semibold mb-2">Related Products</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {/* You can dynamically map real related items here */}
-          <div className="bg-gray-100 h-32 flex items-center justify-center rounded">
-            Item 1
-          </div>
-          <div className="bg-gray-100 h-32 flex items-center justify-center rounded">
-            Item 2
-          </div>
-          <div className="bg-gray-100 h-32 flex items-center justify-center rounded">
-            Item 3
-          </div>
-          <div className="bg-gray-100 h-32 flex items-center justify-center rounded">
-            Item 4
-          </div>
-        </div>
-      </div>
-
-      {/* Reviews Section */}
-      <div className="mt-10">
-        <h2 className="text-lg font-semibold mb-2">Reviews</h2>
-        <div className="bg-white p-4 border rounded">
-          <p className="text-sm text-gray-500">No reviews yet.</p>
-        </div>
-
-        {isLoggedIn() && (
-          <div className="mt-4 bg-white p-4 border rounded">
-            <h3 className="font-semibold mb-2">Write a Review</h3>
+        <h2 className="text-lg font-semibold mb-2">Write a Review</h2>
+        {isLoggedIn() ? (
+          <div className="bg-white border p-4 rounded">
             <textarea
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              placeholder="Write your review..."
+              className="w-full border rounded p-2 mb-2"
               rows={4}
-              className="w-full border rounded p-2 text-sm mb-2"
-              placeholder="Write your review here..."
             />
-            <button className="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700">
+            <div className="flex items-center gap-2 mb-3">
+              <label>Rating:</label>
+              <select
+                value={reviewRating}
+                onChange={(e) => setReviewRating(Number(e.target.value))}
+                className="border px-2 py-1 rounded"
+              >
+                {[5, 4, 3, 2, 1].map((r) => (
+                  <option key={r} value={r}>
+                    {r} Star{r > 1 && "s"}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button
+              onClick={handleReviewSubmit}
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            >
               Submit Review
             </button>
           </div>
+        ) : (
+          <p className="text-sm text-gray-500">Login to write a review.</p>
         )}
       </div>
     </div>

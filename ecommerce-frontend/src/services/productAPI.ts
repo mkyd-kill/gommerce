@@ -1,20 +1,12 @@
 import api from "@/lib/axios";
-import { handleError } from "@/helpers/ErrorHandler";
+import { ProductModel } from "@/types/product";
 
-export const getAllProductAPI = async () => {
-    try {
-        const res = await api.get("/product/all");
-        return res.data;
-    } catch (error) {
-        handleError(error);
-    }
-};
+export const fetchAllProducts = async (): Promise<ProductModel[]> => {
+    const res = await api.get("/product/all");
+    return res.data;
+}
 
-export const getProductByIdAPI = async (productId: number) => {
-    try {
-        const res = await api.get(`/product/get/${productId}`);
-        return res.data;
-    } catch (error) {
-        handleError(error);
-    }
+export const fetchProductById = async (id: string | number): Promise<ProductModel> => {
+    const res = await api.get(`/product/get/${id}`);
+    return res.data;
 }
