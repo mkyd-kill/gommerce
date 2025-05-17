@@ -4,9 +4,9 @@ import Navbar from "@/components/navbar/Navbar";
 import { ToastContainer } from "react-toastify";
 import { UserProvider } from "@/context/useAuth";
 import { CartProvider } from "@/context/CartContext";
-import "./globals.css";
+import "../globals.css";
 
-export default function RootLayout({
+export default function MarketingLayout({
   children,
 }: {
   children: React.ReactNode;
