@@ -25,7 +25,7 @@ const Navbar = () => {
     : 0;
 
   return (
-    <nav className="sticky top-0 z-50 bg-slate-50 px-4 py-3 flex items-center justify-between">
+    <nav className="sticky top-0 z-50 bg-slate-50 px-4 py-2 flex items-center justify-between">
       <div className="flex flex-col leading-tight">
         <span className="text-lg md:text-2xl font-bold text-[#a91f64]">
           Gommerce
@@ -84,7 +84,7 @@ const Navbar = () => {
               </Link>
               <button
                 onClick={logout}
-                className="bg-red-500 px-2 py-1 rounded hover:opacity-75 cursor-pointer"
+                className="hover:bg-red-500 px-2 py-1 rounded hover:opacity-75 cursor-pointer"
               >
                 <LogOut />
               </button>

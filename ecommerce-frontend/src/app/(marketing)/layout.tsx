@@ -1,7 +1,6 @@
 "use client";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "@/components/navbar/Navbar";
-import Footer from "@/components/footer/Footer";
 import { ToastContainer } from "react-toastify";
 import { UserProvider } from "@/context/useAuth";
 import { CartProvider } from "@/context/CartContext";
@@ -24,7 +23,6 @@ export default function MarketingLayout({
             {children}
           </main>
           </CartProvider>
-          <Footer />
         </UserProvider>
       </body>
     </html>
