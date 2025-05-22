@@ -48,7 +48,7 @@ const Navbar = () => {
         </li>
       </ul>
 
-      <div className="flex items-center gap-4 text-gray-600 text-xl">
+      <div className="flex items-center gap-3 text-gray-600 text-xl">
         <div className="flex gap-4">
           <Link href="/cart" className="flex">
             <ShoppingCart className="hover:text-[#a01f64]" />
@@ -70,7 +70,7 @@ const Navbar = () => {
           )}
         </div>
 
-        <div className="flex flex-col md:flex-row md:items-center md:space-x-3 space-y-2 md:space-y-0">
+        <div className="flex flex-row md:flex-row md:items-center gap-1.5 md:space-x-3 space-y-2 md:space-y-0">
           {isLoggedIn() ? (
             <>
               <Link href="/profile">
