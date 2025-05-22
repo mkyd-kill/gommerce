@@ -5,99 +5,136 @@ import Image from "next/image";
 import avatar from "../../assets/default-avatar.jpg";
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
+import {
+  Heart,
+  ShoppingCart,
+  ShoppingBag,
+  XIcon,
+  BadgeX,
+  LogOut,
+} from "lucide-react";
 
 const Navbar = () => {
-  const { isLoggedIn, user, logout } = useAuth();
-  const [open, setOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const { isLoggedIn, logout } = useAuth();
   const { cart } = useCart();
 
-  return (
-    <nav className="bg-gray-800 text-white px-4 py-2 shadow-md">
-      <div className="flex justify-between items-center">
-        <div className="text-xl font-bold text-green-500">Gommerce</div>
+  const cartCount = Array.isArray(cart)
+    ? cart.reduce((sum, item) => sum + item.quantityInCart, 0)
+    : 0;
 
-        <button
-          onClick={() => setOpen(!open)}
-          className="text-white md:hidden focus:outline-none"
-        >
-          ☰
-        </button>
+  return (
+    <nav className="sticky top-0 z-50 bg-slate-50 px-4 py-3 flex items-center justify-between">
+      <div className="flex flex-col leading-tight">
+        <span className="text-lg md:text-2xl font-bold text-[#a91f64]">
+          Gommerce
+        </span>
+        <span className="text-sm text-gray-500 tracking-widest self-center">
+          Online Store
+        </span>
       </div>
 
-      <div
-        className={`mt-4 md:mt-0 md:flex justify-between items-center ${
-          open ? "block" : "hidden"
-        } md:flex-row`}
-      >
-        <div className="space-y-1 md:space-y-0 md:space-x-6 flex flex-col md:flex-row items-start md:items-center">
-          <Link href="/" className="hover:text-blue-400">
+      <ul className="hidden md:flex gap-6 text-gray-700 font-medium">
+        <li>
+          <Link href="/" className="hover:text-[#a01f64]">
             Home
           </Link>
-          <Link href="/products" className="hover:text-blue-400">
+        </li>
+        <li>
+          <Link href="/products" className="hover:text-[#a01f64]">
             Products
+          </Link>
+        </li>
+      </ul>
+
+      <div className="flex items-center gap-4 text-gray-600 text-xl">
+        <div className="flex gap-4">
+          <Link href="/cart" className="flex">
+            <ShoppingCart className="hover:text-[#a01f64]" />
+            {cartCount > 0 && (
+              <span className="text-sm relative top-3 justify-center items-center text-gray-800">
+                {cartCount}
+              </span>
+            )}
           </Link>
           {isLoggedIn() && (
             <>
-              <Link href="/cart" className="relative hover:text-blue-400">
-                Cart
-                {Array.isArray(cart) && cart.length > 0 && (
-                  <span className="absolute top-2 right-3 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full">
-                    {cart.reduce((sum, item) => sum + item.quantityInCart, 0)}
-                  </span>
-                )}
+              <Link href="/wishlist">
+                <Heart className="hover:text-[#a01f64]" />
               </Link>
-
-              <Link href="/checkout" className="hover:text-blue-400">
-                Checkout
-              </Link>
-
-              <Link href="/orders" className="hover:text-blue-400">
-                Orders
+              <Link href="/checkout">
+                <ShoppingBag className="hover:text-[#a01f64]" />
               </Link>
             </>
           )}
         </div>
 
-        <div className="mt-4 md:mt-0 flex flex-col md:flex-row md:items-center md:space-x-4 space-y-2 md:space-y-0">
+        <div className="flex flex-col md:flex-row md:items-center md:space-x-3 space-y-2 md:space-y-0">
           {isLoggedIn() ? (
             <>
               <Link href="/profile">
                 <Image
                   src={avatar}
                   alt="user-avatar"
-                  width={24}
-                  height={24}
+                  width={30}
+                  height={30}
                   className="rounded-full"
                 />
               </Link>
-              <div>Welcome back, {user?.username?.toUpperCase()}</div>
               <button
                 onClick={logout}
-                className="bg-red-500 px-3 py-1 rounded hover:opacity-75 cursor-pointer"
+                className="bg-red-500 px-2 py-1 rounded hover:opacity-75 cursor-pointer"
               >
-                Logout
+                <LogOut />
               </button>
             </>
           ) : (
-            <>
-              <Link
-                href="/login"
-                className="bg-green-600 px-4 py-2 rounded hover:bg-green-700"
-              >
-                Login
-              </Link>
-              <Link
-                href="/register"
-                className="border border-blue-400 px-4 py-2 rounded hover:bg-blue-500 hover:text-white"
-              >
-                Register
-              </Link>
-            </>
+            <Link
+              href="/login"
+              className="bg-green-600 px-1.5 py-0.5 rounded hover:bg-green-700 hover:text-white"
+            >
+              Login
+            </Link>
           )}
         </div>
+
+        <div className="md:hidden flex">
+          <button onClick={toggleMenu}>
+            {isMenuOpen ? (
+              <XIcon className="text-2xl hover:text-[#a01f64] cursor-pointer" />
+            ) : (
+              <BadgeX className="text-2xl hover:text-[#a01f64] cursor-pointer" />
+            )}
+          </button>
+        </div>
       </div>
+
+      {/* mobile menu */}
+      {isMenuOpen && (
+        <ul className="absolute top-full left-0 w-full bg-white flex flex-col items-center gap-3 py-4 text-gray-700 font-medium md:hidden shadow-md">
+          <li>
+            <Link
+              href="/"
+              className="hover:text-[#a01f64]"
+              onClick={toggleMenu}
+            >
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/products"
+              className="hover:text-[#a01f64]"
+              onClick={toggleMenu}
+            >
+              Products
+            </Link>
+          </li>
+        </ul>
+      )}
     </nav>
   );
-}
+};
 
 export default Navbar;
