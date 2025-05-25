@@ -10,7 +10,7 @@ import {
   ShoppingCart,
   ShoppingBag,
   XIcon,
-  BadgeX,
+  Menu,
   LogOut,
 } from "lucide-react";
 
@@ -102,7 +102,7 @@ const Navbar = () => {
             {isMenuOpen ? (
               <XIcon className="text-2xl hover:text-[#a01f64] cursor-pointer" />
             ) : (
-              <BadgeX className="text-2xl hover:text-[#a01f64] cursor-pointer" />
+              <Menu className="text-2xl hover:text-[#a01f64] cursor-pointer" />
             )}
           </button>
         </div>
