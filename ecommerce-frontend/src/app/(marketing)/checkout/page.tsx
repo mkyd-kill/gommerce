@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import truck from "../../../assets/Delivery truck.svg";
-import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import ProtectedRoute from "@/lib/ProtectedRoute";
 import { useState } from "react";
@@ -66,29 +65,7 @@ export default function CheckOut() {
 
   return (
     <ProtectedRoute>
-      <div className="mx-4">
-        {/* Back nav */}
-        <div className="flex items-center gap-2 py-4 text-sm text-gray-600">
-          <svg
-            width={20}
-            height={20}
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16.6663 10H3.33301M3.33301 10L8.33301 15M3.33301 10L8.33301 5"
-              stroke="#4D0039"
-              strokeWidth="1.66667"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <Link href="/cart" className="hover:text-blue-400">
-            Shopping Cart
-          </Link>
-        </div>
-
+      <div className="p-1">
         {/* Title */}
         <div className="flex items-center bg-gray-300 p-3 rounded mb-6">
           <Image src={truck} alt="truck" width={24} height={24} />

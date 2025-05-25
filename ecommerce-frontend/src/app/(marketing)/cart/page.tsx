@@ -20,29 +20,7 @@ export default function CartPage() {
 
   return (
     <ProtectedRoute>
-      <div className="p-4">
-        {/* Back to Products */}
-        <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-          <svg
-            width={20}
-            height={20}
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16.6668 10H3.3335M3.3335 10L8.3335 15M3.3335 10L8.3335 5"
-              stroke="#4D0039"
-              strokeWidth="1.66667"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <Link href="/products" className="hover:text-blue-500">
-            Continue Shopping
-          </Link>
-        </div>
-
+      <div className="p-1">
         {/* Header */}
         <div className="flex items-center bg-gray-300 p-3 rounded mb-4">
           <Image src={shoppingCart} alt="cart" width={24} height={24} />
