@@ -65,20 +65,19 @@ const Navbar = () => {
             )}
           </Link>
 
+          <Link href="/cart" className="flex">
+            <ShoppingCart className="hover:text-[#a01f64]" />
+            {cartCount > 0 && (
+              <span className="text-sm relative top-3 justify-center items-center text-gray-800">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+
           {isLoggedIn() && (
-            <>
-              <Link href="/cart" className="flex">
-                <ShoppingCart className="hover:text-[#a01f64]" />
-                {cartCount > 0 && (
-                  <span className="text-sm relative top-3 justify-center items-center text-gray-800">
-                    {cartCount}
-                  </span>
-                )}
-              </Link>
-              <Link href="/checkout">
-                <ShoppingBag className="hover:text-[#a01f64]" />
-              </Link>
-            </>
+            <Link href="/checkout">
+              <ShoppingBag className="hover:text-[#a01f64]" />
+            </Link>
           )}
         </div>
 
