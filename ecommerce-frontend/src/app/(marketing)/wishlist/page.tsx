@@ -5,6 +5,7 @@ import Selected from "../../../assets/State=Selected.svg";
 import Default from "../../../assets/State=Default.svg";
 import heart from "../../../assets/Heartwithribbon.svg";
 import Image from "next/image";
+import { Trash2 } from "lucide-react";
 
 export default function WishList() {
   const { wishlist, removeFromWishlist } = useWishlist();
@@ -25,11 +26,7 @@ export default function WishList() {
         <h2 className="ml-2 text-xl font-bold text-black">Wishlist</h2>
       </div>
 
-      {wishlist.length === 0 ? (
-        <p className="text-gray-600 text-center">Your wishlist is empty</p>
-      ) : (
-        <h2>Hello world</h2>
-      )}
+      <Trash2 />
     </div>
   );
 }
