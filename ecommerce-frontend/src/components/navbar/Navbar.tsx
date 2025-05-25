@@ -13,6 +13,7 @@ import {
   XIcon,
   Menu,
   LogOut,
+  Receipt,
 } from "lucide-react";
 
 const Navbar = () => {
@@ -64,7 +65,6 @@ const Navbar = () => {
               </span>
             )}
           </Link>
-
           <Link href="/cart" className="flex">
             <ShoppingCart className="hover:text-[#a01f64]" />
             {cartCount > 0 && (
@@ -75,9 +75,14 @@ const Navbar = () => {
           </Link>
 
           {isLoggedIn() && (
-            <Link href="/checkout">
-              <ShoppingBag className="hover:text-[#a01f64]" />
-            </Link>
+            <>
+              <Link href="/checkout">
+                <ShoppingBag className="hover:text-[#a01f64]" />
+              </Link>
+              <Link href="/orders">
+                <Receipt className="hover:text-[#a01f64]" />
+              </Link>
+            </>
           )}
         </div>
 
