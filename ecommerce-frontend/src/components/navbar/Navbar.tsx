@@ -5,6 +5,7 @@ import Image from "next/image";
 import avatar from "../../assets/default-avatar.jpg";
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 import {
   Heart,
   ShoppingCart,
@@ -19,9 +20,14 @@ const Navbar = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const { isLoggedIn, logout } = useAuth();
   const { cart } = useCart();
+  const { wishlist } = useWishlist();
 
   const cartCount = Array.isArray(cart)
     ? cart.reduce((sum, item) => sum + item.quantityInCart, 0)
+    : 0;
+
+  const wishlistCount = Array.isArray(wishlist)
+    ? wishlist.reduce((sum, item) => sum + item.id, 0)
     : 0;
 
   return (
@@ -52,19 +58,27 @@ const Navbar = () => {
         <div className="flex gap-4">
           <Link href="/wishlist">
             <Heart className="hover:text-[#a01f64]" />
-          </Link>
-          <Link href="/cart" className="flex">
-            <ShoppingCart className="hover:text-[#a01f64]" />
-            {cartCount > 0 && (
+            {wishlistCount > 0 && (
               <span className="text-sm relative top-3 justify-center items-center text-gray-800">
-                {cartCount}
+                {wishlistCount}
               </span>
             )}
           </Link>
+
           {isLoggedIn() && (
-            <Link href="/checkout">
-              <ShoppingBag className="hover:text-[#a01f64]" />
-            </Link>
+            <>
+              <Link href="/cart" className="flex">
+                <ShoppingCart className="hover:text-[#a01f64]" />
+                {cartCount > 0 && (
+                  <span className="text-sm relative top-3 justify-center items-center text-gray-800">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+              <Link href="/checkout">
+                <ShoppingBag className="hover:text-[#a01f64]" />
+              </Link>
+            </>
           )}
         </div>
 

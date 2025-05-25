@@ -118,7 +118,6 @@ const TrendingCard = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 absolute left-60 top-0 gap-2 p-2"></div>
             </div>
           </div>
         ))}

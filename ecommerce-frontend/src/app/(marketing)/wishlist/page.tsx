@@ -1,22 +1,13 @@
 "use client";
-import { useState } from "react";
 import { useWishlist } from "@/context/WishlistContext";
 import Selected from "../../../assets/State=Selected.svg";
-import Default from "../../../assets/State=Default.svg";
 import heart from "../../../assets/Heartwithribbon.svg";
 import Image from "next/image";
 import { Trash2 } from "lucide-react";
+import Link from "next/link";
 
 export default function WishList() {
   const { wishlist, removeFromWishlist } = useWishlist();
-  const [selected, setSelected] = useState(true);
-  const [icon, setIcon] = useState(Default);
-  const [type, setType] = useState("default");
-
-  const handleToggle = () => {
-    setIcon(type === "selected" ? Selected : Default);
-    setType(type === "selected" ? "default" : "selected");
-  };
 
   // fetch wishlist array from localstorage
   return (
@@ -26,7 +17,69 @@ export default function WishList() {
         <h2 className="ml-2 text-xl font-bold text-black">Wishlist</h2>
       </div>
 
-      <Trash2 />
+      {wishlist.length === 0 ? (
+        <p className="text-gray-500 text-center">Your wishlist is empty</p>
+      ) : (
+        <div className="justify-center grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-4 xl:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-3">
+          {wishlist.map((item) => (
+            <div
+              className="myComponent hover:bg-gradient-to-r from-[#F6CEEC] to-[#D939cd] p-[2px]  hover:rounded-2xl border border-[#eaecf0] rounded-xl"
+              key={item.id}
+            >
+              <div className="relative m-0 p-0">
+                <Image
+                  src={Selected}
+                  alt="selected"
+                  className="absolute top-2 right-2"
+                  height={10}
+                  width={10}
+                />
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  className="rounded-tl-md w-full rounded-tr-md object-contain h-40 mb-2"
+                  height={300}
+                  width={300}
+                />
+              </div>
+              <div className="flex flex-col justify-end items-center self-stretch flex-grow-0 flex-shrink-0 h-[136px] gap-5 px-3">
+                <div className="flex flex-col justify-start items-center self-stretch flex-grow-0 flex-shrink-0 gap-1">
+                  <div className="flex justify-center items-start self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden">
+                    <p
+                      className="line-clamp-2 text-black font-medium text-sm text-center"
+                      style={{
+                        lineHeight: "1.2",
+                        maxHeight: "2.4em",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {item.name}
+                    </p>
+                  </div>
+                  <div className="flex justify-center items-start flex-grow-0 flex-shrink-0 relative">
+                    <p className="flex-grow-0 flex-shrink-0 text-xl text-center text-[#870064]">
+                      Kshs.
+                    </p>
+                    <p className="flex-grow-0 flex-shrink-0 text-xl font-semibold text-center text-[#870064]">
+                      {item.price.toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col justify-end items-center self-stretch flex-grow-0 flex-shrink-0 gap-2">
+                  <div className="flex justify-between items-center mt-2">
+                    <Link href={`/products/${item.id}`} className="text-blue-600 text-xs hover:underline">
+                    View Product
+                    </Link>
+                    <button className="text-red-500 hover:text-red-700" onClick={() => removeFromWishlist(item.id)}>
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

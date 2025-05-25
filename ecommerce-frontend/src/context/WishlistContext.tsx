@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { ProductModel } from "@/types/product";
 
@@ -14,11 +14,7 @@ const WishlistContext = createContext<WishlistContextType>(
   {} as WishlistContextType
 );
 
-export const WishlistProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const WishlistProvider = ({ children }: { children: React.ReactNode }) => {
   const [wishlist, setWishlist] = useState<ProductModel[]>([]);
 
   useEffect(() => {
