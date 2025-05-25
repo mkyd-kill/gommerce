@@ -12,13 +12,11 @@ import { useCart } from "@/context/CartContext";
 export default function CartPage() {
   const { cart, increment, decrement, removeFromCart } = useCart();
 
-
   const calculateSubtotal = () =>
     cart.reduce((sum, item) => sum + item.price * item.quantityInCart, 0);
 
   const formatCurrency = (value: number) =>
     value.toLocaleString("en-KE", { minimumFractionDigits: 2 });
-
 
   return (
     <ProtectedRoute>

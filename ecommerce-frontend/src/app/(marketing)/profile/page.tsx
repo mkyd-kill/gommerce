@@ -67,7 +67,7 @@ export default function Profile() {
 
   return (
     <ProtectedRoute>
-      <div className="p-4">
+      <div className="p-1">
         {/* Navigation */}
         <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
           <svg

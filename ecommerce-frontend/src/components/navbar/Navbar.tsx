@@ -50,6 +50,9 @@ const Navbar = () => {
 
       <div className="flex items-center gap-3 text-gray-600 text-xl">
         <div className="flex gap-4">
+          <Link href="/wishlist">
+            <Heart className="hover:text-[#a01f64]" />
+          </Link>
           <Link href="/cart" className="flex">
             <ShoppingCart className="hover:text-[#a01f64]" />
             {cartCount > 0 && (
@@ -59,14 +62,9 @@ const Navbar = () => {
             )}
           </Link>
           {isLoggedIn() && (
-            <>
-              <Link href="/wishlist">
-                <Heart className="hover:text-[#a01f64]" />
-              </Link>
-              <Link href="/checkout">
-                <ShoppingBag className="hover:text-[#a01f64]" />
-              </Link>
-            </>
+            <Link href="/checkout">
+              <ShoppingBag className="hover:text-[#a01f64]" />
+            </Link>
           )}
         </div>
 

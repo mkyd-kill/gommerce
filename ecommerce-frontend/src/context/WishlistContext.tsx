@@ -6,10 +6,11 @@ interface WishlistContextType {
   wishlist: WishlistItem[];
   addToWishlist: (item: WishlistItem) => void;
   removeFromWishlist: (id: number) => void;
-  clearWishlist: () => void;
 }
 
-const WishlistContext = createContext<WishlistContextType>({} as WishlistContextType);
+const WishlistContext = createContext<WishlistContextType>(
+  {} as WishlistContextType
+);
 
 export const WishlistProvider = ({
   children,
@@ -42,11 +43,9 @@ export const WishlistProvider = ({
     setWishlist((prev) => prev.filter((i) => i.id !== id));
   };
 
-  const clearWishlist = () => setWishlist([]);
-
   return (
     <WishlistContext.Provider
-      value={{ wishlist, addToWishlist, removeFromWishlist, clearWishlist }}
+      value={{ wishlist, addToWishlist, removeFromWishlist }}
     >
       {children}
     </WishlistContext.Provider>
