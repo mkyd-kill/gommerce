@@ -27,5 +27,11 @@ func Connect() {
 	}
 
 	// auto migration of models
-	DB.AutoMigrate(&models.Product{}, &models.User{}, &models.Order{},)
+	DB.AutoMigrate(
+		&models.User{},
+		&models.Product{},
+		&models.Address{},
+		&models.Order{},
+		&models.Payment{},
+	)
 }
