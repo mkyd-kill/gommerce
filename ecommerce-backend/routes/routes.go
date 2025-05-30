@@ -32,11 +32,17 @@ func SetupRoutes(r *gin.Engine) {
 		userRoutes.PUT("profile-update/:user_id", controllers.UpdateProfile)
 	}
 
-	// user order
+	// user orders
 	orderRoutes := r.Group("/api/order/")
 	{
 		orderRoutes.Use(middleware.AuthMiddleware())
-		orderRoutes.POST("create", controllers.CreateOrder)
+		orderRoutes.POST("create-order", controllers.CreateOrder)
 		orderRoutes.GET("", controllers.GetOrdersByUser)
+	}
+
+	// address routes
+	addressRoutes := r.Group("/api/address/")
+	{
+		addressRoutes.POST("create-address", controllers.CreateAddress)
 	}
 }
