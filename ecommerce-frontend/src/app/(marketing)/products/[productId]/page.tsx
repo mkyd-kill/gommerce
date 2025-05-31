@@ -27,7 +27,7 @@ export default function ProductDetailsPage() {
         toast.error("Product not found.");
       }
     };
-    if (id) loadProduct();
+    loadProduct();
   }, [id]);
 
   const handleReviewSubmit = async () => {

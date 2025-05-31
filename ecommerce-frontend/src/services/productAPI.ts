@@ -6,11 +6,11 @@ export const fetchAllProducts = async (): Promise<ProductModel[]> => {
     return res.data;
 }
 
-export const fetchProductById = async (id: string | number): Promise<ProductModel> => {
+export const fetchProductById = async (id: string): Promise<ProductModel> => {
     const res = await api.get(`/product/get/${id}`);
     return res.data;
 }
 
-export const DeleteProductById = async (id: number): Promise<ProductModel> => {
+export const DeleteProductById = async (id: number) => {
     return await api.delete(`/product/delete/${id}`);
 }
