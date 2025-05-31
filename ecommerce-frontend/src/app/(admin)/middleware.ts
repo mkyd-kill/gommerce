@@ -12,8 +12,8 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  // token decode and validation
-  const payload = decodeJWT(token);
+  // Decode token (or validate via backend in production)
+  const payload = decodeJwt(token);
 
   if (!payload?.role || payload.role !== "admin") {
     return NextResponse.redirect(new URL("/", req.url));
@@ -22,7 +22,8 @@ export function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-function decodeJWT(token: string) {
+// Simple JWT decoder (does not validate signature)
+function decodeJwt(token: string) {
   try {
     const base64 = token.split(".")[1];
     const decoded = JSON.parse(atob(base64));
