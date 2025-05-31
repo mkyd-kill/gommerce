@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { ProductModel } from "@/types/product";
-import { fetchAllProducts } from "@/services/productAPI";
+import { fetchAllProducts, DeleteProductById } from "@/services/productAPI";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
@@ -23,7 +23,7 @@ export default function AdminProductsPage() {
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure?")) return;
     try {
-      await fetch(`/api/products/${id}`, { method: "DELETE" });
+      await DeleteProductById(id);
       setProducts((prev) => prev.filter((p) => p.id !== id));
       toast.success("Product deleted");
     } catch {
@@ -68,7 +68,7 @@ export default function AdminProductsPage() {
                   </Link>
                   <button
                     onClick={() => handleDelete(prod.id)}
-                    className="text-red-600 hover:underline"
+                    className="text-red-600 hover:underline cursor-pointer"
                   >
                     Delete
                   </button>

@@ -11,6 +11,6 @@ export const fetchProductById = async (id: string | number): Promise<ProductMode
     return res.data;
 }
 
-export const DeleteProductById = async (id: string | number): Promise<ProductModel> => {
+export const DeleteProductById = async (id: number): Promise<ProductModel> => {
     return await api.delete(`/product/delete/${id}`);
 }
