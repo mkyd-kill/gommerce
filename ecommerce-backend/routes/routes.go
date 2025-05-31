@@ -44,5 +44,7 @@ func SetupRoutes(r *gin.Engine) {
 	addressRoutes := r.Group("/api/address/")
 	{
 		addressRoutes.POST("create-address", controllers.CreateAddress)
+		addressRoutes.PUT("update-addresss/:address_id", controllers.UpdateAddress)
+		addressRoutes.DELETE("delete-address/:address_id", controllers.DeleteAddress)
 	}
 }
