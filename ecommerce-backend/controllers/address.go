@@ -7,6 +7,10 @@ import (
 	"net/http"
 )
 
+func GetAddresses(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"message": "Getting all Addresses"})
+}
+
 func CreateAddress(c *gin.Context) {
 	var address models.Address
 
