@@ -11,7 +11,7 @@ import placeholder from "../../../../assets/hoodie.svg";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export default function ProductDetailsPage() {
-  const { id } = useParams();
+  const { productId } = useParams();
   const [product, setProduct] = useState<ProductModel | null>(null);
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
@@ -21,18 +21,18 @@ export default function ProductDetailsPage() {
   useEffect(() => {
     const loadProduct = async () => {
       try {
-        const data = await fetchProductById(id as string);
+        const data = await fetchProductById(productId as string);
         setProduct(data);
       } catch {
         toast.error("Product not found.");
       }
     };
     loadProduct();
-  }, [id]);
+  }, [productId]);
 
   const handleReviewSubmit = async () => {
     try {
-      const res = await fetch(`/api/products/${id}/reviews`, {
+      const res = await fetch(`/api/products/${productId}/reviews`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
