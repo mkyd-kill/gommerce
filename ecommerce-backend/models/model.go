@@ -10,7 +10,7 @@ type User struct {
 	Email       string    `json:"email" gorm:"uniqueIndex" validate:"email"`
 	Password    string    `json:"-" validate:"min=6"`
 	PhoneNumber string    `json:"phone_number"`
-	UserType    string    `json:"user_type" validate:"oneof=ADMIN USER"`
+	UserRole    string    `json:"user_role" validate:"oneof=ADMIN USER"`
 	Addresses   []Address `json:"addresses" gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
 	Orders      []Order   `json:"orders" gorm:"foreignKey:UserID;constraint:OnDelete:SET NULL"`
 	Cards       []CreditCard `json:"cards" gorm:"foreignKey:UserID"`
