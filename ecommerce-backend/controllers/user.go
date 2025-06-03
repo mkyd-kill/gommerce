@@ -26,6 +26,7 @@ func Register(c *gin.Context) {
         return
     }
     user.Password = string(hashedPassword)
+	user.UserRole = "USER"
 
     if err := database.DB.Create(&user).Error; err != nil {
         if strings.Contains(err.Error(), "duplicate") {

@@ -23,8 +23,7 @@ export async function middleware(request: NextRequest) {
 
       // Check if the user has the 'admin' role
       if (payload.role !== 'ADMIN') {
-        // User is not an admin, redirect to the homepage or an unauthorized page
-        return NextResponse.redirect(new URL('/profile', request.url));
+        return NextResponse.redirect(new URL('/', request.url));
       }
 
       // If the user is an authenticated admin, allow the request to proceed
