@@ -8,7 +8,7 @@ type User struct {
 	Lastname    string    `json:"lastname" validate:"min=2,max=30"`
 	Username    string    `json:"username" gorm:"uniqueIndex" validate:"required"`
 	Email       string    `json:"email" gorm:"uniqueIndex" validate:"email"`
-	Password    string    `json:"-" validate:"min=6"`
+	Password    string    `json:"-" validate:"min=8"`
 	PhoneNumber string    `json:"phone_number"`
 	UserRole    string    `json:"user_role" validate:"oneof=ADMIN USER"`
 	Addresses   []Address `json:"addresses" gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
