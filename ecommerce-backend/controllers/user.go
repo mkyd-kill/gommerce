@@ -10,74 +10,73 @@ import (
 	"ecommerce-backend/models"
 	"ecommerce-backend/database"
 	"ecommerce-backend/utils"
-	helper "ecommerce-backend/helpers"
 )
 
 func Register(c *gin.Context) {
-	var user models.User
+    var user models.User
 
-	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"Bad Request Error [User]": err.Error()})
-		return
-	}
+    if err := c.ShouldBindJSON(&user); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"Bad Request": "Failed to Hash Password"})
-		return
-	}
-	user.Password = string(hashedPassword)
+    hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+        return
+    }
+    user.Password = string(hashedPassword)
 
-	if err := database.DB.Create(&user).Error; err != nil {
-		if strings.Contains(err.Error(), "duplicate") {
-			c.JSON(http.StatusConflict, gin.H{"Database Error [User]": "Username or Email already exists"})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{"Server Error [User]": err.Error()})
-		return
-	}
+    if err := database.DB.Create(&user).Error; err != nil {
+        if strings.Contains(err.Error(), "duplicate") {
+            c.JSON(http.StatusConflict, gin.H{"error": "Username or Email already exists"})
+            return
+        }
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
 
-	c.JSON(http.StatusCreated, gin.H{})
+    c.JSON(http.StatusCreated, gin.H{
+        "message": "User registered successfully",
+	})
 }
 
 func Login(c *gin.Context) {
-	var input models.User
-	var user models.User
+    var input models.User
+    var user models.User
 
-	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"Bad Request Error [User]": err.Error()})
-		return
-	}
+    if err := c.ShouldBindJSON(&input); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
 
-	if err := database.DB.Where("email = ?", input.Email).First(&user).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"Unauthorized Access": "Invalid Credentials"})
-		return
-	}
+    if err := database.DB.Where("email = ?", input.Email).First(&user).Error; err != nil {
+        c.JSON(http.StatusUnauthorized, gin.H{"error": "Email not found"})
+        return
+    }
 
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"Unauthorized Access": "Invalid Credentials"})
-		return
-	}
+    if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil {
+        c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid password"})
+        return
+    }
 
-	accessToken, _ := utils.GenerateToken(user.Username, user.Email, time.Minute * 20)
+    accessToken, err := utils.GenerateToken(user.Username, user.Email, time.Hour)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+        return
+    }
 
-	c.JSON(http.StatusOK, gin.H{
-		"user_id": 	user.ID,
-		"username":	user.Username,
-		"email":	user.Email,
-		"role": 	user.UserRole,
-		"token":	accessToken,
-	})
+    c.JSON(http.StatusOK, gin.H{
+        "user_id":  user.ID,
+        "username": user.Username,
+        "email":    user.Email,
+        "role":     user.UserRole,
+        "token":    accessToken,
+    })
 }
 
 func GetUserProfile(c *gin.Context) {
 	userId := c.Param("user_id")
-
-	if err := helper.MatchUserTypeToUid(c, userId); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
 	var user models.User
 
 	if err := database.DB.First(&user, userId).Error; err != nil {
