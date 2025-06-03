@@ -14,7 +14,7 @@ func SetupRoutes(r *gin.Engine) {
 		productRoutes.GET("get/:id", controllers.GetProduct)
 
 		// set up private routes
-		// productRoutes.Use(middleware.AuthMiddleware())
+		productRoutes.Use(middleware.AuthMiddleware())
 		productRoutes.POST("create", controllers.CreateProduct)
 		productRoutes.PUT("update/:id", controllers.UpdateProduct)
 		productRoutes.DELETE("delete/:id", controllers.DeleteProduct)
@@ -43,9 +43,10 @@ func SetupRoutes(r *gin.Engine) {
 	// address routes
 	addressRoutes := r.Group("/api/address/")
 	{
+		addressRoutes.Use(middleware.AuthMiddleware())
 		addressRoutes.GET("", controllers.GetAddresses)
 		addressRoutes.POST("create-address", controllers.CreateAddress)
-		addressRoutes.PUT("update-addresss/:address_id", controllers.UpdateAddress)
+		addressRoutes.PUT("update-address/:address_id", controllers.UpdateAddress)
 		addressRoutes.DELETE("delete-address/:address_id", controllers.DeleteAddress)
 	}
 }
