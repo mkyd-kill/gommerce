@@ -21,7 +21,11 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"Bad Request": "Failed to Hash Password"})
+		return
+	}
 	user.Password = string(hashedPassword)
 
 	if err := database.DB.Create(&user).Error; err != nil {
@@ -33,7 +37,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"User Register Message": "User Registered"})
+	c.JSON(http.StatusCreated, gin.H{})
 }
 
 func Login(c *gin.Context) {
