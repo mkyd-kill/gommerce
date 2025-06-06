@@ -9,7 +9,7 @@ import "../globals.css";
 
 export const metadata: Metadata = {
   title: "Gommerce E-commerce",
-  description: "A simplified e-commerce web application powered by Next.js and Go"
+  description: "A simplified e-commerce web application powered by Next.js and Go. Provides user friendly navigation for maximized user browsing"
 }
 
 export default function MarketingLayout({

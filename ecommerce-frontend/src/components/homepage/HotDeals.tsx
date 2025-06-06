@@ -1,3 +1,4 @@
+"use client";
 import fire from "../../assets/Fire.svg";
 import Image from "next/image";
 import { Deal } from "@/types/productMeta";
