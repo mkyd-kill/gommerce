@@ -33,14 +33,16 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-50 bg-slate-50 px-4 py-2 flex items-center justify-between">
-      <div className="flex flex-col leading-tight">
-        <span className="text-lg md:text-2xl font-bold text-[#a91f64]">
-          Gommerce
-        </span>
-        <span className="text-sm text-gray-500 tracking-widest self-center">
-          Online Store
-        </span>
-      </div>
+      <Link href="/">
+        <div className="flex flex-col leading-tight">
+          <span className="text-lg md:text-2xl font-bold text-[#a91f64]">
+            Gommerce
+          </span>
+          <span className="text-sm text-gray-500 tracking-widest self-center">
+            Online Store
+          </span>
+        </div>
+      </Link>
 
       <ul className="hidden md:flex gap-6 text-gray-700 font-medium">
         <li>
