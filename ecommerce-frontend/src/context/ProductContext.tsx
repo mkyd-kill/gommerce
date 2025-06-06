@@ -1,3 +1,4 @@
+"use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { ProductModel } from "@/types/product";
 import { toast } from "react-toastify";

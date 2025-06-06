@@ -1,4 +1,4 @@
-"use client";
+import { Metadata } from "next";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "@/components/navbar/Navbar";
 import { ToastContainer } from "react-toastify";
@@ -7,6 +7,11 @@ import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import "../globals.css";
 
+export const metadata: Metadata = {
+  title: "Gommerce E-commerce",
+  description: "A simplified e-commerce web application powered by Next.js and Go"
+}
+
 export default function MarketingLayout({
   children,
 }: {
@@ -14,7 +19,6 @@ export default function MarketingLayout({
 }) {
   return (
     <html lang="en">
-      <title>Gommerce E-commerce</title>
       <body>
         <UserProvider>
           <Navbar />
