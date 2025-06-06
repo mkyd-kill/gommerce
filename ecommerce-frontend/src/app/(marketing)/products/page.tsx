@@ -3,12 +3,10 @@ import { useEffect, useState } from "react";
 import { ProductModel } from "@/types/product";
 import SearchBar from "@/components/catalog/SearchBar";
 import { useCart } from "@/context/CartContext";
-import { useProductContext } from "@/context/ProductContext";
 import { fetchAllProducts } from "@/services/productAPI";
 
 export default function ProductPage() {
   const [products, setProducts] = useState<ProductModel[]>([]);
-  const { refreshProducts } = useProductContext();
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -17,7 +15,7 @@ export default function ProductPage() {
       setProducts(data);
     };
     fetchProducts();
-  }, [refreshProducts]);
+  }, []);
 
   return (
     <>
