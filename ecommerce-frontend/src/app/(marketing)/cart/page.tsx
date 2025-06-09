@@ -67,13 +67,14 @@ export default function CartPage() {
                       onClick={() => increment(item.id)}
                     />
                   </div>
-                  <p className="text-sm font-semibold">
+                  <p className="text-xl font-semibold">
                     Kshs. {formatCurrency(item.price * item.quantityInCart)}
                   </p>
                   <Image
                     src={deleteIcon}
                     alt="remove"
-                    width={20}
+                    width={40}
+                    height={40}
                     className="cursor-pointer"
                     onClick={() => removeFromCart(item.id)}
                   />
