@@ -5,6 +5,7 @@ export type ProductModel = {
   price: number;
   category: string;
   image: string;
+  featured: boolean;
   stock: number;
   quantityInCart: number;
   rating: number;
@@ -15,5 +16,5 @@ export interface CartItem {
   name: string;
   price: number;
   image: string;
-  quantityInCart: number;
+  quantityInCart?: number;
 }
