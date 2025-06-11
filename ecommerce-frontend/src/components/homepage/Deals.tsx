@@ -61,7 +61,7 @@ export const Deals = () => {
 
       <div className="justify-center items-center grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 2xs:grid-cols-1 gap-2 my-2">
         {products.map((product, key) => (
-          <div className="myComponent hover:bg-gradient-to-r from-[#F6CEEC] to-[#D939cd] p-[2px]  hover:rounded-2xl border border-[#eaecf0] rounded-xl" key={key}>
+          <div className="myComponent hover:bg-gradient-to-r from-[#F6CEEC] to-[#D939cd] p-[2px] hover:rounded-2xl border border-[#eaecf0] rounded-xl cursor-pointer" key={key}>
             <div className="flex flex-col justify-between items-center flex-grow-0 flex-shrink-0 relative overflow-hidden pb-3 rounded-xl bg-white">
               <div className="self-stretch flex-grow-0 flex-shrink-0 h-60 relative overflow-hidden">
                 <div className="relative m-0 p-0">
