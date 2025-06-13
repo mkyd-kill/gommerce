@@ -3,8 +3,6 @@ package controllers
 import (
 	"net/http"
 	"strings"
-	"time"
-
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"ecommerce-backend/models"
@@ -61,7 +59,7 @@ func Login(c *gin.Context) {
         return
     }
 
-    accessToken, err := utils.GenerateToken(user.Username, user.Email, time.Hour)
+    accessToken, err := utils.TokenGenerator(user.Email, user.Username, user.UserRole)
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
         return
