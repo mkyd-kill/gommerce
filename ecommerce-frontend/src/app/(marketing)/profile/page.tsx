@@ -27,11 +27,10 @@ export default function Profile() {
     const fetchProfile = async () => {
       try {
         const res = await api.get(`/user/profile/${userID}`);
-        const { profile, cards } = res.data;
-        setFirstname(profile.firstname || "");
-        setLastname(profile.lastname || "");
-        setPhoneNumber(profile.phoneNumber || "");
-        setCards(cards || []);
+        setFirstname(res.data['firstname'] || "");
+        setLastname(res.data['lastname'] || "");
+        setPhoneNumber(res.data['phone_number'] || "");
+        setCards(res.data['cards'] || []);
       } catch (error) {
         toast.error("Failed to fetch profile");
       }
