@@ -31,7 +31,7 @@ func TokenGenerator(email string, username string, role string) (token string, e
 }
 
 func ValidateToken(signedtoken string) (claims *SignedDetails, msg string) {
-	token, err := jwt.ParseWithClaims(signedtoken, &SignedDetails{}, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(signedtoken, &SignedDetails{}, func(token *jwt.Token) (any, error) {
 		return []byte(SECRET_KEY), nil
 	})
 
