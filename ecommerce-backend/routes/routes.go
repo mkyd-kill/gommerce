@@ -14,7 +14,7 @@ func SetupRoutes(r *gin.Engine) {
 		productRoutes.GET("get/:id", controllers.GetProduct)
 
 		// set up private routes
-		productRoutes.Use(middleware.AuthMiddleware())
+		productRoutes.Use(middleware.Authentication())
 		productRoutes.POST("create", controllers.CreateProduct)
 		productRoutes.PUT("update/:id", controllers.UpdateProduct)
 		productRoutes.DELETE("delete/:id", controllers.DeleteProduct)
@@ -27,7 +27,7 @@ func SetupRoutes(r *gin.Engine) {
 		userRoutes.POST("login", controllers.Login)
 
 		// private routes
-		userRoutes.Use(middleware.AuthMiddleware())
+		productRoutes.Use(middleware.Authentication())
 		userRoutes.GET("profile/:user_id", controllers.GetUserProfile)
 		userRoutes.PUT("profile-update/:user_id", controllers.UpdateProfile)
 	}
@@ -35,7 +35,7 @@ func SetupRoutes(r *gin.Engine) {
 	// user orders
 	orderRoutes := r.Group("/api/order/")
 	{
-		orderRoutes.Use(middleware.AuthMiddleware())
+		productRoutes.Use(middleware.Authentication())
 		orderRoutes.POST("create-order", controllers.CreateOrder)
 		orderRoutes.GET("", controllers.GetOrdersByUser)
 	}
@@ -43,7 +43,7 @@ func SetupRoutes(r *gin.Engine) {
 	// address routes
 	addressRoutes := r.Group("/api/address/")
 	{
-		addressRoutes.Use(middleware.AuthMiddleware())
+		productRoutes.Use(middleware.Authentication())
 		addressRoutes.GET("", controllers.GetAddresses)
 		addressRoutes.POST("create-address", controllers.CreateAddress)
 		addressRoutes.PUT("update-address/:address_id", controllers.UpdateAddress)

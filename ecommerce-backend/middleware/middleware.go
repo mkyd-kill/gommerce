@@ -1,14 +1,17 @@
 package middleware
 
 import (
-	"net/http"
 	token "ecommerce-backend/utils"
+	"fmt"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
 func Authentication() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
+		fmt.Println("AuthToken:", authHeader)
 		if authHeader == "" {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Missing Authorization Header"})
 		}
