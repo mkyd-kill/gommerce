@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import { AuthResponse } from "@/types/user";
+import { AuthResponse, UserProfile } from "@/types/user";
 import { handleError } from "@/helpers/ErrorHandler";
 
 export const loginAPI = async (email: string, password: string) => {
@@ -30,3 +30,8 @@ export const registerAPI = async (
     handleError(error);
   }
 };
+
+export const UpdateUserProfile = async (details: Partial<UserProfile>, id: string | undefined): Promise<Partial<UserProfile>> => {
+  const res = await api.put(`/user/profile-update/${id}`, details);
+  return res.data;
+}
