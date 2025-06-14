@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import api from "@/lib/axios";
 import { useAuth } from "@/context/useAuth";
+import { UpdateUserProfile } from "@/services/authAPI";
 
 export default function Profile() {
   const [firstname, setFirstname] = useState("");
@@ -21,22 +22,22 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [cards, setCards] = useState([]);
   const { user } = useAuth();
-  const userID = user?.user_id;
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.get(`/user/profile/${userID}`);
+        const res = await api.get(`/user/profile/${user?.user_id}`);
         setFirstname(res.data['firstname'] || "");
         setLastname(res.data['lastname'] || "");
         setPhoneNumber(res.data['phone_number'] || "");
+        setNewPassword(res.data['password'] || "");
         setCards(res.data['cards'] || []);
       } catch (error) {
         toast.error("Failed to fetch profile");
       }
     };
     fetchProfile();
-  }, [userID]);
+  }, [user?.user_id]);
 
   const handleToggle = () => {
     setIcon(type === "password" ? eye : eyeOff);
@@ -48,14 +49,7 @@ export default function Profile() {
     setLoading(true);
 
     try {
-      const response = await api.put(`/user/profile-update/${userID}`, {
-        body: JSON.stringify({
-          firstname,
-          lastname,
-          phoneNumber,
-          newPassword,
-        }),
-      });
+      await UpdateUserProfile({firstname, lastname, phoneNumber, newPassword}, user?.user_id);
       toast.success("Profile updated successfully!");
     } catch (err) {
       toast.error("An error occurred while updating your profile.");
@@ -67,28 +61,6 @@ export default function Profile() {
   return (
     <ProtectedRoute>
       <div className="p-1">
-        {/* Navigation */}
-        <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-          <svg
-            width={20}
-            height={20}
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16.6668 10H3.3335M3.3335 10L8.3335 15M3.3335 10L8.3335 5"
-              stroke="#4D0039"
-              strokeWidth="1.66667"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <Link href="/products" className="hover:text-blue-500">
-            Continue Shopping
-          </Link>
-        </div>
-
         {/* Header */}
         <div className="flex items-center bg-gray-300 p-3 rounded mb-4">
           <Image src={user_profile} alt="user profile" width={24} height={24} />
@@ -161,11 +133,10 @@ export default function Profile() {
                     <input
                       className="w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black pr-10"
                       type={type}
-                      placeholder="New password"
+                      placeholder="new password if any"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       autoComplete="new-password"
-                      required
                     />
                     <span
                       className="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer"
