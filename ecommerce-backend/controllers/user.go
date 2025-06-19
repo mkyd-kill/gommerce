@@ -61,7 +61,7 @@ func Login(c *gin.Context) {
         return
     }
 
-	var tokenMaker *token.JWTMaker
+	var tokenMaker token.JWTMaker
     accessToken, accessClaim, err := tokenMaker.CreateToken(user.ID, user.Email, user.UserRole, 20*time.Minute)
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
@@ -69,7 +69,6 @@ func Login(c *gin.Context) {
     }
 
     c.JSON(http.StatusOK, gin.H{
-        "user": 			user,
         "accessToken":    	accessToken,
 		"accessClaims":		accessClaim,
     })
