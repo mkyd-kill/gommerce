@@ -3,50 +3,45 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"ecommerce-backend/controllers"
-	"ecommerce-backend/middleware"
 )
 
 func SetupRoutes(r *gin.Engine) {
 	// product routes
-	productRoutes := r.Group("/api/product/")
+	product := r.Group("/api/products")
 	{
-		productRoutes.GET("all", controllers.GetProducts)
-		productRoutes.GET("get/:id", controllers.GetProduct)
+		product.GET("/", controllers.GetProducts)
+		product.GET("get/:id", controllers.GetProduct)
 
 		// set up private routes
-		productRoutes.Use(middleware.Authentication())
-		productRoutes.POST("create", controllers.CreateProduct)
-		productRoutes.PUT("update/:id", controllers.UpdateProduct)
-		productRoutes.DELETE("delete/:id", controllers.DeleteProduct)
+		product.POST("create", controllers.CreateProduct)
+		product.PATCH("update/:id", controllers.UpdateProduct)
+		product.DELETE("delete/:id", controllers.DeleteProduct)
 	}
 
 	// user routes
-	userRoutes := r.Group("/api/user/")
+	user := r.Group("/api/user/")
 	{
-		userRoutes.POST("register", controllers.Register)
-		userRoutes.POST("login", controllers.Login)
+		user.POST("register", controllers.Register)
+		user.POST("login", controllers.Login)
 
 		// private routes
-		productRoutes.Use(middleware.Authentication())
-		userRoutes.GET("profile/:user_id", controllers.GetUserProfile)
-		userRoutes.PUT("profile-update/:user_id", controllers.UpdateProfile)
+		user.GET("profile/:user_id", controllers.GetUserProfile)
+		user.PATCH("profile-update/:user_id", controllers.UpdateProfile)
 	}
 
 	// user orders
-	orderRoutes := r.Group("/api/order/")
+	order := r.Group("/api/orders")
 	{
-		productRoutes.Use(middleware.Authentication())
-		orderRoutes.POST("create-order", controllers.CreateOrder)
-		orderRoutes.GET("", controllers.GetOrdersByUser)
+		order.POST("create-order", controllers.CreateOrder)
+		order.GET("/", controllers.GetOrdersByUser)
 	}
 
 	// address routes
-	addressRoutes := r.Group("/api/address/")
+	address := r.Group("/api/address")
 	{
-		productRoutes.Use(middleware.Authentication())
-		addressRoutes.GET("", controllers.GetAddresses)
-		addressRoutes.POST("create-address", controllers.CreateAddress)
-		addressRoutes.PUT("update-address/:address_id", controllers.UpdateAddress)
-		addressRoutes.DELETE("delete-address/:address_id", controllers.DeleteAddress)
+		address.GET("/", controllers.GetAddresses)
+		address.POST("create", controllers.CreateAddress)
+		address.PATCH("update/:address_id", controllers.UpdateAddress)
+		address.DELETE("delete/:address_id", controllers.DeleteAddress)
 	}
 }
