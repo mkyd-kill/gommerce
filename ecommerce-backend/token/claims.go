@@ -9,13 +9,13 @@ import (
 )
 
 type UserClaims struct {
-	ID			int64	`json:"id"`
+	ID			uint	`json:"id"`
 	Email		string	`json:"email"`
 	UserRole	string	`json:"user_role"`
 	jwt.RegisteredClaims
 }
 
-func NewUserClaims(id int64, email string, userRole string, duration time.Duration) (*UserClaims, error) {
+func NewUserClaims(id uint, email string, userRole string, duration time.Duration) (*UserClaims, error) {
 	tokenID, err := uuid.NewRandom()
 	if err != nil {
 		return nil, fmt.Errorf("error generating token ID: %w", err)
