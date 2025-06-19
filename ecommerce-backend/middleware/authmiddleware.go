@@ -9,35 +9,58 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetAuthMiddlewareFunc() gin.HandlerFunc {
+func GetAuthMiddlewareFunc(tokenMaker *token.JWTMaker) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var tokenMaker *token.JWTMaker
 		authHeader := c.GetHeader("Authorization")
-		claims, err := verifyClaimsFromAuthHeader(authHeader, tokenMaker)
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"Error Verifying Token": err})
+		if authHeader == "" {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "authorization header missing"})
 			return
 		}
 
-		c.Set("authKey", claims)
+		fields := strings.Fields(authHeader)
+		if len(fields) != 2 || strings.ToLower(fields[0]) != "bearer" {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "invalid authorization format"})
+			return
+		}
+
+		tokenStr := fields[1]
+		claims, err := tokenMaker.VerifyToken(tokenStr)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": fmt.Sprintf("token error: %v", err)})
+			return
+		}
+
+		c.Set("authUser", claims)
+		c.Next()
 	}
 }
 
-func verifyClaimsFromAuthHeader(authHeader string, tokenMaker *token.JWTMaker) (*token.UserClaims, error) {
-	if authHeader == "" {
-		return nil, fmt.Errorf("authorization header is missing")
-	}
+func GetAdminMiddlewareFunc(tokenMaker *token.JWTMaker) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		authHeader := c.GetHeader("Authorization")
+		if authHeader == "" {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "authorization header missing"})
+			return
+		}
 
-	fields := strings.Fields(authHeader)
-	if len(fields) != 2 || fields[0] != "Bearer" {
-		return nil, fmt.Errorf("invalid authorization header")
-	}
+		fields := strings.Fields(authHeader)
+		if len(fields) != 2 || strings.ToLower(fields[0]) != "bearer" {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "invalid authorization format"})
+			return
+		}
 
-	token := fields[1]
-	claims, err := tokenMaker.VerifyToken(token)
-	if err != nil {
-		return nil, fmt.Errorf("invalid token: %w", err)
-	}
+		tokenStr := fields[1]
+		claims, err := tokenMaker.VerifyToken(tokenStr)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": fmt.Sprintf("token error: %v", err)})
+			return
+		}
 
-	return claims, nil
+		if claims.UserRole != "ADMIN" {
+			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "superuser credentials required"})
+		}
+
+		c.Set("authUser", claims)
+		c.Next()
+	}
 }
