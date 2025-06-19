@@ -1,11 +1,18 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
 	"ecommerce-backend/controllers"
+	"ecommerce-backend/middleware"
+	"ecommerce-backend/token"
+
+	"github.com/gin-gonic/gin"
 )
 
 func SetupRoutes(r *gin.Engine) {
+	jwtMaker := token.NewJWTMaker()
+	authMaker := middleware.GetAuthMiddlewareFunc(jwtMaker)
+	adminAuthMaker := middleware.GetAdminMiddlewareFunc(jwtMaker)
+
 	// product routes
 	product := r.Group("/api/products")
 	{
@@ -13,6 +20,7 @@ func SetupRoutes(r *gin.Engine) {
 		product.GET("get/:id", controllers.GetProduct)
 
 		// set up private routes
+		product.Use(adminAuthMaker)
 		product.POST("create", controllers.CreateProduct)
 		product.PATCH("update/:id", controllers.UpdateProduct)
 		product.DELETE("delete/:id", controllers.DeleteProduct)
@@ -25,6 +33,7 @@ func SetupRoutes(r *gin.Engine) {
 		user.POST("login", controllers.Login)
 
 		// private routes
+		user.Use(authMaker)
 		user.GET("profile/:user_id", controllers.GetUserProfile)
 		user.PATCH("profile-update/:user_id", controllers.UpdateProfile)
 	}
