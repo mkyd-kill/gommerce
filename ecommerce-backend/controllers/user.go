@@ -1,13 +1,15 @@
 package controllers
 
 import (
+	"ecommerce-backend/database"
+	"ecommerce-backend/models"
+	"ecommerce-backend/token"
 	"net/http"
 	"strings"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
-	"ecommerce-backend/models"
-	"ecommerce-backend/database"
-	"ecommerce-backend/utils"
 )
 
 func Register(c *gin.Context) {
@@ -59,18 +61,17 @@ func Login(c *gin.Context) {
         return
     }
 
-    accessToken, err := utils.TokenGenerator(user.Email, user.Username, user.UserRole)
+	var tokenMaker *token.JWTMaker
+    accessToken, accessClaim, err := tokenMaker.CreateToken(user.ID, user.Email, user.UserRole, 20*time.Minute)
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
         return
     }
 
     c.JSON(http.StatusOK, gin.H{
-        "user_id":  user.ID,
-        "username": user.Username,
-        "email":    user.Email,
-        "role":     user.UserRole,
-        "token":    accessToken,
+        "user": 			user,
+        "accessToken":    	accessToken,
+		"accessClaims":		accessClaim,
     })
 }
 
