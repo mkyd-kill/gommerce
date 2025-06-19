@@ -1,6 +1,7 @@
 package token
 
 import (
+	"ecommerce-backend/config"
 	"fmt"
 	"time"
 
@@ -9,6 +10,11 @@ import (
 
 type JWTMaker struct {
 	secretKey string
+}
+
+func NewJWTMaker() *JWTMaker {
+	key := config.GetEnv("SECRET_KEY")
+	return &JWTMaker{secretKey: key}
 }
 
 func (maker *JWTMaker) CreateToken(id uint, email string, userRole string, duration time.Duration) (string, *UserClaims, error) {
@@ -28,11 +34,9 @@ func (maker *JWTMaker) CreateToken(id uint, email string, userRole string, durat
 
 func (maker *JWTMaker) VerifyToken(tokenStr string) (*UserClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenStr, &UserClaims{}, func(token *jwt.Token) (interface{}, error) {
-		_, ok := token.Method.(*jwt.SigningMethodHMAC)
-		if !ok {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("invalid token signing method")
 		}
-
 		return []byte(maker.secretKey), nil
 	})
 
