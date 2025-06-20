@@ -18,7 +18,7 @@ func GetAuthMiddlewareFunc(tokenMaker *token.JWTMaker) gin.HandlerFunc {
 		}
 
 		fields := strings.Fields(authHeader)
-		if len(fields) != 2 || strings.ToLower(fields[0]) != "bearer" {
+		if len(fields) != 2 || strings.ToLower(fields[0]) != "Bearer" {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "invalid authorization format"})
 			return
 		}
@@ -44,7 +44,7 @@ func GetAdminMiddlewareFunc(tokenMaker *token.JWTMaker) gin.HandlerFunc {
 		}
 
 		fields := strings.Fields(authHeader)
-		if len(fields) != 2 || strings.ToLower(fields[0]) != "bearer" {
+		if len(fields) != 2 || strings.ToLower(fields[0]) != "Bearer" {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "invalid authorization format"})
 			return
 		}
