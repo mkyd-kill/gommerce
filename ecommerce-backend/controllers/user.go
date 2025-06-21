@@ -62,16 +62,17 @@ func Login(c *gin.Context) {
     }
 
 	var tokenMaker token.JWTMaker
-    accessToken, accessClaim, err := tokenMaker.CreateToken(user.ID, user.Email, user.UserRole, 20*time.Minute)
+    accessToken, _, err := tokenMaker.CreateToken(user.ID, user.Email, user.UserRole, 20*time.Minute)
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
         return
     }
 
-    c.JSON(http.StatusOK, gin.H{
-        "accessToken":    	accessToken,
-		"accessClaims":		accessClaim,
-    })
+	// cookie
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("auth-token", accessToken, 3600, "", "", false, true)
+	
+    c.JSON(http.StatusOK, gin.H{})
 }
 
 func GetUserProfile(c *gin.Context) {
