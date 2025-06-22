@@ -37,9 +37,7 @@ func Register(c *gin.Context) {
         return
     }
 
-    c.JSON(http.StatusCreated, gin.H{
-        "message": "User registered successfully",
-	})
+    c.JSON(http.StatusCreated, gin.H{})
 }
 
 func Login(c *gin.Context) {
@@ -62,7 +60,7 @@ func Login(c *gin.Context) {
     }
 
 	var tokenMaker token.JWTMaker
-    accessToken, _, err := tokenMaker.CreateToken(user.ID, user.Email, user.UserRole, 20*time.Minute)
+    accessToken, err := tokenMaker.CreateToken(user.ID, user.Email, user.UserRole, 20*time.Minute)
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
         return
@@ -76,10 +74,11 @@ func Login(c *gin.Context) {
 }
 
 func GetUserProfile(c *gin.Context) {
-	userId := c.Param("user_id")
+	u, _ := c.Get("auth-user")
+
 	var user models.User
 
-	if err := database.DB.First(&user, userId).Error; err != nil {
+	if err := database.DB.Where("email = ?", u.(*token.UserClaims).Email).First(&user).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"Database Error": "User Not Found"})
 		return
 	}
@@ -100,7 +99,7 @@ func UpdateProfile(c *gin.Context) {
 	var input struct {
 		Firstname   string `json:"firstname"`
 		Lastname    string `json:"lastname"`
-		PhoneNumber string `json:"phoneNumber"`
+		PhoneNumber string `json:"phone_number"`
 		Password    string `json:"newPassword"`
 	}
 
