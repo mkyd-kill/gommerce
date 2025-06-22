@@ -17,19 +17,19 @@ func NewJWTMaker() *JWTMaker {
 	return &JWTMaker{secretKey: key}
 }
 
-func (maker *JWTMaker) CreateToken(id uint, email string, userRole string, duration time.Duration) (string, *UserClaims, error) {
+func (maker *JWTMaker) CreateToken(id uint, email string, userRole string, duration time.Duration) (string, error) {
 	claims, err := NewUserClaims(id, email, userRole, duration)
 	if err != nil {
-		return "", nil, err
+		return "", err
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenStr, err := token.SignedString([]byte(maker.secretKey))
 	if err != nil {
-		return "", nil, fmt.Errorf("error signing token: %w", err)
+		return "", fmt.Errorf("error signing token: %w", err)
 	}
 
-	return tokenStr, claims, nil
+	return tokenStr, nil
 }
 
 func (maker *JWTMaker) VerifyToken(tokenStr string) (*UserClaims, error) {
@@ -48,6 +48,8 @@ func (maker *JWTMaker) VerifyToken(tokenStr string) (*UserClaims, error) {
 	if !ok {
 		return nil, fmt.Errorf("invalid token claims")
 	}
+
+	// check token validity
 
 	return claims, nil
 }
