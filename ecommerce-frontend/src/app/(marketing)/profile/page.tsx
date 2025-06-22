@@ -1,15 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import ProtectedRoute from "@/lib/ProtectedRoute";
 import Image from "next/image";
-import Link from "next/link";
 import user_profile from "../../../assets/profile/user-01.svg";
 import eye from "../../../assets/auth/eye.svg";
 import eyeOff from "../../../assets/auth/eye-off.svg";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import api from "@/lib/axios";
-import { useAuth } from "@/context/useAuth";
 import { UpdateUserProfile } from "@/services/authAPI";
 
 export default function Profile() {
@@ -21,23 +18,22 @@ export default function Profile() {
   const [type, setType] = useState("password");
   const [loading, setLoading] = useState(false);
   const [cards, setCards] = useState([]);
-  const { user } = useAuth();
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.get(`/user/profile/${user?.user_id}`);
+        const res = await api.get("/user/profile/");
         setFirstname(res.data['firstname'] || "");
         setLastname(res.data['lastname'] || "");
         setPhoneNumber(res.data['phone_number'] || "");
         setNewPassword(res.data['password'] || "");
         setCards(res.data['cards'] || []);
-      } catch (error) {
+      } catch {
         toast.error("Failed to fetch profile");
       }
     };
     fetchProfile();
-  }, [user?.user_id]);
+  }, []);
 
   const handleToggle = () => {
     setIcon(type === "password" ? eye : eyeOff);
@@ -49,10 +45,10 @@ export default function Profile() {
     setLoading(true);
 
     try {
-      await UpdateUserProfile({firstname, lastname, phoneNumber, newPassword}, user?.user_id);
+      await UpdateUserProfile({firstname, lastname, phoneNumber, newPassword});
       toast.success("Profile updated successfully!");
-    } catch (err) {
-      toast.error("An error occurred while updating your profile.");
+    } catch {
+      toast.error("An error occurred updating your profile.");
     } finally {
       setLoading(false);
     }

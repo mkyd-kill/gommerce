@@ -31,7 +31,7 @@ export const registerAPI = async (
   }
 };
 
-export const UpdateUserProfile = async (details: Partial<UserProfile>, id: string | undefined): Promise<Partial<UserProfile>> => {
-  const res = await api.put(`/user/profile-update/${id}`, details);
+export const UpdateUserProfile = async (details: Partial<UserProfile>): Promise<Partial<UserProfile>> => {
+  const res = await api.patch("/user/update", details);
   return res.data;
 }
