@@ -87,11 +87,11 @@ func GetUserProfile(c *gin.Context) {
 }
 
 func UpdateProfile(c *gin.Context) {
+	u, _ := c.Get("auth-user")
+
 	var user models.User
-	user_id := c.Param("user_id")
 
-
-	if err := database.DB.First(&user, user_id).Error; err != nil {
+	if err := database.DB.First(&user, u.(*token.UserClaims).ID).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"Database Error": "User Not Found"})
 		return
 	}
