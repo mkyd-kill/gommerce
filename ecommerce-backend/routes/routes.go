@@ -34,8 +34,8 @@ func SetupRoutes(r *gin.Engine) {
 
 		// private routes
 		user.Use(authMaker)
-		user.GET("profile/:user_id", controllers.GetUserProfile)
-		user.PATCH("profile-update/:user_id", controllers.UpdateProfile)
+		user.GET("profile", controllers.GetUserProfile)
+		user.PATCH("update", controllers.UpdateProfile)
 	}
 
 	// user orders
