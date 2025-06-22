@@ -34,7 +34,6 @@ export const UserProvider = ({ children }: Props) => {
         const parsedUser = JSON.parse(storedUser);
         setUser(parsedUser);
         setAccessToken(storedToken);
-        api.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
         router.push("/profile");
       } catch {
         localStorage.removeItem("user");
