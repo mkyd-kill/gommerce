@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { jwtVerify } from 'jose';
-
-const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+import { jwtDecode } from 'jwt-decode';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -19,10 +17,10 @@ export async function middleware(request: NextRequest) {
 
     try {
       // Verify and decode the JWT
-      const { payload } = await jwtVerify(authToken, secret);
+      const decode = jwtDecode(authToken);
 
       // Check if the user has the 'admin' role
-      if (payload.role !== 'ADMIN') {
+      if (decode.user_role !== 'ADMIN') {
         return NextResponse.redirect(new URL('/', request.url));
       }
 
