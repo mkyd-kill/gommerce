@@ -14,7 +14,8 @@ func GetAuthMiddlewareFunc(tokenMaker *token.JWTMaker) gin.HandlerFunc {
 		// getting cookie of req
 		authHeader, err := c.Cookie("auth-token")
 		if err != nil {
-			c.AbortWithStatus(http.StatusUnauthorized)
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "authentication cookie missing or invalid"})
+			return
 		}
 
 		if authHeader == "" {
