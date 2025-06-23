@@ -1,7 +1,6 @@
 package main
 
 import (
-	"os"
 	"time"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
@@ -22,12 +21,12 @@ func main() {
 
 	// cors middleware
 	r.Use(cors.New(cors.Config{
-		AllowOrigins: []string{os.Getenv("NEXT_API_URL")},
-		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
-		ExposeHeaders: []string{"Content-Length"},
-		AllowCredentials: true,
-		MaxAge: 12 * time.Hour,
+		AllowOrigins: 		[]string{config.GetEnv("NEXT_API_URL")},
+		AllowMethods: 		[]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders: 		[]string{"Origin", "Content-Type", "Authorization", "Accept", "X-Requested-With", 	"Cookie"},
+		ExposeHeaders: 		[]string{"Content-Length"},
+		AllowCredentials: 	true,
+		MaxAge: 			12 * time.Hour,
 	}))
 
 	// loading routes
