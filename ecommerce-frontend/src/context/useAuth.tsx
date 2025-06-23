@@ -1,91 +1,98 @@
 "use client";
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import React from "react";
 import { UserProfile } from "@/types/user";
 import { loginAPI, registerAPI } from "@/services/authAPI";
 import api from "@/lib/axios";
 
 type UserContextType = {
   user: UserProfile | null;
-  accessToken: string | null;
   registerUser: (email: string, username: string, password: string) => void;
   loginUser: (email: string, password: string) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
 };
 
-const UserContext = createContext<UserContextType>({} as UserContextType);
-
 type Props = { children: React.ReactNode };
+
+const UserContext = createContext<UserContextType>({} as UserContextType);
 
 export const UserProvider = ({ children }: Props) => {
   const router = useRouter();
-  const [accessToken, setAccessToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const storedToken = localStorage.getItem("accessToken");
-
-    if (storedUser && storedToken) {
+    const loadUserFromCookie = async () => {
       try {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-        setAccessToken(storedToken);
-      } catch {
-        localStorage.removeItem("user");
-        localStorage.removeItem("accessToken");
+        const res = await api.get("/user/profile");
+        if (res.data) {
+          setUser(res.data);
+        }
+      } catch (error) {
+        console.error("Error loading user profile:", error);
+        setUser(null);
+      } finally {
+        setIsReady(true);
       }
-    }
-
-    setIsReady(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    };
+    loadUserFromCookie();
   }, []);
 
-  const registerUser = (email: string, username: string, password: string) => {
-    registerAPI(username, email, password)
-      .then(() => {
-        router.push("/login");
-        toast.success("Registration successful!");
-      })
-      .catch(() => toast.error("Server error occurred"));
+  const registerUser = async (
+    email: string,
+    username: string,
+    password: string
+  ) => {
+    try {
+      await registerAPI(username, email, password);
+      toast.success("Registration Successful!");
+      router.push("/login");
+    } catch {
+      toast.warning("Registration failed");
+    }
   };
 
-  const loginUser = (email: string, password: string) => {
-    loginAPI(email, password)
-      .then((res) => {
-        const { user_id, token, username, email } = res.data;
-
-        const userObj = { user_id, username, email };
-        localStorage.setItem("accessToken", token);
-        localStorage.setItem("user", JSON.stringify(userObj));
-
-        setAccessToken(token);
-        setUser(userObj);
-        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
+  const loginUser = async (email: string, password: string) => {
+    try {
+      const res = await loginAPI(email, password);
+      if (res.status === 200) {
+        const userRes = await api.get("/user/profile");
+        setUser(userRes.data);
         router.push("/profile");
-        toast.success("Login successful!");
-      })
-      .catch(() => toast.error("Invalid login credentials"));
+        toast.success("Login Successful!");
+      } else {
+        toast.error("Invalid credentials");
+      }
+    } catch {
+      toast.error("Login failed");
+    }
   };
 
-  const logout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("user");
-    setUser(null);
-    setAccessToken(null);
-    toast.success("Logout successful!");
-    router.push("/");
+  const logout = async () => {
+    try {
+      await api.post("/user/logout");
+      setUser(null);
+      router.push("/");
+      toast.success("Logged out successfully");
+    } catch {
+      toast.error("Logout failed");
+    }
   };
 
   const isLoggedIn = () => !!user;
 
   return (
     <UserContext.Provider
-      value={{ user, accessToken, loginUser, registerUser, logout, isLoggedIn }}
+      value={{
+        user,
+        registerUser,
+        loginUser,
+        logout,
+        isLoggedIn,
+      }}
     >
       {isReady ? children : null}
     </UserContext.Provider>
