@@ -67,10 +67,29 @@ func Login(c *gin.Context) {
     }
 
 	// cookie
-	c.SetSameSite(http.SameSiteLaxMode)
-	c.SetCookie("auth-token", accessToken, 3600, "", "", false, true)
+	http.SetCookie(c.Writer, &http.Cookie{
+		Name:		"auth-token",
+		Value:		accessToken,
+		HttpOnly: 	true,
+		SameSite:	http.SameSiteLaxMode,
+		Secure:		false,
+		Expires: 	time.Now().Add(time.Hour * 1),
+	})
 	
     c.JSON(http.StatusOK, gin.H{})
+}
+
+func Logout(c *gin.Context) {
+	c.SetCookie(
+		"auth-token",
+		"",
+		-1,
+		"/",
+		"localhost",
+		false,
+		true,
+	)
+	c.JSON(http.StatusOK, gin.H{})
 }
 
 func GetUserProfile(c *gin.Context) {
