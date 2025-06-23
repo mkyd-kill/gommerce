@@ -36,6 +36,7 @@ func SetupRoutes(r *gin.Engine) {
 		user.Use(authMaker)
 		user.GET("profile", controllers.GetUserProfile)
 		user.PATCH("update", controllers.UpdateProfile)
+		user.POST("logout", controllers.Logout)
 	}
 
 	// user orders
