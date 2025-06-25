@@ -1,7 +1,7 @@
 package token
 
 import (
-	"ecommerce-backend/api/config"
+	"ecommerce-backend/config"
 	"fmt"
 	"time"
 

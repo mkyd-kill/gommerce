@@ -6,7 +6,7 @@ import (
 	"os"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"ecommerce-backend/api/models"
+	"ecommerce-backend/models"
 )
 
 var DB *gorm.DB

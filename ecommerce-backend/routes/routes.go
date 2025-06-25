@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"ecommerce-backend/api/controllers"
-	"ecommerce-backend/api/middleware"
-	"ecommerce-backend/api/token"
+	"ecommerce-backend/controllers"
+	"ecommerce-backend/middleware"
+	"ecommerce-backend/token"
 
 	"github.com/gin-gonic/gin"
 )

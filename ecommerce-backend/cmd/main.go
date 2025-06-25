@@ -4,9 +4,9 @@ import (
 	"time"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
-	"ecommerce-backend/api/routes"
-	"ecommerce-backend/api/config"
-	"ecommerce-backend/api/database"
+	"ecommerce-backend/routes"
+	"ecommerce-backend/config"
+	"ecommerce-backend/database"
 )
 
 func main() {
@@ -23,7 +23,15 @@ func main() {
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: 		[]string{config.GetEnv("NEXT_API_URL")},
 		AllowMethods: 		[]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders: 		[]string{"Allow-Origin", "Origin", "Content-Type", "Authorization", "Accept", "Cookie"},
+		AllowHeaders: 		[]string{
+			"Origin",
+			"Content-Type",
+			"Authorization",
+			"Accept",
+			"Cookie",
+			"X-Requested-With",
+			"Access-Control-Allow-Headers",
+		},
 		ExposeHeaders: 		[]string{"Content-Length"},
 		AllowCredentials: 	true,
 		MaxAge: 			12 * time.Hour,
