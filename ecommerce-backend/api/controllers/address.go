@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"ecommerce-backend/models"
+	"ecommerce-backend/api/models"
 	"github.com/gin-gonic/gin"
-	"ecommerce-backend/database"
+	"ecommerce-backend/api/database"
 	"net/http"
 )
 

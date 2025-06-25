@@ -3,8 +3,8 @@ package controllers
 import (
 	"net/http"
 	"github.com/gin-gonic/gin"
-	"ecommerce-backend/models"
-	"ecommerce-backend/database"
+	"ecommerce-backend/api/models"
+	"ecommerce-backend/api/database"
 )
 
 func GetProducts(c *gin.Context) {

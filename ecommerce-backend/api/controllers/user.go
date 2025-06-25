@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"ecommerce-backend/database"
-	"ecommerce-backend/models"
-	"ecommerce-backend/token"
+	"ecommerce-backend/api/database"
+	"ecommerce-backend/api/models"
+	"ecommerce-backend/api/token"
 	"net/http"
 	"strings"
 	"time"

@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"ecommerce-backend/token"
+	"ecommerce-backend/api/token"
 	"fmt"
 	"net/http"
 	"strings"
