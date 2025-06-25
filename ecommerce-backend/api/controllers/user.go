@@ -80,15 +80,14 @@ func Login(c *gin.Context) {
 }
 
 func Logout(c *gin.Context) {
-	c.SetCookie(
-		"auth-token",
-		"",
-		-1,
-		"/",
-		"localhost",
-		false,
-		true,
-	)
+	http.SetCookie(c.Writer, &http.Cookie{
+		Name:		"auth-token",
+		Value:		"",
+		HttpOnly: 	true,
+		SameSite:	http.SameSiteLaxMode,
+		Secure:		false,
+		Expires: 	time.Now(),
+	})
 	c.JSON(http.StatusOK, gin.H{})
 }
 
