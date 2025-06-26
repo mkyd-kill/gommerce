@@ -20,6 +20,7 @@ interface Trend {
   name: string;
   image: string;
   price: number;
+  quantity: number;
 }
 
 export const Deals = () => {
@@ -29,24 +30,28 @@ export const Deals = () => {
       name: "Modern White Velvet 3-Seater Sofa Channel Tufted Upholstered Luxury Solid Wood",
       image: chair,
       price: 92372.97,
+      quantity: 1
     },
     {
       id: 2,
       name: "At&t iPhone 13 Pro 256gb Graphite, Gray",
       image: phone,
       price: 54436.03,
+      quantity: 1
     },
     {
       id: 3,
       name: "GUCCI G-Timeless Stainless Steel Bracelet Watch",
       image: watch,
       price: 63073.07,
+      quantity: 1
     },
     {
       id: 4,
       name: "TEVISE T845 Casual Style Men Wrist Watch Date Display Full Steel Band Quartz Watch - NO.2",
       image: watch2,
       price: 80020.24,
+      quantity: 1
     },
   ];
   const { addToCart } = useCart();
