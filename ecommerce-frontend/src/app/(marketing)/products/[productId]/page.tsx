@@ -16,7 +16,7 @@ export default function ProductDetailsPage() {
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
   const { addToCart } = useCart();
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -38,7 +38,6 @@ export default function ProductDetailsPage() {
         body: JSON.stringify({
           content: reviewText,
           rating: reviewRating,
-          user_email: user?.email,
         }),
       });
       if (!res.ok) throw new Error();
@@ -86,7 +85,7 @@ export default function ProductDetailsPage() {
                 name: product.name,
                 price: product.price,
                 image: product.image,
-                quantityInCart: 1,
+                quantity: 1,
               });
               toast.success("Added to cart");
             }}
