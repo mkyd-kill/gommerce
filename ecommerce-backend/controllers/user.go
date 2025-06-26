@@ -70,6 +70,7 @@ func Login(c *gin.Context) {
 	http.SetCookie(c.Writer, &http.Cookie{
 		Name:		"auth-token",
 		Value:		accessToken,
+		Path:		"/",
 		HttpOnly: 	true,
 		SameSite:	http.SameSiteLaxMode,
 		Secure:		false,
@@ -83,6 +84,7 @@ func Logout(c *gin.Context) {
 	http.SetCookie(c.Writer, &http.Cookie{
 		Name:		"auth-token",
 		Value:		"",
+		Path:		"/",
 		HttpOnly: 	true,
 		SameSite:	http.SameSiteLaxMode,
 		Secure:		false,
@@ -117,7 +119,7 @@ func UpdateProfile(c *gin.Context) {
 	var input struct {
 		Firstname   string `json:"firstname"`
 		Lastname    string `json:"lastname"`
-		PhoneNumber string `json:"phone_number"`
+		PhoneNumber string `json:"phoneNumber"`
 		Password    string `json:"newPassword"`
 	}
 
