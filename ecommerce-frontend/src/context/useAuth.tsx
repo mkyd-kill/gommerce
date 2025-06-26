@@ -8,7 +8,6 @@ import { loginAPI, registerAPI } from "@/services/authAPI";
 import api from "@/lib/axios";
 
 type UserContextType = {
-  user: UserProfile | null;
   registerUser: (email: string, username: string, password: string) => void;
   loginUser: (email: string, password: string) => void;
   logout: () => void;
@@ -25,20 +24,7 @@ export const UserProvider = ({ children }: Props) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const loadUserFromCookie = async () => {
-      try {
-        const res = await api.get("/user/profile");
-        if (res.data) {
-          setUser(res.data);
-        }
-      } catch (error) {
-        console.error("Error loading user profile:", error);
-        setUser(null);
-      } finally {
-        setIsReady(true);
-      }
-    };
-    loadUserFromCookie();
+    setIsReady(true);
   }, []);
 
   const registerUser = async (
@@ -87,7 +73,6 @@ export const UserProvider = ({ children }: Props) => {
   return (
     <UserContext.Provider
       value={{
-        user,
         registerUser,
         loginUser,
         logout,
