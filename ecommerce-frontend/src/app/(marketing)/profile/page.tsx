@@ -29,7 +29,7 @@ export default function Profile() {
         setNewPassword(res.data['password'] || "");
         setCards(res.data['cards'] || []);
       } catch {
-        toast.error("Failed to fetch profile");
+        console.log("Failed to load user profile");
       }
     };
     fetchProfile();
