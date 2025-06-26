@@ -34,8 +34,8 @@ export default async function Home() {
             className="rounded-xl object-cover"
             alt="Banner Image"
             src={banner}
-            width={600}
-            height={400}
+            width={400}
+            height={600}
           />
         </div>
       </section>
