@@ -23,13 +23,9 @@ const Navbar = () => {
   const { cart } = useCart();
   const { wishlist } = useWishlist();
 
-  const cartCount = Array.isArray(cart)
-    ? cart.reduce((sum, item) => sum + item.quantityInCart, 0)
-    : 0;
+  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
-  const wishlistCount = Array.isArray(wishlist)
-    ? wishlist.reduce((sum, item) => sum + item.id, 0)
-    : 0;
+  const wishlistCount = wishlist.reduce((sum, item) => sum + item.id, 0);
 
   return (
     <nav className="sticky top-0 z-50 bg-slate-50 px-4 py-2 flex items-center justify-between">
@@ -59,18 +55,18 @@ const Navbar = () => {
 
       <div className="flex items-center gap-3 text-gray-600 text-xl">
         <div className="flex gap-4">
-          <Link href="/wishlist">
-            <Heart className="hover:text-[#a01f64]" />
+          <Link href="/wishlist" className="relative">
+            <Heart className="hover:text-[#a01f64] h-6 w-6" />
             {wishlistCount > 0 && (
-              <span className="text-sm relative top-3 justify-center items-center text-gray-800">
+              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                 {wishlistCount}
               </span>
             )}
           </Link>
-          <Link href="/cart" className="flex">
-            <ShoppingCart className="hover:text-[#a01f64]" />
+          <Link href="/cart" className="relative">
+            <ShoppingCart className="hover:text-[#a01f64] h-6 w-6" />
             {cartCount > 0 && (
-              <span className="text-sm relative top-3 justify-center items-center text-gray-800">
+              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                 {cartCount}
               </span>
             )}
