@@ -9,8 +9,9 @@ import "../globals.css";
 
 export const metadata: Metadata = {
   title: "Gommerce E-commerce",
-  description: "A simplified e-commerce web application powered by Next.js and Go. Provides user friendly navigation for maximized user browsing"
-}
+  description:
+    "A simplified e-commerce web application powered by Next.js and Go. Provides user friendly navigation for maximized user browsing",
+};
 
 export default function MarketingLayout({
   children,
@@ -21,11 +22,11 @@ export default function MarketingLayout({
     <html lang="en">
       <body>
         <UserProvider>
-          <Navbar />
           <CartProvider>
             <WishlistProvider>
+              <Navbar />
               <main className="m-2 p-2">
-                <ToastContainer autoClose={3000} />
+                <ToastContainer autoClose={2000} />
                 {children}
               </main>
             </WishlistProvider>
