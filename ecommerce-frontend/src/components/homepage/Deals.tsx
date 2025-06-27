@@ -6,10 +6,11 @@ import chair from "../../assets/chairTrend.svg";
 import phone from "../../assets/phoneTrend.svg";
 import watch from "../../assets/watchTrend.svg";
 import watch2 from "../../assets/watchTrend2.svg";
-import Selected from "../../assets/State=Selected.svg";
-import Default from "../../assets/State=Default.svg";
+import SelectedState from "../../assets/State=Selected.svg";
+import DefaultState from "../../assets/State=Default.svg";
 import { useWishlist } from "@/context/WishlistContext";
 import { useCart } from "@/context/CartContext";
+import { useState } from "react";
 
 interface Props {
   products: ProductModel[];
@@ -30,32 +31,32 @@ export const Deals = () => {
       name: "Modern White Velvet 3-Seater Sofa Channel Tufted Upholstered Luxury Solid Wood",
       image: chair,
       price: 92372.97,
-      quantity: 1
+      quantity: 1,
     },
     {
       id: 2,
       name: "At&t iPhone 13 Pro 256gb Graphite, Gray",
       image: phone,
       price: 54436.03,
-      quantity: 1
+      quantity: 1,
     },
     {
       id: 3,
       name: "GUCCI G-Timeless Stainless Steel Bracelet Watch",
       image: watch,
       price: 63073.07,
-      quantity: 1
+      quantity: 1,
     },
     {
       id: 4,
       name: "TEVISE T845 Casual Style Men Wrist Watch Date Display Full Steel Band Quartz Watch - NO.2",
       image: watch2,
       price: 80020.24,
-      quantity: 1
+      quantity: 1,
     },
   ];
   const { addToCart } = useCart();
-  const { addToWishlist } = useWishlist();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
   return (
     <div className="my-2">
@@ -66,10 +67,28 @@ export const Deals = () => {
 
       <div className="justify-center items-center grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 2xs:grid-cols-1 gap-2 my-2">
         {products.map((product, key) => (
-          <div className="myComponent hover:bg-gradient-to-r from-[#F6CEEC] to-[#D939cd] p-[2px] hover:rounded-2xl border border-[#eaecf0] rounded-xl cursor-pointer" key={key}>
+          <div
+            className="myComponent hover:bg-gradient-to-r from-[#F6CEEC] to-[#D939cd] p-[2px] hover:rounded-2xl border border-[#eaecf0] rounded-xl cursor-pointer"
+            key={key}
+          >
             <div className="flex flex-col justify-between items-center flex-grow-0 flex-shrink-0 relative overflow-hidden pb-3 rounded-xl bg-white">
               <div className="self-stretch flex-grow-0 flex-shrink-0 h-60 relative overflow-hidden">
                 <div className="relative m-0 p-0">
+                  {isInWishlist(product.id) ? (
+                    <Image
+                      src={SelectedState}
+                      alt="Selected"
+                      className="absolute top-2 right-2 h-8 w-8 cursor-pointer"
+                      onClick={() => removeFromWishlist(product.id)}
+                    />
+                  ) : (
+                    <Image
+                      src={DefaultState}
+                      alt="Default"
+                      className="absolute top-2 right-2 h-8 w-8 cursor-pointer"
+                      onClick={() => addToWishlist(product)}
+                    />
+                  )}
                   <Image
                     src={product.image}
                     alt="Product"
