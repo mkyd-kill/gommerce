@@ -37,7 +37,7 @@ export const WishlistProvider = ({ children }: { children: React.ReactNode }) =>
 
   const removeFromWishlist = (id: number) => {
     setWishlist(wishlist.filter((item) => item.id !== id));
-    toast.success("Removed from wishlist");
+    toast.warning("Removed from wishlist");
   };
 
   const isInWishlist = (id: number) => wishlist.some((item) => item.id === id);
