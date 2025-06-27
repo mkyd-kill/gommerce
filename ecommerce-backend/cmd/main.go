@@ -21,7 +21,7 @@ func main() {
 
 	// cors middleware
 	r.Use(cors.New(cors.Config{
-		AllowOrigins: 		[]string{"http://localhost:3000"},
+		AllowOrigins: 		[]string{config.GetEnv("NEXT_API_URL")},
 		AllowMethods: 		[]string{"GET", "POST", "DELETE", "PATCH", "OPTIONS"},
 		AllowHeaders: 		[]string{
 			"Origin",
