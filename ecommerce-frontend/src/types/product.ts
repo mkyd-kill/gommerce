@@ -7,7 +7,7 @@ export type ProductModel = {
   image: string;
   featured: boolean;
   stock: number;
-  quantityInCart: number;
+  quantity: number;
   rating: number;
 };
 
