@@ -40,7 +40,7 @@ export default async function Home() {
         </div>
       </section>
       <section className="py-2">
-        <Deals />
+        <Deals products={products} />
       </section>
       <Footer />
     </div>

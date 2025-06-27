@@ -2,10 +2,6 @@
 import { ProductModel } from "@/types/product";
 import Image from "next/image";
 import feature from "../../assets/Clipboard.svg";
-import chair from "../../assets/chairTrend.svg";
-import phone from "../../assets/phoneTrend.svg";
-import watch from "../../assets/watchTrend.svg";
-import watch2 from "../../assets/watchTrend2.svg";
 import SelectedState from "../../assets/State=Selected.svg";
 import DefaultState from "../../assets/State=Default.svg";
 import { useWishlist } from "@/context/WishlistContext";
@@ -15,45 +11,7 @@ interface Props {
   products: ProductModel[];
 }
 
-interface Trend {
-  id: number;
-  name: string;
-  image: string;
-  price: number;
-  quantity: number;
-}
-
-export const Deals = () => {
-  const products: Trend[] = [
-    {
-      id: 1,
-      name: "Modern White Velvet 3-Seater Sofa Channel Tufted Upholstered Luxury Solid Wood",
-      image: chair,
-      price: 92372.97,
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: "At&t iPhone 13 Pro 256gb Graphite, Gray",
-      image: phone,
-      price: 54436.03,
-      quantity: 1,
-    },
-    {
-      id: 3,
-      name: "GUCCI G-Timeless Stainless Steel Bracelet Watch",
-      image: watch,
-      price: 63073.07,
-      quantity: 1,
-    },
-    {
-      id: 4,
-      name: "TEVISE T845 Casual Style Men Wrist Watch Date Display Full Steel Band Quartz Watch - NO.2",
-      image: watch2,
-      price: 80020.24,
-      quantity: 1,
-    },
-  ];
+export const Deals = ({ products }: Props) => {
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
@@ -91,6 +49,8 @@ export const Deals = () => {
                   <Image
                     src={product.image}
                     alt="Product"
+                    width={288}
+                    height={256}
                     className="rounded-tl-md w-full h-72 rounded-tr-md sm:h-60 object-cover"
                   />
                 </div>
