@@ -9,7 +9,6 @@ import Link from "next/link";
 export default function WishList() {
   const { wishlist, removeFromWishlist } = useWishlist();
 
-  // fetch wishlist array from localstorage
   return (
     <div className="p-1">
       <div className="flex items-center bg-gray-300 p-3 rounded mb-4">
@@ -30,7 +29,7 @@ export default function WishList() {
                 <Image
                   src={Selected}
                   alt="selected"
-                  className="absolute top-2 right-2"
+                  className="absolute top-2 right-2 h-8 w-8 cursor-pointer"
                   height={10}
                   width={10}
                 />
@@ -67,11 +66,21 @@ export default function WishList() {
                 </div>
                 <div className="flex flex-col justify-end items-center self-stretch flex-grow-0 flex-shrink-0 gap-2">
                   <div className="flex justify-between items-center mt-2">
-                    <Link href={`/products/${item.id}`} className="text-blue-600 text-xs hover:underline">
-                    View Product
-                    </Link>
-                    <button className="text-red-500 hover:text-red-700" onClick={() => removeFromWishlist(item.id)}>
-                      <Trash2 size={16} />
+                    <button className="myBtn flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-white">
+                      <Link
+                        href={`/products/${item.id}`}
+                        className="myBtn flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2 px-3.5 py-2 rounded-lg bg-[#66004b] border border-[#66004b] rounded-full"
+                      >
+                        <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-white">
+                          View Product
+                        </p>
+                      </Link>
+                    </button>
+                    <button
+                      className="text-red-500 hover:text-red-700 cursor-pointer"
+                      onClick={() => removeFromWishlist(item.id)}
+                    >
+                      <Trash2 size={20} />
                     </button>
                   </div>
                 </div>
