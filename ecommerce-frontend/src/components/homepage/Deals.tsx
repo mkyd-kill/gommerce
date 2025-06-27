@@ -10,7 +10,6 @@ import SelectedState from "../../assets/State=Selected.svg";
 import DefaultState from "../../assets/State=Default.svg";
 import { useWishlist } from "@/context/WishlistContext";
 import { useCart } from "@/context/CartContext";
-import { useState } from "react";
 
 interface Props {
   products: ProductModel[];
