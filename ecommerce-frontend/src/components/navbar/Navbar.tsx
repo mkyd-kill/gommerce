@@ -13,7 +13,6 @@ import {
   XIcon,
   Menu,
   LogOut,
-  Receipt,
 } from "lucide-react";
 
 const Navbar = () => {
@@ -76,9 +75,6 @@ const Navbar = () => {
             <>
               <Link href="/checkout">
                 <ShoppingBag className="hover:text-[#a01f64]" />
-              </Link>
-              <Link href="/orders">
-                <Receipt className="hover:text-[#a01f64]" />
               </Link>
             </>
           )}

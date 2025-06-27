@@ -34,12 +34,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       return cart.map((p) => existing ? { ...p, quantity: p.quantity + 1} : p);
     }
     setCart([...cart, {...item, quantity: 1}]);
-    toast.success("Added to wishlist");
+    toast.success("Item Added to Cart");
   };
 
   const removeFromCart = (id: number) => {
     const item = cart.find((i) => i.id === id);
-    if (item) toast.info(`${item.name} removed`);
+    if (item) toast.info("Item Removed from Cart");
     setCart((prev) => prev.filter((i) => i.id !== id));
   };
 
@@ -51,7 +51,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           : item
       )
     );
-    toast.success("Quantity increased");
+    toast.success("Increased Quantity of Item");
   };
 
   const decrement = (id: number) => {
@@ -62,7 +62,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           : item
       )
     );
-    toast.warning("Quantity decreased");
+    toast.warning("Decreased Quantity of Item");
   };
 
   const clearCart = () => setCart([]);
