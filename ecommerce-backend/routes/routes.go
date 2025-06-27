@@ -39,13 +39,6 @@ func SetupRoutes(r *gin.Engine) {
 		user.POST("logout", controllers.Logout)
 	}
 
-	// user orders
-	order := r.Group("/api/orders")
-	{
-		order.POST("create-order", controllers.CreateOrder)
-		order.GET("/", controllers.GetOrdersByUser)
-	}
-
 	// address routes
 	address := r.Group("/api/address")
 	{

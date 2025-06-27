@@ -31,7 +31,6 @@ func Connect() {
 		&models.User{},
 		&models.Product{},
 		&models.Address{},
-		&models.Order{},
 		&models.Payment{},
 	)
 }

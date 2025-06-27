@@ -12,7 +12,6 @@ type User struct {
 	PhoneNumber string    `json:"phone_number"`
 	UserRole    string    `json:"user_role" validate:"oneof=ADMIN USER"`
 	Addresses   []Address `json:"addresses" gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
-	Orders      []Order   `json:"orders" gorm:"foreignKey:UserID;constraint:OnDelete:SET NULL"`
 	Cards       []CreditCard `json:"cards" gorm:"foreignKey:UserID"`
 }
 
@@ -40,26 +39,6 @@ type Address struct {
 	Street  string `json:"street"`
 	City    string `json:"city"`
 	Pincode string `json:"pincode"`
-}
-
-type Order struct {
-	gorm.Model
-	UserID        uint            `json:"user_id"`
-	User          *User           `json:"-"`
-	Items         []OrderItem     `json:"items" gorm:"foreignKey:OrderID;constraint:OnDelete:CASCADE"`
-	Total         float64         `json:"total"`
-	Status        string          `json:"status"` // e.g. PENDING, SHIPPED
-	PaymentMethod string          `json:"payment_method"` // e.g. CARD, COD
-	ShippingAddr  Address         `json:"shipping_address" gorm:"embedded"`
-}
-
-type OrderItem struct {
-	gorm.Model
-	OrderID   uint    `json:"order_id"`
-	ProductID uint    `json:"product_id"`
-	Product   Product `json:"product"`
-	Quantity  int     `json:"quantity" validate:"gt=0"`
-	Price     float64 `json:"price"`
 }
 
 type Payment struct {
