@@ -15,7 +15,6 @@ export default function AdminDashboard() {
     const fetchStats = async () => {
       try {
         const res = await getAdminStats();
-        console.log("Metric:", res);
         setMetrics(res);
       } catch {
         toast.error("Failed to load metrics");
