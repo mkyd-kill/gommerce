@@ -6,8 +6,8 @@ import eye from "../../../assets/auth/eye.svg";
 import eyeOff from "../../../assets/auth/eye-off.svg";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
-import api from "@/lib/axios";
 import { UpdateUserProfile } from "@/services/authAPI";
+import { useAuth } from "@/context/useAuth";
 
 export default function Profile() {
   const [firstname, setFirstname] = useState("");
@@ -18,22 +18,22 @@ export default function Profile() {
   const [type, setType] = useState("password");
   const [loading, setLoading] = useState(false);
   const [cards, setCards] = useState([]);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.get("/user/profile/");
-        setFirstname(res.data['firstname'] || "");
-        setLastname(res.data['lastname'] || "");
-        setPhoneNumber(res.data['phone_number'] || "");
-        setNewPassword(res.data['password'] || "");
-        setCards(res.data['cards'] || []);
+        setFirstname(user?.firstname || "");
+        setLastname(user?.lastname || "");
+        setPhoneNumber(user?.phoneNumber || "");
+        setNewPassword(user?.newPassword || "");
+        setCards(user?.cards || []);
       } catch {
         console.log("Failed to load user profile");
       }
     };
     fetchProfile();
-  }, []);
+  }, [user]);
 
   const handleToggle = () => {
     setIcon(type === "password" ? eye : eyeOff);
