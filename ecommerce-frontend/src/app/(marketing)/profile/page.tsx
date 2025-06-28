@@ -21,11 +21,12 @@ export default function Profile() {
   const { user } = useAuth();
 
   useEffect(() => {
+    console.log("User Data:", user)
     const fetchProfile = async () => {
       try {
         setFirstname(user?.firstname || "");
         setLastname(user?.lastname || "");
-        setPhoneNumber(user?.phoneNumber || "");
+        setPhoneNumber(user?.phone_number || "");
         setNewPassword(user?.newPassword || "");
         setCards(user?.cards || []);
       } catch {
@@ -45,7 +46,7 @@ export default function Profile() {
     setLoading(true);
 
     try {
-      await UpdateUserProfile({firstname, lastname, phoneNumber, newPassword});
+      await UpdateUserProfile({firstname, lastname, phone_number, newPassword});
       toast.success("Profile updated successfully!");
     } catch {
       toast.error("An error occurred updating your profile.");

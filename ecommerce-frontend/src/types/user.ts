@@ -11,7 +11,7 @@ export interface UserProfile {
     email: string;
     firstname: string;
     lastname: string;
-    phoneNumber: string;
+    phone_number: string;
     newPassword: string;
     cards: [];
 }
