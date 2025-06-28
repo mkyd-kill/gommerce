@@ -11,7 +11,8 @@ import {
   Settings,
   Receipt,
   LifeBuoy,
-  LogOut
+  LogOut,
+  Link
 } from "lucide-react";
 import "../globals.css";
 
@@ -37,6 +38,7 @@ export default function AdminLayout({
             <SidebarItem icon={<Receipt size={20} />} text="Billings" />
             <SidebarItem icon={<Package size={20} />} text="Orders" />
             <hr className="my-3" />
+            <SidebarItem icon={<Link size={20} />} text="Main Site" href="/" />
             <SidebarItem icon={<Settings size={20} />} text="Settings" />
             <SidebarItem icon={<LifeBuoy size={20} />} text="Help" />
             <SidebarItem icon={<LogOut size={20} />} text="Logout" />
