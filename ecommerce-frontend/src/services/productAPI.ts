@@ -1,12 +1,12 @@
 import api from "@/lib/axios";
 import { ProductModel } from "@/types/product";
 
-export const fetchAllProducts = async (): Promise<ProductModel[]> => {
+export const FetchAllProducts = async (): Promise<ProductModel[]> => {
     const res = await api.get("/products/");
     return res.data;
 }
 
-export const fetchProductById = async (id: string): Promise<ProductModel> => {
+export const FetchProductById = async (id: string): Promise<ProductModel> => {
     const res = await api.get(`/products/get/${id}`);
     return res.data;
 }
@@ -17,5 +17,10 @@ export const DeleteProductById = async (id: number) => {
 
 export const UpdateProductById = async (id: number): Promise<Partial<ProductModel>> => {
     const res = await api.put(`/products/update/${id}`);
+    return res.data;
+}
+
+export const CreateProduct = async (product: ProductModel): Promise<ProductModel> => {
+    const res = await api.post("/products/create", product);
     return res.data;
 }

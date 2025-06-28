@@ -1,12 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import Footer from "@/components/footer/Footer";
-import { fetchAllProducts } from "@/services/productAPI";
+import { FetchAllProducts } from "@/services/productAPI";
 import banner from "../../assets/defaults/banner.svg";
 import { Deals } from "@/components/homepage/Deals";
 
 export default async function Home() {
-  const products = await fetchAllProducts();
+  const products = await FetchAllProducts();
 
   return (
     <div className="container">

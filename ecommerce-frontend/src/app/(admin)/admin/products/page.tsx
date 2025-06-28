@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { ProductModel } from "@/types/product";
-import { fetchAllProducts, DeleteProductById } from "@/services/productAPI";
+import { FetchAllProducts, DeleteProductById } from "@/services/productAPI";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { Plus } from "lucide-react";
@@ -12,7 +12,7 @@ export default function AdminProductsPage() {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const data = await fetchAllProducts();
+        const data = await FetchAllProducts();
         setProducts(data);
       } catch {
         toast.error("Failed to load products");
