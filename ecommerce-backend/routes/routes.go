@@ -47,4 +47,11 @@ func SetupRoutes(r *gin.Engine) {
 		address.PATCH("update/:address_id", controllers.UpdateAddress)
 		address.DELETE("delete/:address_id", controllers.DeleteAddress)
 	}
+
+	// admin routes
+	admin := r.Group("/api/admin")
+	{
+		r.Use(adminAuthMaker)
+		admin.GET("/", controllers.AdminStats)
+	}
 }

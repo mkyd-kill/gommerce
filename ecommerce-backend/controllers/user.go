@@ -119,7 +119,7 @@ func UpdateProfile(c *gin.Context) {
 	var input struct {
 		Firstname   string `json:"firstname"`
 		Lastname    string `json:"lastname"`
-		PhoneNumber string `json:"phoneNumber"`
+		PhoneNumber string `json:"phone_number"`
 		Password    string `json:"newPassword"`
 	}
 
