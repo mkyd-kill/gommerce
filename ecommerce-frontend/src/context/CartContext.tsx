@@ -27,16 +27,21 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const addToCart = (item: CartItem) => {
-    const existing = cart.some((prod) => prod.id === item.id);
-
+    const existing = cart.find((prod) => prod.id === item.id);
+  
     if (existing) {
+      setCart((prev) =>
+        prev.map((p) =>
+          p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p
+        )
+      );
       toast.success("Increased Quantity of Item");
-      return cart.map((p) => existing ? { ...p, quantity: p.quantity + 1} : p);
+    } else {
+      setCart((prev) => [...prev, { ...item, quantity: 1 }]);
+      toast.success("Item Added to Cart");
     }
-    setCart([...cart, {...item, quantity: 1}]);
-    toast.success("Item Added to Cart");
   };
-
+  
   const removeFromCart = (id: number) => {
     const item = cart.find((i) => i.id === id);
     if (item) toast.info("Item Removed from Cart");
