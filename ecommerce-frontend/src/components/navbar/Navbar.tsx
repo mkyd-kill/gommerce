@@ -89,7 +89,7 @@ const Navbar = () => {
                   alt="user-avatar"
                   width={30}
                   height={30}
-                  className="rounded-full"
+                  className="rounded-full w-auto h-auto"
                 />
               </Link>
               <button
