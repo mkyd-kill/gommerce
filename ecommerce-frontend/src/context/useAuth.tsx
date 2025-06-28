@@ -8,6 +8,7 @@ import { loginAPI, registerAPI } from "@/services/authAPI";
 import api from "@/lib/axios";
 
 type UserContextType = {
+  user: UserProfile | null;
   registerUser: (email: string, username: string, password: string) => void;
   loginUser: (email: string, password: string) => void;
   logout: () => void;
@@ -24,8 +25,23 @@ export const UserProvider = ({ children }: Props) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    setIsReady(true);
-  }, []);
+    const loadUserFromCookie = async () => {
+      try {
+        const res = await api.get("/user/profile");
+        if (res) {
+          setUser(res.data);
+          router.push("/profile");
+        }
+      } catch {
+        // session might be expired or not logged in
+        setUser(null);
+        router.push("/login")
+      } finally {
+        setIsReady(true);
+      }
+    };
+    loadUserFromCookie();
+  }, [router]);
 
   const registerUser = async (
     email: string,
@@ -44,7 +60,7 @@ export const UserProvider = ({ children }: Props) => {
   const loginUser = async (email: string, password: string) => {
     try {
       const res = await loginAPI(email, password);
-      if (res.status === 200) {
+      if (res?.status === 200) {
         const userRes = await api.get("/user/profile");
         setUser(userRes.data);
         router.push("/profile");
@@ -73,6 +89,7 @@ export const UserProvider = ({ children }: Props) => {
   return (
     <UserContext.Provider
       value={{
+        user,
         registerUser,
         loginUser,
         logout,
