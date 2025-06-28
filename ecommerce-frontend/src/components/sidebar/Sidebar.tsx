@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import avatar from "../../assets/default-avatar.jpg";
-import { ChevronFirst, ChevronLast, MoreVertical } from "lucide-react";
+import { ChevronFirst, ChevronLast } from "lucide-react";
 import { useState, createContext, ReactNode } from "react";
 
 interface SidebarContextType {
@@ -55,7 +55,6 @@ export default function Sidebar({ children }: { children: ReactNode }) {
                 <h4 className="font-semibold">John Doe</h4>
                 <span className="text-xs text-gray-600">admin@example.com</span>
               </div>
-              <MoreVertical size={20} className="cursor-pointer" />
             </div>
           )}
         </div>
