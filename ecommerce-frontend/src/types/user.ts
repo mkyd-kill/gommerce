@@ -13,4 +13,5 @@ export interface UserProfile {
     lastname: string;
     phoneNumber: string;
     newPassword: string;
+    cards: [];
 }
