@@ -4,6 +4,7 @@ import { ProductModel } from "@/types/product";
 import { fetchAllProducts, DeleteProductById } from "@/services/productAPI";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import { Plus } from "lucide-react";
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<ProductModel[]>([]);
@@ -36,9 +37,11 @@ export default function AdminProductsPage() {
       <h1 className="text-xl font-bold mb-4">Product Management</h1>
       <Link
         href="/admin/products/new"
-        className="mb-4 inline-block bg-[#66004b] text-white px-4 py-2 rounded"
+        className="justify-center text-center mb-4 inline-block bg-[#66004b] text-white px-4 py-2 rounded"
       >
-        + Add Product
+        <div className="flex">
+          <Plus size={20} /> Add Product
+        </div>
       </Link>
 
       <div className="overflow-x-auto border rounded shadow-sm">
@@ -53,10 +56,12 @@ export default function AdminProductsPage() {
             </tr>
           </thead>
           <tbody>
-            {products.map((prod) => (
-              <tr key={prod.id} className="border-t">
+            {products.map((prod, key) => (
+              <tr key={key} className="border-t">
                 <td className="px-4 py-2">{prod.name}</td>
-                <td className="px-4 py-2">Kshs. {prod.price.toLocaleString()}</td>
+                <td className="px-4 py-2">
+                  Kshs. {prod.price.toLocaleString()}
+                </td>
                 <td className="px-4 py-2">{prod.stock}</td>
                 <td className="px-4 py-2">{prod.category}</td>
                 <td className="px-4 py-2 space-x-2">
