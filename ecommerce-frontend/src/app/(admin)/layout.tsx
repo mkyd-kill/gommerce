@@ -11,6 +11,7 @@ import {
   Settings,
   Receipt,
   LifeBuoy,
+  LogOut
 } from "lucide-react";
 import "../globals.css";
 
@@ -38,9 +39,10 @@ export default function AdminLayout({
             <hr className="my-3" />
             <SidebarItem icon={<Settings size={20} />} text="Settings" />
             <SidebarItem icon={<LifeBuoy size={20} />} text="Help" />
+            <SidebarItem icon={<LogOut size={20} />} text="Logout" />
           </Sidebar>
           <main className="flex-1 p-3">
-            <ToastContainer autoClose={3000} />
+            <ToastContainer autoClose={2000} />
             {children}
           </main>
         </div>
