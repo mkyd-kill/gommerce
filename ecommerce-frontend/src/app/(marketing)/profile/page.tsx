@@ -13,7 +13,7 @@ export default function Profile() {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phone_number, setPhoneNumber] = useState("");
   const [icon, setIcon] = useState(eyeOff);
   const [type, setType] = useState("password");
   const [loading, setLoading] = useState(false);
@@ -21,7 +21,6 @@ export default function Profile() {
   const { user } = useAuth();
 
   useEffect(() => {
-    console.log("User Data:", user)
     const fetchProfile = async () => {
       try {
         setFirstname(user?.firstname || "");
@@ -115,7 +114,7 @@ export default function Profile() {
                     className="w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black"
                     type="tel"
                     placeholder="e.g. 0712345678"
-                    value={phoneNumber}
+                    value={phone_number}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     required
                   />

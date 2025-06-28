@@ -25,7 +25,7 @@ export default function CheckOut() {
 
   const calculateTotal = () => {
     const subtotal = cart.reduce(
-      (sum, item) => sum + item.price * item.quantityInCart,
+      (sum, item) => sum + item.price * item.quantity,
       0
     );
     const tax = subtotal * 0.14;
@@ -48,7 +48,7 @@ export default function CheckOut() {
       items: cart.map((item) => ({
         product_id: item.id,
         product_name: item.name,
-        quantity: item.quantityInCart,
+        quantity: item.quantity,
         price: item.price,
       })),
     };
@@ -113,7 +113,7 @@ export default function CheckOut() {
                 <li key={item.id} className="py-2 flex justify-between">
                   <span>{item.name}</span>
                   <span>
-                    Kshs. {(item.price * item.quantityInCart).toLocaleString()}
+                    Kshs. {(item.price * item.quantity).toLocaleString()}
                   </span>
                 </li>
               ))}
@@ -129,7 +129,7 @@ export default function CheckOut() {
                 Kshs.{" "}
                 {(
                   cart.reduce(
-                    (sum, item) => sum + item.price * item.quantityInCart,
+                    (sum, item) => sum + item.price * item.quantity,
                     0
                   ) * 0.14
                 ).toLocaleString()}

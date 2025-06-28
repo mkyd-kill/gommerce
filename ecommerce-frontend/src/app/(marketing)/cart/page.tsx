@@ -13,7 +13,7 @@ export default function CartPage() {
   const { cart, increment, decrement, removeFromCart } = useCart();
 
   const calculateSubtotal = () =>
-    cart.reduce((sum, item) => sum + item.price * item.quantityInCart, 0);
+    cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const formatCurrency = (value: number) =>
     value.toLocaleString("en-KE", { minimumFractionDigits: 2 });
@@ -32,8 +32,8 @@ export default function CartPage() {
           <p className="text-gray-600 text-center">Your cart is empty.</p>
         ) : (
           <div className="flex flex-col gap-4">
-            {cart.map((item) => (
-              <div key={item.id} className="flex items-center justify-between p-4 border rounded-md">
+            {cart.map((item, key) => (
+              <div key={key} className="flex items-center justify-between p-4 border rounded-md">
                 <div className="flex items-center gap-4">
                   <Image
                     src={item.image}
@@ -58,7 +58,7 @@ export default function CartPage() {
                       className="cursor-pointer"
                       onClick={() => decrement(item.id)}
                     />
-                    <span className="px-3">{item.quantityInCart}</span>
+                    <span className="px-3">{item.quantity}</span>
                     <Image
                       src={plus}
                       alt="increment"
@@ -68,7 +68,7 @@ export default function CartPage() {
                     />
                   </div>
                   <p className="text-xl font-semibold">
-                    Kshs. {formatCurrency(item.price * item.quantityInCart)}
+                    Kshs. {formatCurrency(item.price * item.quantity)}
                   </p>
                   <Image
                     src={deleteIcon}
