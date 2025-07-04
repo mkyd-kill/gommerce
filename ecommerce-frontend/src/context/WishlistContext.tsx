@@ -1,11 +1,11 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { ProductModel } from "@/types/product";
+import { WishlistItem } from "@/types/product";
 
 interface WishlistContextType {
-  wishlist: ProductModel[];
-  addToWishlist: (item: ProductModel) => void;
+  wishlist: WishlistItem[];
+  addToWishlist: (item: WishlistItem) => void;
   removeFromWishlist: (id: number) => void;
   isInWishlist: (id: number) => boolean;
 }
@@ -15,32 +15,32 @@ const WishlistContext = createContext<WishlistContextType>(
 );
 
 export const WishlistProvider = ({ children }: { children: React.ReactNode }) => {
-  const [wishlist, setWishlist] = useState<ProductModel[]>([]);
+  const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
+
+  useEffect(() => {
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  }, [wishlist]);
 
   useEffect(() => {
     const stored = localStorage.getItem("wishlist");
     if (stored) setWishlist(JSON.parse(stored));
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("wishlist", JSON.stringify(wishlist));
-  }, [wishlist]);
-
-  const addToWishlist = (item: ProductModel) => {
-    if (wishlist.some((prod) => prod.id === item.id)) {
+  const addToWishlist = (item: WishlistItem) => {
+    if (wishlist.some((prod) => prod.ID === item.ID)) {
       toast.info("Item already in wishlist");
       return;
     }
-    setWishlist([...wishlist, item]);
+    setWishlist([...wishlist, { ...item, quantity: 1 }]);
     toast.success("Added to wishlist");
   };
 
   const removeFromWishlist = (id: number) => {
-    setWishlist(wishlist.filter((item) => item.id !== id));
+    setWishlist(wishlist.filter((item) => item.ID !== id));
     toast.warning("Removed from wishlist");
   };
 
-  const isInWishlist = (id: number) => wishlist.some((item) => item.id === id);
+  const isInWishlist = (id: number) => wishlist.some((item) => item.ID === id);
 
   return (
     <WishlistContext.Provider
