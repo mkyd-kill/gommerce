@@ -13,7 +13,7 @@ interface Props {
 
 export const Deals = ({ products }: Props) => {
   const { addToCart } = useCart();
-  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
   return (
     <div className="my-2">
@@ -25,18 +25,18 @@ export const Deals = ({ products }: Props) => {
       <div className="justify-center items-center grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 2xs:grid-cols-1 gap-2 my-2">
         {products.map((product, key) => (
           <div
-            className="myComponent hover:bg-gradient-to-r from-[#F6CEEC] to-[#D939cd] p-[2px] hover:rounded-2xl border border-[#eaecf0] rounded-xl cursor-pointer"
+            className="myComponent hover:bg-gradient-to-r from-[#F6CEEC] to-[#D939cd] p-[2px] hover:rounded-2xl border border-[#eaecf0] rounded-xl"
             key={key}
           >
             <div className="flex flex-col justify-between items-center flex-grow-0 flex-shrink-0 relative overflow-hidden pb-3 rounded-xl bg-white">
               <div className="self-stretch flex-grow-0 flex-shrink-0 h-60 relative overflow-hidden">
                 <div className="relative m-0 p-0">
-                  {isInWishlist(product.id) ? (
+                  {isInWishlist(product.ID) ? (
                     <Image
                       src={SelectedState}
                       alt="Selected"
                       className="absolute top-2 right-2 h-8 w-8 cursor-pointer"
-                      onClick={() => removeFromWishlist(product.id)}
+                      onClick={() => removeFromWishlist(product.ID)}
                     />
                   ) : (
                     <Image
