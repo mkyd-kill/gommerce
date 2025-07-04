@@ -9,7 +9,7 @@ type User struct {
 	Username    string    `json:"username" gorm:"uniqueIndex" validate:"required"`
 	Email       string    `json:"email" gorm:"uniqueIndex" validate:"email"`
 	Password    string    `json:"-" validate:"min=8"`
-	PhoneNumber string    `json:"phone_number"`
+	PhoneNumber string    `json:"phoneNumber"`
 	UserRole    string    `json:"user_role" validate:"oneof=ADMIN USER"`
 	Addresses   []Address `json:"addresses" gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
 	Cards       []CreditCard `json:"cards" gorm:"foreignKey:UserID"`
