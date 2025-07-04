@@ -25,7 +25,7 @@ export default function AdminProductsPage() {
     if (!confirm("Are you sure?")) return;
     try {
       await DeleteProductById(id);
-      setProducts((prev) => prev.filter((p) => p.id !== id));
+      setProducts((prev) => prev.filter((p) => p.ID !== id));
       toast.success("Product deleted");
     } catch {
       toast.error("Failed to delete");
@@ -66,13 +66,13 @@ export default function AdminProductsPage() {
                 <td className="px-4 py-2">{prod.category}</td>
                 <td className="px-4 py-2 space-x-2">
                   <Link
-                    href={`/admin/products/edit/${prod.id}`}
+                    href={`/admin/products/edit/${prod.ID}`}
                     className="text-blue-600 hover:underline"
                   >
                     Edit
                   </Link>
                   <button
-                    onClick={() => handleDelete(prod.id)}
+                    onClick={() => handleDelete(prod.ID)}
                     className="text-red-600 hover:underline cursor-pointer"
                   >
                     Delete

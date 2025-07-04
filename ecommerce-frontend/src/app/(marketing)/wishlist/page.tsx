@@ -31,11 +31,13 @@ export default function WishList() {
                       src={Selected}
                       alt="Selected"
                       className="absolute top-2 right-2 h-8 w-8 cursor-pointer"
-                      onClick={() => removeFromWishlist(product.id)}
+                      onClick={() => removeFromWishlist(product.ID)}
                     />
                     <Image
-                      src={product.image}
+                      src={product.image || ""}
                       alt="Product"
+                      width={288}
+                      height={256}
                       className="rounded-tl-md w-full h-72 rounded-tr-md sm:h-60 object-cover"
                     />
                   </div>
@@ -63,7 +65,10 @@ export default function WishList() {
                       </p>
                     </div>
                   </div>
-                  <Link href={`/products/${product.id}`} className="myBtn flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2 px-3.5 py-2 rounded-lg bg-[#66004b] border border-[#66004b] rounded-full cursor-pointer hover:opacity-80">
+                  <Link
+                    href={`/products/${product.ID}`}
+                    className="myBtn flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2 px-3.5 py-2 rounded-lg bg-[#66004b] border border-[#66004b] rounded-full cursor-pointer hover:opacity-80"
+                  >
                     <button>
                       <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-white">
                         View Product

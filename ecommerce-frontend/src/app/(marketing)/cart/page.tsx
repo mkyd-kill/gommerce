@@ -36,7 +36,7 @@ export default function CartPage() {
               <div key={key} className="flex items-center justify-between p-4 border rounded-md">
                 <div className="flex items-center gap-4">
                   <Image
-                    src={item.image}
+                    src={item.image || ""}
                     alt={item.name}
                     width={80}
                     height={80}
@@ -56,7 +56,7 @@ export default function CartPage() {
                       alt="decrement"
                       width={20}
                       className="cursor-pointer"
-                      onClick={() => decrement(item.id)}
+                      onClick={() => decrement(item.ID)}
                     />
                     <span className="px-3">{item.quantity}</span>
                     <Image
@@ -64,7 +64,7 @@ export default function CartPage() {
                       alt="increment"
                       width={20}
                       className="cursor-pointer"
-                      onClick={() => increment(item.id)}
+                      onClick={() => increment(item.ID)}
                     />
                   </div>
                   <p className="text-xl font-semibold">
@@ -76,7 +76,7 @@ export default function CartPage() {
                     width={40}
                     height={40}
                     className="cursor-pointer"
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => removeFromCart(item.ID)}
                   />
                 </div>
               </div>
