@@ -1,5 +1,5 @@
 export type ProductModel = {
-  id: number;
+  ID: number;
   name: string;
   description: string;
   price: number;
@@ -12,7 +12,15 @@ export type ProductModel = {
 };
 
 export interface CartItem {
-  id: number;
+  ID: number;
+  name: string;
+  price: number;
+  image: string | null;
+  quantity: number;
+}
+
+export interface WishlistItem {
+  ID: number;
   name: string;
   price: number;
   image: string | null;
