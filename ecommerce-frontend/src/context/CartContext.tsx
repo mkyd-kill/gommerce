@@ -27,12 +27,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const addToCart = (item: CartItem) => {
-    const existing = cart.find((prod) => prod.id === item.id);
+    const existing = cart.find((prod) => prod.ID === item.ID);
   
     if (existing) {
       setCart((prev) =>
         prev.map((p) =>
-          p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p
+          p.ID === item.ID ? { ...p, quantity: p.quantity + 1 } : p
         )
       );
       toast.success("Increased Quantity of Item");
@@ -43,15 +43,15 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
   
   const removeFromCart = (id: number) => {
-    const item = cart.find((i) => i.id === id);
+    const item = cart.find((i) => i.ID === id);
     if (item) toast.info("Item Removed from Cart");
-    setCart((prev) => prev.filter((i) => i.id !== id));
+    setCart((prev) => prev.filter((i) => i.ID !== id));
   };
 
   const increment = (id: number) => {
     setCart((prev) =>
       prev.map((item) =>
-        item.id === id
+        item.ID === id
           ? { ...item, quantityInCart: item.quantity + 1 }
           : item
       )
@@ -62,7 +62,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const decrement = (id: number) => {
     setCart((prev) =>
       prev.map((item) =>
-        item.id === id
+        item.ID === id
           ? { ...item, quantityInCart: Math.max(1, item.quantity - 1) }
           : item
       )

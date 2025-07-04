@@ -35,7 +35,7 @@ export const UserProvider = ({ children }: Props) => {
       } catch {
         // session might be expired or not logged in
         setUser(null);
-        router.push("/login")
+        router.push("/");
       } finally {
         setIsReady(true);
       }
