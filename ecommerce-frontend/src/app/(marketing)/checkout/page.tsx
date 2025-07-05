@@ -46,7 +46,7 @@ export default function CheckOut() {
       phone: shippingInfo.phone,
       total: calculateTotal(),
       items: cart.map((item) => ({
-        product_id: item.id,
+        product_id: item.ID,
         product_name: item.name,
         quantity: item.quantity,
         price: item.price,
@@ -110,7 +110,7 @@ export default function CheckOut() {
             <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
             <ul className="divide-y">
               {cart.map((item) => (
-                <li key={item.id} className="py-2 flex justify-between">
+                <li key={item.ID} className="py-2 flex justify-between">
                   <span>{item.name}</span>
                   <span>
                     Kshs. {(item.price * item.quantity).toLocaleString()}
