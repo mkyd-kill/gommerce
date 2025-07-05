@@ -9,7 +9,7 @@ import { CreateProduct } from "@/services/productAPI";
 export default function NewProductPage() {
   const router = useRouter();
   const [form, setForm] = useState({
-    id: 0,
+    ID: 0,
     name: "",
     description: "",
     price: 0,

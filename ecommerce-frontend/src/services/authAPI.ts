@@ -1,6 +1,5 @@
 import api from "@/lib/axios";
 import { AuthResponse, UserProfile } from "@/types/user";
-import { handleError } from "@/helpers/ErrorHandler";
 
 export const loginAPI = async (email: string, password: string) => {
   try {
@@ -9,8 +8,8 @@ export const loginAPI = async (email: string, password: string) => {
       password,
     });
     return res;
-  } catch (error) {
-    handleError(error);
+  } catch {
+    throw new Error("Failed to login");
   }
 };
 
@@ -26,8 +25,8 @@ export const registerAPI = async (
       password,
     });
     return res;
-  } catch (error) {
-    handleError(error);
+  } catch {
+    throw new Error("Failed to register");
   }
 };
 
