@@ -3,6 +3,7 @@ import Image from "next/image";
 import avatar from "../../assets/default-avatar.jpg";
 import { ChevronFirst, ChevronLast } from "lucide-react";
 import { useState, createContext, ReactNode } from "react";
+import { useAuth } from "@/context/useAuth";
 
 interface SidebarContextType {
   expanded: boolean;
@@ -12,6 +13,7 @@ export const SidebarContext = createContext<SidebarContextType>({ expanded: true
 
 export default function Sidebar({ children }: { children: ReactNode }) {
   const [expanded, setExpanded] = useState(true);
+  const { user } = useAuth();
 
   return (
     <aside className="h-screen">
@@ -52,8 +54,8 @@ export default function Sidebar({ children }: { children: ReactNode }) {
           {expanded && (
             <div className="flex justify-between items-center w-full ml-3">
               <div className="leading-4">
-                <h4 className="font-semibold">John Doe</h4>
-                <span className="text-xs text-gray-600">admin@example.com</span>
+                <h4 className="font-semibold">{user?.username}</h4>
+                <span className="text-xs text-gray-600">{user?.email}</span>
               </div>
             </div>
           )}

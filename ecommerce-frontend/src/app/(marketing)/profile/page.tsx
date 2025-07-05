@@ -8,12 +8,14 @@ import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { UpdateUserProfile } from "@/services/authAPI";
 import { useAuth } from "@/context/useAuth";
+import { UserProfile } from "@/types/user";
 
 export default function Profile() {
+  const [userData, setUserData] = useState<UserProfile | null>(null);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [phone_number, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [icon, setIcon] = useState(eyeOff);
   const [type, setType] = useState("password");
   const [loading, setLoading] = useState(false);
@@ -23,9 +25,10 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
+        setUserData(user);
         setFirstname(user?.firstname || "");
         setLastname(user?.lastname || "");
-        setPhoneNumber(user?.phone_number || "");
+        setPhoneNumber(user?.phoneNumber || "");
         setNewPassword(user?.newPassword || "");
         setCards(user?.cards || []);
       } catch {
@@ -45,7 +48,7 @@ export default function Profile() {
     setLoading(true);
 
     try {
-      await UpdateUserProfile({firstname, lastname, phone_number, newPassword});
+      await UpdateUserProfile({firstname, lastname, phoneNumber, newPassword});
       toast.success("Profile updated successfully!");
     } catch {
       toast.error("An error occurred updating your profile.");
@@ -84,7 +87,7 @@ export default function Profile() {
                     className="w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black"
                     type="text"
                     placeholder="Enter your first name"
-                    value={firstname}
+                    value={userData?.firstname}
                     onChange={(e) => setFirstname(e.target.value)}
                     required
                   />
@@ -99,7 +102,7 @@ export default function Profile() {
                     className="w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black"
                     type="text"
                     placeholder="Enter your last name"
-                    value={lastname}
+                    value={userData?.lastname}
                     onChange={(e) => setLastname(e.target.value)}
                     required
                   />
@@ -114,7 +117,7 @@ export default function Profile() {
                     className="w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black"
                     type="tel"
                     placeholder="e.g. 0712345678"
-                    value={phone_number}
+                    value={userData?.phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     required
                   />
@@ -130,7 +133,7 @@ export default function Profile() {
                       className="w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black pr-10"
                       type={type}
                       placeholder="new password if any"
-                      value={newPassword}
+                      value={userData?.newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       autoComplete="new-password"
                     />

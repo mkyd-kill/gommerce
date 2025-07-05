@@ -30,7 +30,6 @@ export const UserProvider = ({ children }: Props) => {
         const res = await api.get("/user/profile");
         if (res) {
           setUser(res.data);
-          router.push("/profile");
         }
       } catch {
         // session might be expired or not logged in

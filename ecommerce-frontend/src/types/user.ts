@@ -6,12 +6,12 @@ export interface AuthResponse {
 }
 
 export interface UserProfile {
-    user_id: string;
+    ID: number;
     username: string;
     email: string;
     firstname: string;
     lastname: string;
-    phone_number: string;
+    phoneNumber: string;
     newPassword: string;
     cards: [];
 }
