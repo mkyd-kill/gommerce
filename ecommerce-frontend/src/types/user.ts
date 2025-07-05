@@ -1,10 +1,3 @@
-export interface AuthResponse {
-    token: string;
-    user_id: string;
-    username: string;
-    email: string;
-}
-
 export interface UserProfile {
     ID: number;
     username: string;

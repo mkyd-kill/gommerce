@@ -1,9 +1,9 @@
 import api from "@/lib/axios";
-import { AuthResponse, UserProfile } from "@/types/user";
+import { UserProfile } from "@/types/user";
 
 export const loginAPI = async (email: string, password: string) => {
   try {
-    const res = await api.post<AuthResponse>("/user/login", {
+    const res = await api.post("/user/login", {
       email,
       password,
     });
