@@ -15,7 +15,7 @@ export default function NewProductPage() {
     price: 0,
     category: "",
     image: "",
-    featured: false, // boolean value
+    featured: false,
     stock: 0,
     quantity: 0,
     rating: 0

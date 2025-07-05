@@ -8,10 +8,8 @@ import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { UpdateUserProfile } from "@/services/authAPI";
 import { useAuth } from "@/context/useAuth";
-import { UserProfile } from "@/types/user";
 
 export default function Profile() {
-  const [userData, setUserData] = useState<UserProfile | null>(null);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -25,7 +23,6 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        setUserData(user);
         setFirstname(user?.firstname || "");
         setLastname(user?.lastname || "");
         setPhoneNumber(user?.phoneNumber || "");
@@ -87,7 +84,7 @@ export default function Profile() {
                     className="w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black"
                     type="text"
                     placeholder="Enter your first name"
-                    value={userData?.firstname}
+                    value={firstname}
                     onChange={(e) => setFirstname(e.target.value)}
                     required
                   />
@@ -102,7 +99,7 @@ export default function Profile() {
                     className="w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black"
                     type="text"
                     placeholder="Enter your last name"
-                    value={userData?.lastname}
+                    value={lastname}
                     onChange={(e) => setLastname(e.target.value)}
                     required
                   />
@@ -117,7 +114,7 @@ export default function Profile() {
                     className="w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black"
                     type="tel"
                     placeholder="e.g. 0712345678"
-                    value={userData?.phoneNumber}
+                    value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     required
                   />
@@ -133,7 +130,7 @@ export default function Profile() {
                       className="w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black pr-10"
                       type={type}
                       placeholder="new password if any"
-                      value={userData?.newPassword}
+                      value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       autoComplete="new-password"
                     />
