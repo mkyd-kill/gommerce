@@ -4,6 +4,7 @@ import Footer from "@/components/footer/Footer";
 import { FetchAllProducts } from "@/services/productAPI";
 import banner from "../../assets/defaults/banner.svg";
 import { Deals } from "@/components/homepage/Deals";
+import feature from "../../assets/Clipboard.svg";
 
 export default async function Home() {
   const products = await FetchAllProducts();
@@ -39,7 +40,11 @@ export default async function Home() {
           />
         </div>
       </section>
-      <section className="py-2">
+      <section className="py-3 my-2">
+        <div className="px-2 flex">
+          <Image alt="Feature Products" src={feature} />
+          <p className="text-xl font-semibold text-black">Featured Products</p>
+        </div>
         <Deals products={products} />
       </section>
       <Footer />
