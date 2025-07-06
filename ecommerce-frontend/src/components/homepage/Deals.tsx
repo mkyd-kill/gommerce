@@ -3,6 +3,7 @@ import { ProductModel } from "@/types/product";
 import Image from "next/image";
 import SelectedState from "../../assets/State=Selected.svg";
 import DefaultState from "../../assets/State=Default.svg";
+import placeholder from "../../assets/defaults/placeholder.svg";
 import { useWishlist } from "@/context/WishlistContext";
 import { useCart } from "@/context/CartContext";
 
@@ -41,7 +42,7 @@ export const Deals = ({ products }: Props) => {
                     />
                   )}
                   <Image
-                    src={product.image}
+                    src={product.image || placeholder}
                     alt="Product"
                     width={288}
                     height={256}

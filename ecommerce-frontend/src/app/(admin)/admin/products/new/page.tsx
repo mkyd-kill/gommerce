@@ -1,19 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// /app/admin/products/new/page.tsx
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { CreateProduct } from "@/services/productAPI";
+import { CreateProductModel } from "@/types/product";
 
 export default function NewProductPage() {
   const router = useRouter();
-  const [form, setForm] = useState({
-    ID: 0,
+  const [form, setForm] = useState<CreateProductModel>({
     name: "",
     description: "",
     price: 0,
-    category: "",
     image: "",
     featured: false,
     stock: 0,
@@ -28,6 +26,7 @@ export default function NewProductPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      console.log("Product", form)
       const res = await CreateProduct(form)
       if (!res) throw new Error();
       toast.success("Product created!");
@@ -44,7 +43,6 @@ export default function NewProductPage() {
         <Input name="name" label="Name" value={form.name} onChange={handleChange} />
         <TextArea name="description" label="Description" value={form.description} onChange={handleChange} />
         <Input name="price" label="Price" type="number" value={form.price} onChange={handleChange} />
-        <Input name="category" label="Category" value={form.category} onChange={handleChange} />
         <Input name="image" label="Image" type="file" value={form.image} onChange={handleChange} />
         <Input name="featured" label="Featured" value={form.featured} onChange={handleChange} />
         <Input name="stock" label="Stock" type="number" value={form.stock} onChange={handleChange} />

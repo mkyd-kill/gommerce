@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import { ProductModel } from "@/types/product";
+import { CreateProductModel, ProductModel } from "@/types/product";
 
 export const FetchAllProducts = async (): Promise<ProductModel[]> => {
     const res = await api.get("/products/");
@@ -20,7 +20,9 @@ export const UpdateProductById = async (id: number): Promise<Partial<ProductMode
     return res.data;
 }
 
-export const CreateProduct = async (product: ProductModel): Promise<ProductModel> => {
-    const res = await api.post("/products/create", product);
+export const CreateProduct = async (product: CreateProductModel): Promise<CreateProductModel> => {
+    const res = await api.post("/products/create", product, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
     return res.data;
 }

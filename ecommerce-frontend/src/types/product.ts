@@ -3,7 +3,17 @@ export interface ProductModel {
   name: string;
   description: string;
   price: number;
-  category: string;
+  image: string;
+  featured: boolean;
+  stock: number;
+  quantity: number;
+  rating: number;
+};
+
+export interface CreateProductModel {
+  name: string;
+  description: string;
+  price: number;
   image: string;
   featured: boolean;
   stock: number;
