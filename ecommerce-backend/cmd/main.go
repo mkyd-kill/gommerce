@@ -19,6 +19,9 @@ func main() {
 	// router setup
 	r := gin.Default()
 
+	// serving static files
+	r.Static("/static", "./uploads")
+
 	// cors middleware
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: 		[]string{config.GetEnv("NEXT_API_URL")},
