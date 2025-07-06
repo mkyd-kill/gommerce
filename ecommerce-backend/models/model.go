@@ -26,7 +26,6 @@ type Product struct {
 	Name        string  `json:"name" validate:"required"`
 	Description string  `json:"description"`
 	Price       float64 `json:"price" validate:"gte=0"`
-	Category    string  `json:"category"`
 	Image       string  `json:"image"`
 	Featured    bool    `json:"featured"`
 	Stock       int     `json:"stock" validate:"gte=0"`
