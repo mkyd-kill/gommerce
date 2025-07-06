@@ -158,10 +158,7 @@ export default function Profile() {
           {/* Card Details Section (Placeholder) */}
           <div className="bg-white p-4 rounded">
             <h3 className="text-lg font-semibold mb-4">Card Details</h3>
-            <p className="text-sm text-gray-500">
-              Card information will be shown here if available.
-            </p>
-            {/* Future Enhancement: Map saved payment methods here */}
+
             <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
               {cards.length > 0 ? (
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -33,7 +33,7 @@ const Navbar = () => {
           <span className="text-lg md:text-2xl font-bold text-[#a91f64]">
             Gommerce
           </span>
-          <span className="text-sm text-gray-500 tracking-widest self-center">
+          <span className="hidden md:flex text-sm text-gray-500 tracking-widest self-center">
             Online Store
           </span>
         </div>
@@ -52,10 +52,10 @@ const Navbar = () => {
         </li>
       </ul>
 
-      <div className="flex items-center gap-3 text-gray-600 text-xl">
-        <div className="flex gap-4">
+      <div className="flex items-center gap-2 text-gray-700 text-xl">
+        <div className="flex gap-3 md:gap-4">
           <Link href="/wishlist" className="relative">
-            <Heart className="hover:text-[#a01f64] h-6 w-6" />
+            <Heart size={20} className="hover:text-[#a01f64]" />
             {wishlistCount > 0 && (
               <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                 {wishlistCount}
@@ -63,7 +63,7 @@ const Navbar = () => {
             )}
           </Link>
           <Link href="/cart" className="relative">
-            <ShoppingCart className="hover:text-[#a01f64] h-6 w-6" />
+            <ShoppingCart size={20} className="hover:text-[#a01f64]" />
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                 {cartCount}
@@ -74,21 +74,21 @@ const Navbar = () => {
           {isLoggedIn() && (
             <>
               <Link href="/checkout">
-                <ShoppingBag className="hover:text-[#a01f64]" />
+                <ShoppingBag size={20} className="hover:text-[#a01f64]" />
               </Link>
             </>
           )}
         </div>
 
-        <div className="flex flex-row md:flex-row md:items-center gap-1.5 md:space-x-3 space-y-2 md:space-y-0">
+        <div className="flex flex-row md:flex-row md:items-center gap-1.5 md:space-x-2 space-y-2 md:space-y-0">
           {isLoggedIn() ? (
             <>
               <Link href="/profile">
                 <Image
                   src={avatar}
                   alt="user-avatar"
-                  width={30}
-                  height={30}
+                  width={20}
+                  height={20}
                   className="rounded-full w-auto h-auto"
                 />
               </Link>
@@ -96,7 +96,7 @@ const Navbar = () => {
                 onClick={logout}
                 className="hover:bg-red-500 px-2 py-1 rounded hover:opacity-75 cursor-pointer"
               >
-                <LogOut />
+                <LogOut size={20} />
               </button>
             </>
           ) : (
@@ -112,9 +112,9 @@ const Navbar = () => {
         <div className="md:hidden flex">
           <button onClick={toggleMenu}>
             {isMenuOpen ? (
-              <XIcon className="text-2xl hover:text-[#a01f64] cursor-pointer" />
+              <XIcon size={20} className="hover:text-[#a01f64] cursor-pointer" />
             ) : (
-              <Menu className="text-2xl hover:text-[#a01f64] cursor-pointer" />
+              <Menu size={20} className="hover:text-[#a01f64] cursor-pointer" />
             )}
           </button>
         </div>
