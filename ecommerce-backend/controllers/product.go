@@ -1,10 +1,14 @@
 package controllers
 
 import (
-	"net/http"
-	"github.com/gin-gonic/gin"
-	"ecommerce-backend/models"
 	"ecommerce-backend/database"
+	"ecommerce-backend/models"
+	"fmt"
+	"net/http"
+	"path/filepath"
+	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func GetProducts(c *gin.Context) {
@@ -31,13 +35,41 @@ func GetProduct(c *gin.Context) {
 }
 
 func CreateProduct(c *gin.Context) {
-	var product models.Product
-	if err := c.ShouldBindJSON(&product); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"BadRequest Error [Product]": err.Error()})
+	// getting the uploaded image
+	file, err := c.FormFile("image")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Image Required"})
 		return
 	}
-	database.DB.Create(&product)
-	c.JSON(http.StatusCreated, gin.H{"message": "Product Created"})
+
+	// image validation
+	ext := filepath.Ext(file.Filename)
+	filename := fmt.Sprintf("%d%s", time.Now().UnixNano(), ext)
+	savePath := filepath.Join("static", "uploads", filename)
+
+	// save image
+	if err := c.SaveUploadedFile(file, savePath); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save image"})
+		return
+	}
+
+	// generate image url
+	imageURL := "/static/" + savePath
+
+	var product models.Product
+
+	if err := c.ShouldBind(&product); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Product Data"})
+		return
+	}
+
+	product.Image = imageURL
+
+	if err := database.DB.Create(&product).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create product"})
+		return
+	}
+	c.JSON(http.StatusCreated, product)
 }
 
 func UpdateProduct(c *gin.Context) {
