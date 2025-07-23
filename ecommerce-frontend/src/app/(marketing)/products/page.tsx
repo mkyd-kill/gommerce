@@ -14,6 +14,9 @@ export default function ProductPage() {
     };
     getProducts();
   }, []);
+
+  console.log("Products:", products);
+  
   return (
     <div className="container">
       <div className="search-header"></div>

@@ -5,7 +5,6 @@ import { useCart } from "@/context/CartContext";
 import ProtectedRoute from "@/lib/ProtectedRoute";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { createOrderAPI } from "@/services/orderAPI";
 import { useAuth } from "@/context/useAuth";
 
 export default function CheckOut() {
@@ -25,7 +24,7 @@ export default function CheckOut() {
 
   const calculateTotal = () => {
     const subtotal = cart.reduce(
-      (sum, item) => sum + item.price * item.quantity,
+      (sum, item) => sum + item.Price * item.Quantity,
       0
     );
     const tax = subtotal * 0.14;
@@ -47,14 +46,13 @@ export default function CheckOut() {
       total: calculateTotal(),
       items: cart.map((item) => ({
         product_id: item.ID,
-        product_name: item.name,
-        quantity: item.quantity,
-        price: item.price,
+        product_name: item.Name,
+        quantity: item.Quantity,
+        price: item.Price,
       })),
     };
   
     try {
-      await createOrderAPI(order);
       toast.success("Order placed successfully!");
       clearCart();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -111,9 +109,9 @@ export default function CheckOut() {
             <ul className="divide-y">
               {cart.map((item) => (
                 <li key={item.ID} className="py-2 flex justify-between">
-                  <span>{item.name}</span>
+                  <span>{item.Name}</span>
                   <span>
-                    Kshs. {(item.price * item.quantity).toLocaleString()}
+                    Kshs. {(item.Price * item.Quantity).toLocaleString()}
                   </span>
                 </li>
               ))}
@@ -129,7 +127,7 @@ export default function CheckOut() {
                 Kshs.{" "}
                 {(
                   cart.reduce(
-                    (sum, item) => sum + item.price * item.quantity,
+                    (sum, item) => sum + item.Price * item.Quantity,
                     0
                   ) * 0.14
                 ).toLocaleString()}

@@ -30,22 +30,22 @@ export default function ProductDetailsPage() {
   return (
     <div className="p-4 max-w-5xl mx-auto">
       <div className="grid md:grid-cols-2 gap-6">
-        <Image src={product.image || placeholder} alt="Placeholder" width={400} height={400} />
+        <Image src={product.Image || placeholder} alt="Placeholder" width={400} height={400} />
 
         <div>
-          <h1 className="text-2xl font-bold">{product.name}</h1>
-          <p className="text-sm text-gray-600">{product.description}</p>
+          <h1 className="text-2xl font-bold">{product.Name}</h1>
+          <p className="text-sm text-gray-600">{product.Description}</p>
           <p className="text-xl text-[#66004b] font-bold my-2">
-            Kshs. {product.price.toLocaleString()}
+            Kshs. {product.Price.toLocaleString()}
           </p>
 
-          <p className="text-sm text-gray-600">Stock: {product.stock}</p>
+          <p className="text-sm text-gray-600">Stock: {product.Stock}</p>
           <div className="my-3">
             {[...Array(5)].map((_, i) => (
               <span
                 key={i}
                 className={
-                  i < product.rating ? "text-yellow-500" : "text-gray-300"
+                  i < product.Rating ? "text-yellow-500" : "text-gray-300"
                 }
               >
                 ★

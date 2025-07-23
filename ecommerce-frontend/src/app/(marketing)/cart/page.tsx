@@ -13,7 +13,7 @@ export default function CartPage() {
   const { cart, increment, decrement, removeFromCart } = useCart();
 
   const calculateSubtotal = () =>
-    cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    cart.reduce((sum, item) => sum + item.Price * item.Quantity, 0);
 
   const formatCurrency = (value: number) =>
     value.toLocaleString("en-KE", { minimumFractionDigits: 2 });
@@ -36,16 +36,16 @@ export default function CartPage() {
               <div key={key} className="flex items-center justify-between p-4 border rounded-md">
                 <div className="flex items-center gap-4">
                   <Image
-                    src={item.image || ""}
-                    alt={item.name}
+                    src={item.Image || ""}
+                    alt={item.Name}
                     width={80}
                     height={80}
                     className="object-contain rounded"
                   />
                   <div>
-                    <p className="font-semibold">{item.name}</p>
+                    <p className="font-semibold">{item.Name}</p>
                     <p className="text-sm text-gray-500">
-                      Kshs. {formatCurrency(item.price)} each
+                      Kshs. {formatCurrency(item.Price)} each
                     </p>
                   </div>
                 </div>
@@ -58,7 +58,7 @@ export default function CartPage() {
                       className="cursor-pointer"
                       onClick={() => decrement(item.ID)}
                     />
-                    <span className="px-3">{item.quantity}</span>
+                    <span className="px-3">{item.Quantity}</span>
                     <Image
                       src={plus}
                       alt="increment"
@@ -68,7 +68,7 @@ export default function CartPage() {
                     />
                   </div>
                   <p className="text-xl font-semibold">
-                    Kshs. {formatCurrency(item.price * item.quantity)}
+                    Kshs. {formatCurrency(item.Price * item.Quantity)}
                   </p>
                   <Image
                     src={deleteIcon}
