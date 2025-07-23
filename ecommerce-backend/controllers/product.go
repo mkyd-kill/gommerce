@@ -45,7 +45,7 @@ func CreateProduct(c *gin.Context) {
 	// image validation
 	ext := filepath.Ext(file.Filename)
 	filename := fmt.Sprintf("%d%s", time.Now().UnixNano(), ext)
-	savePath := filepath.Join("static", "uploads", filename)
+	savePath := filepath.Join("static", "", filename)
 
 	// save image
 	if err := c.SaveUploadedFile(file, savePath); err != nil {
@@ -54,7 +54,7 @@ func CreateProduct(c *gin.Context) {
 	}
 
 	// generate image url
-	imageURL := "/static/" + savePath
+	imageURL := "/static/"
 
 	var product models.Product
 

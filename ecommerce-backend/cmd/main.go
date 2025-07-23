@@ -17,13 +17,13 @@ func main() {
 	database.Connect()
 
 	// production mode
-	gin.SetMode(gin.ReleaseMode)
+	// gin.SetMode(gin.ReleaseMode)
 
 	// router setup
 	r := gin.Default()
 
 	// serving static files
-	r.Static("/static", "./uploads")
+	r.Static("/static", "./static")
 
 	// cors middleware
 	r.Use(cors.New(cors.Config{

@@ -23,13 +23,13 @@ type CreditCard struct {
 
 type Product struct {
 	gorm.Model
-	Name        string  `json:"name" validate:"required"`
-	Description string  `json:"description"`
-	Price       float64 `json:"price" validate:"gte=0"`
-	Image       string  `json:"image"`
-	Featured    bool    `json:"featured"`
-	Stock       int     `json:"stock" validate:"gte=0"`
-	Rating      int     `json:"rating" validate:"min=0,max=5"`
+	Name        string  `form:"name"`
+	Description string  `form:"description"`
+	Price       float64 `form:"price"`
+	Image       string
+	Featured    bool    `form:"featured"`
+	Stock       int     `form:"stock"`
+	Rating      int     `form:"rating"`
 }
 
 type Address struct {
