@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextRequest } from 'next/server';
 import { jwtDecode } from 'jwt-decode';
 
 export async function middleware(request: NextRequest) {
