@@ -51,19 +51,17 @@ export default function AdminProductsPage() {
               <th className="text-left px-4 py-2">Name</th>
               <th className="text-left px-4 py-2">Price</th>
               <th className="text-left px-4 py-2">Stock</th>
-              <th className="text-left px-4 py-2">Category</th>
               <th className="text-left px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {products.map((prod, key) => (
               <tr key={key} className="border-t">
-                <td className="px-4 py-2">{prod.name}</td>
+                <td className="px-4 py-2">{prod.Name}</td>
                 <td className="px-4 py-2">
-                  Kshs. {prod.price.toLocaleString()}
+                  Kshs. {prod.Price.toLocaleString()}
                 </td>
-                <td className="px-4 py-2">{prod.stock}</td>
-                <td className="px-4 py-2">{prod.category}</td>
+                <td className="px-4 py-2">{prod.Stock.toLocaleString()}</td>
                 <td className="px-4 py-2 space-x-2">
                   <Link
                     href={`/admin/products/edit/${prod.ID}`}
