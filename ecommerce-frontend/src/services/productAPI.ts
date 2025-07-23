@@ -21,8 +21,6 @@ export const UpdateProductById = async (id: number): Promise<Partial<ProductMode
 }
 
 export const CreateProduct = async (product: CreateProductModel): Promise<CreateProductModel> => {
-    const res = await api.post("/products/create", product, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+    const res = await api.post("/products/create", product);
     return res.data;
 }
