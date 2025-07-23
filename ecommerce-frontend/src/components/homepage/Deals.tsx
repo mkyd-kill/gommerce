@@ -42,7 +42,7 @@ export const Deals = ({ products }: Props) => {
                     />
                   )}
                   <Image
-                    src={product.image || placeholder}
+                    src={product.Image || placeholder}
                     alt="Product"
                     width={288}
                     height={256}
@@ -61,7 +61,7 @@ export const Deals = ({ products }: Props) => {
                         overflow: "hidden",
                       }}
                     >
-                      {product.name}
+                      {product.Name}
                     </p>
                   </div>
                   <div className="flex justify-center items-start flex-grow-0 flex-shrink-0 relative">
@@ -69,7 +69,7 @@ export const Deals = ({ products }: Props) => {
                       Kshs.
                     </p>
                     <p className="flex-grow-0 flex-shrink-0 text-xl font-semibold text-center text-[#870064]">
-                      {product.price.toLocaleString()}
+                      {product.Price.toLocaleString()}
                     </p>
                   </div>
                 </div>
