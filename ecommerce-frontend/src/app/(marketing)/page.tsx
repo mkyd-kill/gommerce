@@ -10,7 +10,7 @@ export default async function Home() {
   const products = await FetchAllProducts();
 
   return (
-    <div className="container">
+    <div>
       <section className="rounded-xl bg-gray-100 py-6 sm:py-12">
         <div className="mx-auto grid grid-cols-2 items-center justify-items-center gap-8 px-8 sm:px-16">
           <div className="max-w-md space-y-4">

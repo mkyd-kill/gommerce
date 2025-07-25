@@ -8,6 +8,7 @@ import plus from "../../../assets/plus.svg";
 import minus from "../../../assets/minus.svg";
 import clipboard from "../../../assets/Clipboard.svg";
 import { useCart } from "@/context/CartContext";
+import imageURL from "@/lib/imageRoute";
 
 export default function CartPage() {
   const { cart, increment, decrement, removeFromCart } = useCart();
@@ -36,8 +37,8 @@ export default function CartPage() {
               <div key={key} className="flex items-center justify-between p-4 border rounded-md">
                 <div className="flex items-center gap-4">
                   <Image
-                    src={item.Image || ""}
-                    alt={item.Name}
+                    src={`${imageURL}${item.Image}` || ""}
+                    alt="Product Item"
                     width={80}
                     height={80}
                     className="object-contain rounded"

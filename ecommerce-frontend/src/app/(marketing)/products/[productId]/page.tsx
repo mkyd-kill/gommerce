@@ -7,6 +7,7 @@ import { ProductModel } from "@/types/product";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import placeholder from "../../../../assets/hoodie.svg";
+import imageURL from "@/lib/imageRoute";
 
 export default function ProductDetailsPage() {
   const { productId } = useParams();
@@ -30,7 +31,14 @@ export default function ProductDetailsPage() {
   return (
     <div className="p-4 max-w-5xl mx-auto">
       <div className="grid md:grid-cols-2 gap-6">
-        <Image src={product.Image || placeholder} alt="Placeholder" width={400} height={400} />
+        <Image
+          src={`${imageURL}${product.Image}` || placeholder}
+          alt="Placeholder"
+          width={400}
+          height={400}
+          loading="lazy"
+          className="rounded object-cover"
+        />
 
         <div>
           <h1 className="text-2xl font-bold">{product.Name}</h1>
@@ -55,7 +63,9 @@ export default function ProductDetailsPage() {
 
           <button
             className="bg-[#66004b] text-white px-4 py-2 rounded hover:bg-[#55003f] cursor-pointer"
-            onClick={() => {addToCart(product)}}
+            onClick={() => {
+              addToCart(product);
+            }}
           >
             Add to Cart
           </button>

@@ -7,6 +7,7 @@ import DefaultState from "../../assets/State=Default.svg";
 import placeholder from "../../assets/defaults/placeholder.svg";
 import { useWishlist } from "@/context/WishlistContext";
 import { useCart } from "@/context/CartContext";
+import imageURL from "@/lib/imageRoute";
 
 interface Props {
   products: ProductModel[];
@@ -18,7 +19,7 @@ export const Deals = ({ products }: Props) => {
 
   return (
     <div className="my-2">
-      <div className="justify-center items-center grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 2xs:grid-cols-1 gap-3 my-2">
+      <div className="justify-center items-center grid 2xl:grid-cols-4 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 2xs:grid-cols-1 gap-3.5 my-2">
         {products.map((product, key) => (
           <div
             className="myComponent hover:bg-gradient-to-r from-[#F6CEEC] to-[#D939cd] p-[2px] hover:rounded-2xl border border-[#eaecf0] rounded-xl"
@@ -44,7 +45,7 @@ export const Deals = ({ products }: Props) => {
                   )}
                   <Link href={`products/${product.ID}`} target="_self" className="cursor-pointer">
                     <Image
-                      src={product.Image || placeholder}
+                      src={`${imageURL}${product.Image}` || placeholder}
                       alt="Product"
                       width={288}
                       height={256}

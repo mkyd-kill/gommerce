@@ -4,6 +4,7 @@ import Selected from "../../../assets/State=Selected.svg";
 import heart from "../../../assets/Heartwithribbon.svg";
 import Image from "next/image";
 import Link from "next/link";
+import imageURL from "@/lib/imageRoute";
 
 export default function WishList() {
   const { wishlist, removeFromWishlist } = useWishlist();
@@ -18,7 +19,7 @@ export default function WishList() {
       {wishlist.length === 0 ? (
         <p className="text-gray-500 text-center">Your wishlist is empty</p>
       ) : (
-        <div className="justify-center items-center grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-4 xl:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 my-2">
+        <div className="justify-center items-center grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-4 xl:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 my-2">
           {wishlist.map((product, key) => (
             <div
               className="myComponent hover:bg-gradient-to-r from-[#F6CEEC] to-[#D939cd] p-[2px] hover:rounded-2xl border border-[#eaecf0] rounded-xl"
@@ -34,7 +35,7 @@ export default function WishList() {
                       onClick={() => removeFromWishlist(product.ID)}
                     />
                     <Image
-                      src={product.Image || ""}
+                      src={`${imageURL}${product.Image}` || ""}
                       alt="Product"
                       width={288}
                       height={256}
@@ -69,7 +70,7 @@ export default function WishList() {
                     href={`/products/${product.ID}`}
                     className="myBtn flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2 px-3.5 py-2 rounded-lg bg-[#66004b] border border-[#66004b] rounded-full cursor-pointer hover:opacity-80"
                   >
-                    <button>
+                    <button className="cursor-pointer">
                       <p className="flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-white">
                         View Product
                       </p>

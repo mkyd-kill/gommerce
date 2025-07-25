@@ -53,9 +53,6 @@ func CreateProduct(c *gin.Context) {
 		return
 	}
 
-	// generate image url
-	imageURL := "/static/"
-
 	var product models.Product
 
 	if err := c.ShouldBind(&product); err != nil {
@@ -63,13 +60,13 @@ func CreateProduct(c *gin.Context) {
 		return
 	}
 
-	product.Image = imageURL
+	product.Image = "/" + savePath
 
 	if err := database.DB.Create(&product).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create product"})
 		return
 	}
-	c.JSON(http.StatusCreated, product)
+	c.JSON(http.StatusCreated, gin.H{"message": "Product Created"})
 }
 
 func UpdateProduct(c *gin.Context) {
