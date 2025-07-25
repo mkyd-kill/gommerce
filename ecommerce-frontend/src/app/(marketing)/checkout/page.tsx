@@ -38,6 +38,7 @@ export default function CheckOut() {
       return;
     }
   
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const order = {
       user_email: user?.email,
       full_name: shippingInfo.name,
