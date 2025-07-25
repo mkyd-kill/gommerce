@@ -48,6 +48,7 @@ export default function AdminLayout({
                 icon={<Link size={20} />}
                 text="Main Site"
                 href="/"
+                target="_blank"
               />
               <SidebarItem icon={<Settings size={20} />} text="Settings" />
               <SidebarItem icon={<LifeBuoy size={20} />} text="Help" />

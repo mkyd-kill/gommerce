@@ -54,7 +54,7 @@ export default function ProductDetailsPage() {
           </div>
 
           <button
-            className="bg-[#66004b] text-white px-4 py-2 rounded hover:bg-[#55003f]"
+            className="bg-[#66004b] text-white px-4 py-2 rounded hover:bg-[#55003f] cursor-pointer"
             onClick={() => {addToCart(product)}}
           >
             Add to Cart

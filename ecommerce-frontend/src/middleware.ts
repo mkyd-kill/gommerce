@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
       const decode = jwtDecode(authToken);
 
       // Check if the user has the 'admin' role
-      if (decode.user_role !== 'ADMIN') {
+      if (decode.sub !== 'ADMIN') {
         return NextResponse.redirect(new URL('/', request.url));
       }
 

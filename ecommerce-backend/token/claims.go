@@ -27,7 +27,7 @@ func NewUserClaims(id uint, email string, userRole string, duration time.Duratio
 		UserRole: userRole,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ID: tokenID.String(),
-			Subject: email,
+			Subject: userRole,
 			IssuedAt: jwt.NewNumericDate(time.Now()),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(duration)),
 		},

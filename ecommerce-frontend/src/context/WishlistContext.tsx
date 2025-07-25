@@ -31,7 +31,7 @@ export const WishlistProvider = ({ children }: { children: React.ReactNode }) =>
       toast.info("Item already in wishlist");
       return;
     }
-    setWishlist([...wishlist, { ...item, quantity: 1 }]);
+    setWishlist([...wishlist, { ...item, Quantity: 1 }]);
     toast.success("Added to wishlist");
   };
 

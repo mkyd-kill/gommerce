@@ -32,12 +32,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     if (existing) {
       setCart((prev) =>
         prev.map((p) =>
-          p.ID === item.ID ? { ...p, quantity: p.quantity + 1 } : p
+          p.ID === item.ID ? { ...p, Quantity: p.Quantity + 1 } : p
         )
       );
       toast.success("Increased Quantity of Item");
     } else {
-      setCart((prev) => [...prev, { ...item, quantity: 1 }]);
+      setCart((prev) => [...prev, { ...item, Quantity: 1 }]);
       toast.success("Item Added to Cart");
     }
   };
@@ -52,7 +52,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setCart((prev) =>
       prev.map((item) =>
         item.ID === id
-          ? { ...item, quantityInCart: item.quantity + 1 }
+          ? { ...item, Quantity: item.Quantity + 1 }
           : item
       )
     );
@@ -63,7 +63,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setCart((prev) =>
       prev.map((item) =>
         item.ID === id
-          ? { ...item, quantityInCart: Math.max(1, item.quantity - 1) }
+          ? { ...item, Quantity: Math.max(1, item.Quantity - 1) }
           : item
       )
     );

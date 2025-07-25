@@ -8,6 +8,7 @@ interface SidebarItemProps {
   active?: boolean;
   alert?: boolean;
   href?: string;
+  target?: string; // _self, _black, _parent, _top
 }
 
 export function SidebarItem({
@@ -16,11 +17,12 @@ export function SidebarItem({
   active,
   alert,
   href = "#",
+  target = ""
 }: SidebarItemProps) {
   const { expanded } = useContext(SidebarContext);
 
   return (
-    <Link href={href}>
+    <Link href={href} target={target}>
       <li
         className={`
           relative flex items-center py-2 px-3 font-medium rounded-md cursor-pointer

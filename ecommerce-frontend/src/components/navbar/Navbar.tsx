@@ -22,9 +22,9 @@ const Navbar = () => {
   const { cart } = useCart();
   const { wishlist } = useWishlist();
 
-  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const cartCount = cart.reduce((acc, item) => acc + item.Quantity, 0);
 
-  const wishlistCount = wishlist.reduce((sum, item) => sum + item.quantity, 0);
+  const wishlistCount = wishlist.reduce((sum, item) => sum + item.Quantity, 0);
 
   return (
     <nav className="sticky top-0 z-50 bg-slate-50 px-4 py-2 flex items-center justify-between">
