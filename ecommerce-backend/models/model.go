@@ -27,7 +27,6 @@ type Product struct {
 	Description string  `form:"description"`
 	Price       float64 `form:"price"`
 	Image       string
-	Featured    bool    `form:"featured"`
 	Stock       int     `form:"stock"`
 	Rating      int     `form:"rating"`
 }
