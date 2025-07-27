@@ -19,35 +19,49 @@ export default function ProductPage() {
     getProducts();
   }, []);
 
-  const handleProductSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-  }
+  // live search for product filtering
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setQueryProducts([]);
+      return;
+    }
+
+    const filtered = products.filter((product) =>
+      product.Name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setQueryProducts(filtered);
+  }, [searchQuery, products]);
 
   return (
-    <div className="container">
-      <div className="max-w-xl mx-auto mt-3 shadow bg-white rounded-xl">
-        <form onSubmit={handleProductSearch} method="get">
+    <div className="container mx-auto px-4 py-6">
+      <div className="max-w-2xl mx-auto mb-3">
+        <form onSubmit={(e) => e.preventDefault()}>
           <div className="relative">
             <input
-              className="w-full border border-[#d0d5dd] rounded-md py-2.5 px-3 text-black pr-10"
+              className="w-full border border-[#d0d5dd] rounded-md py-3 px-4 text-black pr-10 focus:outline-none focus:ring-2 focus:ring-[#66004b]"
               type="text"
-              placeholder="product search..."
+              placeholder="Search products..."
+              value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <span className="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer mr-3">
-              <Image src={search} alt="product search" />
+            <span className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500">
+              <Image src={search} alt="Search" width={20} height={20} />
             </span>
           </div>
         </form>
       </div>
 
-      {queryProducts.length > 0 ? (
-        <h3>Products Found</h3>
-      ) : (
-        <section className="py-2">
-          <Deals products={products} />
-        </section>
-      )}
+      <div>
+        {searchQuery && queryProducts.length === 0 ? (
+          <p className="text-center text-gray-500">No products found.</p>
+        ) : (
+          <section className="py-2">
+            <Deals
+              products={queryProducts.length > 0 ? queryProducts : products}
+            />
+          </section>
+        )}
+      </div>
     </div>
   );
 }
