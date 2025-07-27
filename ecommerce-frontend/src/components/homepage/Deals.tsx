@@ -19,7 +19,7 @@ export const Deals = ({ products }: Props) => {
 
   return (
     <div className="my-2">
-      <div className="justify-center items-center grid 2xl:grid-cols-4 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 2xs:grid-cols-1 gap-3.5 my-2">
+      <div className="justify-center items-center grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 2xs:grid-cols-1 gap-3.5 my-2">
         {products.map((product, key) => (
           <div
             className="myComponent hover:bg-gradient-to-r from-[#F6CEEC] to-[#D939cd] p-[2px] hover:rounded-2xl border border-[#eaecf0] rounded-xl"
@@ -51,6 +51,7 @@ export const Deals = ({ products }: Props) => {
                       height={256}
                       loading="lazy"
                       className="rounded-tl-md w-full h-72 rounded-tr-md sm:h-60 object-cover"
+                      unoptimized
                     />
                   </Link>
                 </div>

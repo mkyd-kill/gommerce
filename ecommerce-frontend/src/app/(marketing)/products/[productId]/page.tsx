@@ -38,6 +38,7 @@ export default function ProductDetailsPage() {
           height={400}
           loading="lazy"
           className="rounded object-cover"
+          unoptimized
         />
 
         <div>

@@ -42,6 +42,7 @@ export default function CartPage() {
                     width={80}
                     height={80}
                     className="object-contain rounded"
+                    unoptimized
                   />
                   <div>
                     <p className="font-semibold">{item.Name}</p>

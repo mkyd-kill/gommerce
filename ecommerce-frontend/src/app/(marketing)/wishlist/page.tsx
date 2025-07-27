@@ -40,6 +40,7 @@ export default function WishList() {
                       width={288}
                       height={256}
                       className="rounded-tl-md w-full h-72 rounded-tr-md sm:h-60 object-cover"
+                      unoptimized
                     />
                   </div>
                 </div>

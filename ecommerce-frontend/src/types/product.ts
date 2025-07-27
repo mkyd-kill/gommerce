@@ -4,7 +4,6 @@ export interface ProductModel {
   Description: string;
   Price: number;
   Image: string;
-  Featured: boolean;
   Stock: number;
   Rating: number;
   Quantity: number;

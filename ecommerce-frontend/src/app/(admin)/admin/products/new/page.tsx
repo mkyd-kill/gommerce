@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Input, TextArea } from "@/components/resuables/form-inputs";
 
 export default function AddProductPage() {
   const router = useRouter();
@@ -14,8 +15,6 @@ export default function AddProductPage() {
     price: "",
     stock: "",
     rating: "",
-    quantity: "",
-    featured: false,
   });
 
   const [image, setImage] = useState<File | null>(null);
@@ -23,15 +22,9 @@ export default function AddProductPage() {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,12 +61,10 @@ export default function AddProductPage() {
         price: "",
         stock: "",
         rating: "",
-        quantity: "",
-        featured: false,
       });
       setImage(null);
       setPreview(null);
-      router.push("/products");
+      router.push("/admin/products");
       toast.success("Product added successfully!");
     } catch (err: any) {
       toast.error(err.response?.data?.error || "Upload failed");
@@ -83,77 +74,50 @@ export default function AddProductPage() {
   };
 
   return (
-    <div className="bg-white p-4 rounded">
-      <h3 className="text-lg font-semibold mb-4">Add New Product</h3>
+    <div className="max-w-5xl mx-auto mt-3 shadow bg-white p-4 rounded">
+      <h3 className="text-lg font-semibold mb-2">Add New Product</h3>
 
       <form onSubmit={handleSubmit} className="flex flex-col">
         <div className="flex flex-col gap-2">
-          <div>
-            <label className="text-xs font-medium text-[#344054]">
-              Product Name
-            </label>
-            <input
-              className="w-full border border-[#d0d5dd] rounded-md py-2 px-2.5 text-black"
-              type="text"
-              name="name"
-              placeholder="Product Name"
-              value={formData.name}
-              onChange={handleChange}
-            />
-          </div>
+          <Input
+            label="Product Name"
+            name="name"
+            type="text"
+            value={formData.name}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label className="text-xs font-medium text-[#344054]">
-              Product Price
-            </label>
-            <input
-              className="w-full border border-[#d0d5dd] rounded-md py-2 px-2.5 text-black"
-              type="number"
-              placeholder="Product Name"
-              value={formData.price}
-              onChange={handleChange}
-            />
-          </div>
+          <Input
+            label="Product Price"
+            name="price"
+            type="number"
+            value={formData.price}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label className="text-xs font-medium text-[#344054]">
-              Product Stock
-            </label>
-            <input
-              className="w-full border border-[#d0d5dd] rounded-md py-2 px-2.5 text-black"
-              type="number"
-              placeholder="Product Stock"
-              value={formData.stock}
-              onChange={handleChange}
-            />
-          </div>
+          <Input
+            label="Product Stock"
+            name="stock"
+            type="number"
+            value={formData.stock}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label className="text-xs font-medium text-[#344054]">
-              Product Rating
-            </label>
-            <input
-              className="w-full border border-[#d0d5dd] rounded-md py-2 px-2.5 text-black"
-              type="text"
-              placeholder="Product Rating (1–5)"
-              value={formData.rating}
-              onChange={handleChange}
-            />
-          </div>
+          <Input
+            label="Product Rating (1–5)"
+            name="rating"
+            type="number"
+            value={formData.rating}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label className="text-xs font-medium text-[#344054]">
-              Product Description
-            </label>
-            <textarea
-              name=""
-              className="w-full border border-[#d0d5dd] rounded-md py-2 px-2.5 text-black"
-              placeholder="Product Description"
-              value={formData.description}
-              onChange={handleChange}
-              rows={4}
-            />
-          </div>
+          <TextArea
+            label="Product Description"
+            name="description"
+            type="text"
+            value={formData.description}
+            onChange={handleChange}
+          />
 
           <div>
             <label className="text-xs font-medium text-[#344054]">
@@ -177,19 +141,6 @@ export default function AddProductPage() {
                 />
               </div>
             )}
-          </div>
-
-          <div>
-            <input
-              type="checkbox"
-              placeholder="Product Rating (1–5)"
-              value={formData.featured}
-              onChange={handleChange}
-              className="mr-1"
-            />
-            <label className="text-sm font-medium text-[#344054]">
-              Featured Product
-            </label>
           </div>
         </div>
 
