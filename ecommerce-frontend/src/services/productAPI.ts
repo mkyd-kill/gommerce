@@ -15,7 +15,6 @@ export const DeleteProductById = async (id: number) => {
     return await api.delete(`/products/delete/${id}`);
 }
 
-export const UpdateProductById = async (id: number): Promise<Partial<ProductModel>> => {
-    const res = await api.put(`/products/update/${id}`);
-    return res.data;
+export const UpdateProductById = async (id: string, data: Partial<ProductModel | null>) => {
+    await api.put(`/products/update/${id}`, data);
 }
