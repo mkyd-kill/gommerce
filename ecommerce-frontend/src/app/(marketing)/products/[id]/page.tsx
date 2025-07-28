@@ -10,21 +10,21 @@ import placeholder from "../../../../assets/hoodie.svg";
 import imageURL from "@/lib/imageRoute";
 
 export default function ProductDetailsPage() {
-  const { productId } = useParams();
+  const { id } = useParams();
   const [product, setProduct] = useState<ProductModel | null>(null);
   const { addToCart } = useCart();
 
   useEffect(() => {
     const loadProduct = async () => {
       try {
-        const data = await FetchProductById(productId as string);
+        const data = await FetchProductById(id as string);
         setProduct(data);
       } catch {
         toast.error("Product not found.");
       }
     };
     loadProduct();
-  }, [productId]);
+  }, [id]);
 
   if (!product) return <p className="p-4">Loading product...</p>;
 

@@ -1,24 +1,35 @@
 "use client";
 import { useEffect, useState } from "react";
 import { ProductModel } from "@/types/product";
-import { FetchAllProducts, DeleteProductById } from "@/services/productAPI";
+import { DeleteProductById } from "@/services/productAPI";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { Plus } from "lucide-react";
+import { productURL } from "@/lib/imageRoute";
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<ProductModel[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const loadProducts = async () => {
+    async function fetchProducts() {
       try {
-        const data = await FetchAllProducts();
+        const response = await fetch(productURL);
+        if (!response.ok) throw new Error("Failed to fetch products");
+        const data = await response.json();
         setProducts(data);
-      } catch {
-        toast.error("Failed to load products");
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occured");
+        }
+      } finally {
+        setLoading(false);
       }
-    };
-    loadProducts();
+    }
+    fetchProducts();
   }, []);
 
   const handleDelete = async (id: number) => {
@@ -31,6 +42,10 @@ export default function AdminProductsPage() {
       toast.error("Failed to delete");
     }
   };
+
+  if (loading) return <div>Loading...</div>
+
+  if (error) return <div>{error}</div>
 
   return (
     <div>

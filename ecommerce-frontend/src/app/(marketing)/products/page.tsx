@@ -1,22 +1,36 @@
 "use client";
-import { FetchAllProducts } from "@/services/productAPI";
 import { useEffect, useState } from "react";
 import { ProductModel } from "@/types/product";
 import { Deals } from "@/components/homepage/Deals";
 import Image from "next/image";
 import search from "../../../assets/search.svg";
+import { productURL } from "@/lib/imageRoute";
 
 export default function ProductPage() {
   const [products, setProducts] = useState<ProductModel[]>([]);
   const [queryProducts, setQueryProducts] = useState<ProductModel[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const getProducts = async () => {
-      const res = await FetchAllProducts();
-      setProducts(res);
-    };
-    getProducts();
+    async function fetchProducts() {
+      try {
+        const response = await fetch(productURL);
+        if (!response.ok) throw new Error("Failed to fetch products");
+        const data = await response.json();
+        setProducts(data);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occured");
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProducts();
   }, []);
 
   // live search for product filtering
@@ -31,6 +45,10 @@ export default function ProductPage() {
     );
     setQueryProducts(filtered);
   }, [searchQuery, products]);
+
+  if (loading) return <div>Loading...</div>;
+
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="container mx-auto px-4 py-6">

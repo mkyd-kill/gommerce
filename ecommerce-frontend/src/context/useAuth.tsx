@@ -39,7 +39,7 @@ export const UserProvider = ({ children }: Props) => {
       }
     };
     loadUserFromCookie();
-  }, [router]);
+  }, []);
 
   const registerUser = async (
     email: string,
@@ -67,7 +67,7 @@ export const UserProvider = ({ children }: Props) => {
         toast.error("Invalid credentials");
       }
     } catch {
-      toast.error("Login failed");
+      toast.error("Network Error");
     }
   };
 

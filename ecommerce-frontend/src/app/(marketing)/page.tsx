@@ -1,13 +1,42 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import Footer from "@/components/footer/Footer";
-import { FetchAllProducts } from "@/services/productAPI";
 import banner from "../../assets/defaults/banner.svg";
 import { Deals } from "@/components/homepage/Deals";
 import feature from "../../assets/Clipboard.svg";
+import { useState, useEffect } from "react";
+import { ProductModel } from "@/types/product";
+import { productURL } from "@/lib/imageRoute";
 
-export default async function Home() {
-  const products = await FetchAllProducts();
+export default function Home() {
+  const [products, setProducts] = useState<ProductModel[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await fetch(productURL);
+        if (!response.ok) throw new Error("Failed to fetch products");
+        const data = await response.json();
+        setProducts(data);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occured");
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProducts();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
+  if (error) return <div>{error}</div>;
 
   return (
     <div>
