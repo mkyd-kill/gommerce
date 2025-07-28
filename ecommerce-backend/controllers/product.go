@@ -78,13 +78,30 @@ func UpdateProduct(c *gin.Context) {
 		return
 	}
 
-	if err := c.ShouldBindJSON(&product); err != nil {
+	var input struct {
+		Name        string  `json:"name"`
+		Description string  `json:"description"`
+		Price       float64 `json:"price"`
+		Stock       int     `json:"stock"`
+		Rating      int     `json:"rating"`
+	}
+
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	database.DB.Save(&product)
-	c.JSON(http.StatusOK, product)
+	product.Name = input.Name
+	product.Description = input.Description
+	product.Price = input.Price
+	product.Stock = input.Stock
+	product.Rating = input.Rating
+
+	if err := database.DB.Save(&product).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update product"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{})
 }
 
 func DeleteProduct(c *gin.Context) {
