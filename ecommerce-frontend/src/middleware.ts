@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { jwtDecode } from 'jwt-decode';
@@ -9,7 +10,6 @@ export async function middleware(request: NextRequest) {
   // Protect all routes under /admin
   if (pathname.startsWith('/admin')) {
     if (!authToken) {
-      // User is not authenticated, redirect to login
       const loginUrl = new URL('/login', request.url);
       loginUrl.searchParams.set('next', pathname);
       return NextResponse.redirect(loginUrl);
@@ -24,9 +24,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/', request.url));
       }
 
-      // If the user is an authenticated admin, allow the request to proceed
       return NextResponse.next();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       // Token is invalid or expired, redirect to login
       const loginUrl = new URL('/login', request.url);

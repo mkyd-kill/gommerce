@@ -1,12 +1,53 @@
+import Image from "next/image";
+
 function Footer() {
   return (
-    <div
-      className="flex flex-col justify-center items-center self-stretch flex-grow-0 flex-shrink-0 px-1 pb-2 bg-white rounded-xl"
-    >
-      <span className="flex flex-grow text-[#475467] font-semibold text-xs text-center pt-2.5">
-        Developed by KodeK
-      </span>
-    </div>
+    <footer className="bg-white rounded-lg shadow-sm dark:bg-gray-900 m-4">
+      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+        <div className="sm:flex sm:items-center sm:justify-between">
+          <a
+            href="#"
+            className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
+          >
+            <Image
+              src="https://flowbite.com/docs/images/logo.svg"
+              className="h-8"
+              alt="Logo"
+              width={20}
+              height={8}
+            />
+            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+              Gommerce E-commerce
+            </span>
+          </a>
+          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+            <li>
+              <a href="#" className="hover:underline me-4 md:me-6">
+                About
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:underline me-4 md:me-6">
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:underline">
+                Contact
+              </a>
+            </li>
+          </ul>
+        </div>
+        <hr className="my-4 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-6" />
+        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+          © { new Date().getFullYear() }{" "}
+          <a href="#" className="hover:underline">
+            Gommerce E-commerce
+          </a>
+          . All Rights Reserved.
+        </span>
+      </div>
+    </footer>
   );
 }
 export default Footer;

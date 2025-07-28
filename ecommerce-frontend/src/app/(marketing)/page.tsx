@@ -40,7 +40,7 @@ export default async function Home() {
           />
         </div>
       </section>
-      <section className="py-3 my-2">
+      <section className="py-3">
         <div className="px-2 flex">
           <Image alt="Feature Products" src={feature} />
           <p className="text-xl font-semibold text-black">Featured Products</p>

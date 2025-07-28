@@ -34,11 +34,11 @@ export default function ProductPage() {
 
   return (
     <div className="container mx-auto px-4 py-6">
-      <div className="max-w-2xl mx-auto mb-3">
+      <div className="max-w-2xl mx-auto mb-2">
         <form onSubmit={(e) => e.preventDefault()}>
           <div className="relative">
             <input
-              className="w-full border border-[#d0d5dd] rounded-md py-3 px-4 text-black pr-10 focus:outline-none focus:ring-2 focus:ring-[#66004b]"
+              className="w-full border border-[#d0d5dd] rounded-2xl py-3 px-4 text-black pr-10 focus:outline-none focus:ring-2 focus:ring-[#66004b]"
               type="text"
               placeholder="Search products..."
               value={searchQuery}
@@ -53,7 +53,7 @@ export default function ProductPage() {
 
       <div>
         {searchQuery && queryProducts.length === 0 ? (
-          <p className="text-center text-gray-500">No products found.</p>
+          <p className="text-center text-gray-600">No products found.</p>
         ) : (
           <section className="py-2">
             <Deals

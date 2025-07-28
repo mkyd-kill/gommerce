@@ -25,7 +25,7 @@ export default function MarketingLayout({
           <CartProvider>
             <WishlistProvider>
               <Navbar />
-              <main className="m-2 p-2">
+              <main className="p-2">
                 <ToastContainer autoClose={2000} />
                 {children}
               </main>
