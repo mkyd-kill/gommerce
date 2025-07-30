@@ -25,20 +25,19 @@ export const UserProvider = ({ children }: Props) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const loadUserFromCookie = async () => {
+    async function loadUser () {
       try {
         const res = await api.get("/user/profile");
-        if (res) {
+        if (res.status === 200) {
           setUser(res.data);
         }
       } catch {
-        // session might be expired or not logged in
         setUser(null);
       } finally {
         setIsReady(true);
       }
     };
-    loadUserFromCookie();
+    loadUser();
   }, []);
 
   const registerUser = async (
