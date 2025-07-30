@@ -7,9 +7,11 @@ import (
 )
 
 func LoadEnv() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+	// Only load .env file if not in production
+	if os.Getenv("GO_ENV") != "production" {
+		if err := godotenv.Load(); err != nil {
+			log.Println("No .env file found (ok in production)")
+		}
 	}
 }
 
