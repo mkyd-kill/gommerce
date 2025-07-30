@@ -40,14 +40,14 @@ export default function Home() {
 
   return (
     <div>
-      <section className="rounded-xl bg-gray-100 py-6 sm:py-12">
+      <section className="rounded-xl bg-gray-100 py-3 sm:py-6">
         <div className="mx-auto grid grid-cols-2 items-center justify-items-center gap-8 px-8 sm:px-16">
           <div className="max-w-md space-y-4">
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Welcome to Gommerce Ecommerce
+              Welcome to Gommerce
             </h2>
             <p className="text-gray-600">
-              Discover the latest products at the best prices
+              Discover the latest products at the best prices and top rated quality goods
             </p>
             <button className="myBtn flex-grow-0 flex-shrink-0 text-sm font-medium text-center text-white">
               <Link
@@ -61,20 +61,22 @@ export default function Home() {
             </button>
           </div>
           <Image
-            className="rounded-xl object-cover"
+            className=" rounded-xl object-cover w-280"
             alt="Banner Image"
             src={banner}
             width={400}
-            height={600}
+            height={300}
+            loading="eager"
           />
         </div>
       </section>
+
       <section className="py-3">
         <div className="px-2 flex">
           <Image alt="Feature Products" src={feature} />
           <p className="text-xl font-semibold text-black">Featured Products</p>
         </div>
-        <Deals products={products} />
+        <Deals products={products.slice(0,4)} />
       </section>
       <Footer />
     </div>
