@@ -7,6 +7,7 @@ import (
 	"ecommerce-backend/routes"
 	"ecommerce-backend/config"
 	"ecommerce-backend/database"
+	"os"
 )
 
 func main() {
@@ -17,7 +18,7 @@ func main() {
 	database.Connect()
 
 	// production mode
-	// gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.ReleaseMode)
 
 	// router setup
 	r := gin.Default()
@@ -46,5 +47,9 @@ func main() {
 	routes.SetupRoutes(r)
 
 	// running server
-	r.Run(config.GetEnv("PORT"))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // fallback if not set
+	}
+	r.Run(":" + port)
 }
