@@ -46,5 +46,5 @@ func main() {
 	routes.SetupRoutes(r)
 
 	// running server
-	r.Run(":8080")
+	r.Run(config.GetEnv("PORT"))
 }
