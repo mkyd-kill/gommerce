@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Input, TextArea } from "@/components/resuables/form-inputs";
+import { productURL } from "@/lib/imageRoute";
 
 export default function AddProductPage() {
   const router = useRouter();
@@ -52,7 +53,7 @@ export default function AddProductPage() {
 
     setLoading(true);
     try {
-      await axios.post("http://localhost:8080/api/products/create", data, {
+      await axios.post(`${productURL}create`, data, {
         withCredentials: true,
       });
       setFormData({
