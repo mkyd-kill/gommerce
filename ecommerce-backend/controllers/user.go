@@ -72,7 +72,7 @@ func Login(c *gin.Context) {
 		Value:		accessToken,
 		Path:		"/",
 		HttpOnly: 	true,
-		SameSite:	http.SameSiteLaxMode,
+		SameSite:	http.SameSiteNoneMode,
 		Secure:		true,
 		Expires: 	time.Now().Add(time.Hour * 1),
 	})
@@ -86,7 +86,7 @@ func Logout(c *gin.Context) {
 		Value:		"",
 		Path:		"/",
 		HttpOnly: 	false,
-		SameSite:	http.SameSiteLaxMode,
+		SameSite:	http.SameSiteNoneMode,
 		Secure:		true,
 		Expires: 	time.Now(),
 	})
