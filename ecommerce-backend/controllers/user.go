@@ -71,7 +71,7 @@ func Login(c *gin.Context) {
 		Name:		"auth-token",
 		Value:		accessToken,
 		Path:		"/",
-		HttpOnly: 	false,
+		HttpOnly: 	true,
 		SameSite:	http.SameSiteLaxMode,
 		Secure:		true,
 		Expires: 	time.Now().Add(time.Hour * 1),
