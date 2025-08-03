@@ -35,7 +35,7 @@ func SetupRoutes(r *gin.Engine) {
 		// private routes
 		user.Use(authMaker)
 		user.GET("profile", controllers.GetUserProfile)
-		user.PATCH("update", controllers.UpdateProfile)
+		user.PATCH("user-update", controllers.UpdateProfile)
 		user.POST("logout", controllers.Logout)
 	}
 
