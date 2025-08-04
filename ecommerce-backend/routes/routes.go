@@ -35,17 +35,8 @@ func SetupRoutes(r *gin.Engine) {
 		// private routes
 		user.Use(authMaker)
 		user.GET("profile", controllers.GetUserProfile)
-		user.PATCH("user-update", controllers.UpdateProfile)
+		user.PATCH("update", controllers.UpdateProfile)
 		user.POST("logout", controllers.Logout)
-	}
-
-	// address routes
-	address := r.Group("/api/address")
-	{
-		address.GET("/", controllers.GetAddresses)
-		address.POST("create", controllers.CreateAddress)
-		address.PATCH("update/:address_id", controllers.UpdateAddress)
-		address.DELETE("delete/:address_id", controllers.DeleteAddress)
 	}
 
 	// admin routes

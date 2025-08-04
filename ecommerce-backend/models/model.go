@@ -11,7 +11,6 @@ type User struct {
 	Password    string    `json:"-" validate:"min=8"`
 	PhoneNumber string    `json:"phoneNumber"`
 	UserRole    string    `json:"user_role" validate:"oneof=ADMIN USER"`
-	Addresses   []Address `json:"addresses" gorm:"foreignKey:UserID;constraint:OnDelete:CASCADE"`
 	Cards       []CreditCard `json:"cards" gorm:"foreignKey:UserID"`
 }
 
@@ -29,14 +28,6 @@ type Product struct {
 	Image       string
 	Stock       int     `form:"stock"`
 	Rating      int     `form:"rating"`
-}
-
-type Address struct {
-	gorm.Model
-	UserID  uint   `json:"user_id"`
-	Street  string `json:"street"`
-	City    string `json:"city"`
-	Pincode string `json:"pincode"`
 }
 
 type Payment struct {

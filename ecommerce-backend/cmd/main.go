@@ -18,7 +18,7 @@ func main() {
 	database.Connect()
 
 	// production mode
-	gin.SetMode(gin.ReleaseMode)
+	// gin.SetMode(gin.ReleaseMode)
 
 	// router setup
 	r := gin.Default()

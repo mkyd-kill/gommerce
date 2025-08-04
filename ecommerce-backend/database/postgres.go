@@ -30,7 +30,6 @@ func Connect() {
 	DB.AutoMigrate(
 		&models.User{},
 		&models.Product{},
-		&models.Address{},
 		&models.Payment{},
 	)
 }
