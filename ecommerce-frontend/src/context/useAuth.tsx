@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import React from "react";
@@ -22,23 +22,6 @@ const UserContext = createContext<UserContextType>({} as UserContextType);
 export const UserProvider = ({ children }: Props) => {
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    async function loadUser () {
-      try {
-        const res = await api.get("/user/profile");
-        if (res.status === 200) {
-          setUser(res.data);
-        }
-      } catch {
-        setUser(null);
-      } finally {
-        setIsReady(true);
-      }
-    };
-    loadUser();
-  }, []);
 
   const registerUser = async (
     email: string,
@@ -93,7 +76,7 @@ export const UserProvider = ({ children }: Props) => {
         isLoggedIn,
       }}
     >
-      {isReady ? children : null}
+      { children }
     </UserContext.Provider>
   );
 };
