@@ -41,10 +41,10 @@ export const UserProvider = ({ children }: Props) => {
     try {
       const res = await loginAPI(email, password);
       if (res?.status === 200) {
-        const userRes = await api.get("/user/profile");
-        setUser(userRes.data);
         router.push("/profile");
         toast.success("Login Successful!");
+        const userRes = await api.get("/user/profile");
+        setUser(userRes.data);
       } else {
         toast.error("Invalid credentials");
       }
