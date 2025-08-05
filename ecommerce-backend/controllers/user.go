@@ -85,7 +85,7 @@ func Logout(c *gin.Context) {
 		Name:		"auth-token",
 		Value:		"",
 		Path:		"/",
-		HttpOnly: 	false,
+		HttpOnly: 	true,
 		SameSite:	http.SameSiteNoneMode,
 		Secure:		true,
 		Expires: 	time.Now(),
