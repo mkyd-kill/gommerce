@@ -60,11 +60,11 @@ export const UserProvider = ({ children }: Props) => {
   const loginUser = async (email: string, password: string) => {
     try {
       const res = await loginAPI(email, password);
-      if (res?.status === 200) {
-        router.push("/profile");
-        toast.success("Login Successful!");
+      if (res.status === 200) {
         const userRes = await api.get("/user/profile");
         setUser(userRes.data);
+        toast.success("Login Successful!");
+        router.push("/profile");
       } else {
         toast.error("Invalid credentials");
       }
