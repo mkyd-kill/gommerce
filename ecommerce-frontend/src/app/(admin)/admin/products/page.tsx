@@ -9,7 +9,6 @@ import { productURL } from "@/lib/imageRoute";
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<ProductModel[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -25,8 +24,6 @@ export default function AdminProductsPage() {
         } else {
           setError("An unknown error occured");
         }
-      } finally {
-        setLoading(false);
       }
     }
     fetchProducts();
@@ -43,9 +40,7 @@ export default function AdminProductsPage() {
     }
   };
 
-  if (loading) return <div>Loading...</div>
-
-  if (error) return <div>{error}</div>
+  if (error) return <div>{error}</div>;
 
   return (
     <div>

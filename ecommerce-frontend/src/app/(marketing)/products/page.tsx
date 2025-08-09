@@ -10,7 +10,6 @@ export default function ProductPage() {
   const [products, setProducts] = useState<ProductModel[]>([]);
   const [queryProducts, setQueryProducts] = useState<ProductModel[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -26,8 +25,6 @@ export default function ProductPage() {
         } else {
           setError("An unknown error occured");
         }
-      } finally {
-        setLoading(false);
       }
     }
     fetchProducts();
@@ -45,8 +42,6 @@ export default function ProductPage() {
     );
     setQueryProducts(filtered);
   }, [searchQuery, products]);
-
-  if (loading) return <div>Loading...</div>;
 
   if (error) return <div>{error}</div>;
 

@@ -11,7 +11,6 @@ import { productURL } from "@/lib/imageRoute";
 
 export default function Home() {
   const [products, setProducts] = useState<ProductModel[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -27,14 +26,10 @@ export default function Home() {
         } else {
           setError("An unknown error occured");
         }
-      } finally {
-        setLoading(false);
       }
     }
     fetchProducts();
   }, []);
-
-  if (loading) return <div>Loading...</div>;
 
   if (error) return <div>{error}</div>;
 
