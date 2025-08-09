@@ -1,13 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import React from "react";
 import { UserProfile } from "@/types/user";
 import { loginAPI, registerAPI } from "@/services/authAPI";
 import api from "@/lib/axios";
+import { jwtDecode } from "jwt-decode";
+import CookieStore from "@/lib/cookie-store";
 
-type UserContextType = {
+type UserContextType = { 
   user: UserProfile | null;
   registerUser: (email: string, username: string, password: string) => void;
   loginUser: (email: string, password: string) => void;
@@ -22,6 +25,23 @@ const UserContext = createContext<UserContextType>({} as UserContextType);
 export const UserProvider = ({ children }: Props) => {
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      // check for token-access cookie
+      const access: any = await CookieStore("auth-token");
+      const decode: any = jwtDecode(access);
+      const now = Math.floor(Date.now() / 1000);
+
+      if (decode.exp > now) {
+        const res = await api.get("/user/profile");
+        if (res.status === 200) {
+          setUser(res.data);
+        }
+      }
+    }
+    loadUser();
+  }, []);
 
   const registerUser = async (
     email: string,
@@ -76,7 +96,7 @@ export const UserProvider = ({ children }: Props) => {
         isLoggedIn,
       }}
     >
-      { children }
+      {children}
     </UserContext.Provider>
   );
 };
