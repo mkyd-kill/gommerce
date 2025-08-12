@@ -29,7 +29,7 @@ export const UserProvider = ({ children }: Props) => {
   useEffect(() => {
     const loadUser = async () => {
       // check for token-access cookie
-      const access: any = await CookieStore("auth-token");
+      const access = await CookieStore("auth-token");
       const decode: any = jwtDecode(access as string);
       const now = Math.floor(Date.now() / 1000);
 
