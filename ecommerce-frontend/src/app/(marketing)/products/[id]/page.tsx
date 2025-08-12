@@ -2,31 +2,36 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
-import { FetchProductById } from "@/services/product-api";
 import { ProductModel } from "@/types/product";
-import { toast } from "react-toastify";
 import Image from "next/image";
 import placeholder from "../../../../assets/hoodie.svg";
-import imageURL from "@/lib/image-route";
+import imageURL, { productURL } from "@/lib/image-route";
 
 export default function ProductDetailsPage() {
   const { id } = useParams();
-  const [product, setProduct] = useState<ProductModel | null>(null);
+  const [product, setProduct] = useState<ProductModel>();
+  const [error, setError] = useState("");
   const { addToCart } = useCart();
 
   useEffect(() => {
-    const loadProduct = async () => {
+    async function fetchProduct() {
       try {
-        const data = await FetchProductById(id as string);
+        const response = await fetch(`${productURL}get/${id}`);
+        if (!response.ok) throw new Error("Failed to fetch products");
+        const data = await response.json();
         setProduct(data);
-      } catch {
-        toast.error("Product not found.");
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occured");
+        }
       }
-    };
-    loadProduct();
+    }
+    fetchProduct();
   }, [id]);
 
-  if (!product) return <p className="p-4">Loading product...</p>;
+  if (!product) return <div>{error}</div>;
 
   return (
     <div className="p-4 max-w-5xl mx-auto">
