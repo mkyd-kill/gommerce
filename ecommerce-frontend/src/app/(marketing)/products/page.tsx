@@ -4,7 +4,7 @@ import { ProductModel } from "@/types/product";
 import { Deals } from "@/components/homepage/Deals";
 import Image from "next/image";
 import search from "../../../assets/search.svg";
-import { productURL } from "@/lib/imageRoute";
+import { productURL } from "@/lib/image-route";
 
 export default function ProductPage() {
   const [products, setProducts] = useState<ProductModel[]>([]);

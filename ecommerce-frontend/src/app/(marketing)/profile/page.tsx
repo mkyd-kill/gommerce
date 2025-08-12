@@ -1,12 +1,12 @@
 "use client";
-import ProtectedRoute from "@/lib/ProtectedRoute";
+import ProtectedRoute from "@/lib/protected-routes";
 import Image from "next/image";
 import user_profile from "../../../assets/auth/user-01.svg";
 import eye from "../../../assets/auth/eye.svg";
 import eyeOff from "../../../assets/auth/eye-off.svg";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
-import { UpdateUserProfile } from "@/services/authAPI";
+import { UpdateUserProfile } from "@/services/auth-api";
 import { useAuth } from "@/context/useAuth";
 
 export default function Profile() {

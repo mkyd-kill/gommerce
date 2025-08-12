@@ -1,4 +1,3 @@
-"use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/useAuth";
@@ -8,6 +7,7 @@ export default function ProtectedRoute ({ children }: { children: React.ReactNod
     const [checked, setChecked] = useState(false);
     const router = useRouter();
     const { isLoggedIn } = useAuth();
+
     useEffect(() => {
         if (!isLoggedIn()) {
             router.push("/login");

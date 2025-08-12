@@ -1,14 +1,14 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import ProtectedRoute from "@/lib/ProtectedRoute";
+import ProtectedRoute from "@/lib/protected-routes";
 import shoppingCart from "../../../assets/shopping-cart-03.svg";
 import deleteIcon from "../../../assets/DeleteButton.svg";
 import plus from "../../../assets/plus.svg";
 import minus from "../../../assets/minus.svg";
 import clipboard from "../../../assets/Clipboard.svg";
 import { useCart } from "@/context/CartContext";
-import imageURL from "@/lib/imageRoute";
+import imageURL from "@/lib/image-route";
 
 export default function CartPage() {
   const { cart, increment, decrement, removeFromCart } = useCart();

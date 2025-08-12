@@ -7,7 +7,7 @@ import { Deals } from "@/components/homepage/Deals";
 import feature from "../../assets/Clipboard.svg";
 import { useState, useEffect } from "react";
 import { ProductModel } from "@/types/product";
-import { productURL } from "@/lib/imageRoute";
+import { productURL } from "@/lib/image-route";
 
 export default function Home() {
   const [products, setProducts] = useState<ProductModel[]>([]);

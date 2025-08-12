@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import React from "react";
 import { UserProfile } from "@/types/user";
-import { loginAPI, registerAPI } from "@/services/authAPI";
+import { loginAPI, registerAPI } from "@/services/auth-api";
 import api from "@/lib/axios";
 import { jwtDecode } from "jwt-decode";
 import CookieStore from "@/lib/cookie-store";
@@ -30,7 +30,7 @@ export const UserProvider = ({ children }: Props) => {
     const loadUser = async () => {
       // check for token-access cookie
       const access: any = await CookieStore("auth-token");
-      const decode: any = jwtDecode(access);
+      const decode: any = jwtDecode(access as string);
       const now = Math.floor(Date.now() / 1000);
 
       if (decode.exp > now) {

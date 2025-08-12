@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getAdminStats } from "@/services/adminAPI";
+import { getAdminStats } from "@/services/admin-api";
 
 export default function AdminDashboard() {
   const [metrics, setMetrics] = useState({

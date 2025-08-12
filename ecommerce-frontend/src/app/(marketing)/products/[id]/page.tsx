@@ -2,12 +2,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
-import { FetchProductById } from "@/services/productAPI";
+import { FetchProductById } from "@/services/product-api";
 import { ProductModel } from "@/types/product";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import placeholder from "../../../../assets/hoodie.svg";
-import imageURL from "@/lib/imageRoute";
+import imageURL from "@/lib/image-route";
 
 export default function ProductDetailsPage() {
   const { id } = useParams();

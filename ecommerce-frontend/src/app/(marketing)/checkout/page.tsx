@@ -2,7 +2,7 @@
 import Image from "next/image";
 import truck from "../../../assets/Delivery truck.svg";
 import { useCart } from "@/context/CartContext";
-import ProtectedRoute from "@/lib/ProtectedRoute";
+import ProtectedRoute from "@/lib/protected-routes";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "@/context/useAuth";

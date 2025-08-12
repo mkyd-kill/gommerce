@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { ProductModel } from "@/types/product";
-import { DeleteProductById } from "@/services/productAPI";
+import { DeleteProductById } from "@/services/product-api";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { Plus } from "lucide-react";
-import { productURL } from "@/lib/imageRoute";
+import { productURL } from "@/lib/image-route";
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<ProductModel[]>([]);

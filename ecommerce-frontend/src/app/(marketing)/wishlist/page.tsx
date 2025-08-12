@@ -4,7 +4,7 @@ import Selected from "../../../assets/State=Selected.svg";
 import heart from "../../../assets/Heartwithribbon.svg";
 import Image from "next/image";
 import Link from "next/link";
-import imageURL from "@/lib/imageRoute";
+import imageURL from "@/lib/image-route";
 
 export default function WishList() {
   const { wishlist, removeFromWishlist } = useWishlist();

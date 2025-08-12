@@ -2,7 +2,7 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { FetchProductById, UpdateProductById } from "@/services/productAPI";
+import { FetchProductById, UpdateProductById } from "@/services/product-api";
 import { Input, TextArea } from "@/components/resuables/form-inputs";
 import { ProductModel } from "@/types/product";
 import { toast } from "react-toastify";

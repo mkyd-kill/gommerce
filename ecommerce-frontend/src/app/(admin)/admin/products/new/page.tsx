@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Input, TextArea } from "@/components/resuables/form-inputs";
-import { productURL } from "@/lib/imageRoute";
+import { productURL } from "@/lib/image-route";
 
 export default function AddProductPage() {
   const router = useRouter();

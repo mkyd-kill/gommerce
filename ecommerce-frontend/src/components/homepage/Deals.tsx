@@ -7,7 +7,7 @@ import DefaultState from "../../assets/State=Default.svg";
 import placeholder from "../../assets/defaults/placeholder.svg";
 import { useWishlist } from "@/context/WishlistContext";
 import { useCart } from "@/context/CartContext";
-import imageURL from "@/lib/imageRoute";
+import imageURL from "@/lib/image-route";
 
 interface Props {
   products: ProductModel[];
