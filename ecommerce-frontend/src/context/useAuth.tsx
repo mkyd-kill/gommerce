@@ -10,7 +10,7 @@ import api from "@/lib/axios";
 import { jwtDecode } from "jwt-decode";
 import CookieStore from "@/lib/cookie-store";
 
-type UserContextType = { 
+type UserContextType = {
   user: UserProfile | null;
   registerUser: (email: string, username: string, password: string) => void;
   loginUser: (email: string, password: string) => void;
@@ -27,7 +27,7 @@ export const UserProvider = ({ children }: Props) => {
   const [user, setUser] = useState<UserProfile | null>(null);
 
   useEffect(() => {
-    const loadUser = async () => {
+    async function loadUser() {
       // check for token-access cookie
       const access = await CookieStore("auth-token");
       const decode: any = jwtDecode(access as string);
@@ -61,10 +61,8 @@ export const UserProvider = ({ children }: Props) => {
     try {
       const res = await loginAPI(email, password);
       if (res.status === 200) {
-        const userRes = await api.get("/user/profile");
-        setUser(userRes.data);
         toast.success("Login Successful!");
-        router.push("/profile");
+        router.push("/products");
       } else {
         toast.error("Invalid credentials");
       }
