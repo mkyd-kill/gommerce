@@ -77,7 +77,7 @@ export const UserProvider = ({ children }: Props) => {
         try {
           const profileRes = await api.get("/user/profile");
           if (profileRes.status === 200) {
-            setUser(profileRes.data);
+            setUser(profileRes.data.user);
           }
         } catch {
           toast.error("Failed to fetch user profile");
