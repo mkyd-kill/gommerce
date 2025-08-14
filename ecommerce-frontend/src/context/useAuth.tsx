@@ -28,6 +28,11 @@ export const UserProvider = ({ children }: Props) => {
 
   useEffect(() => {
     async function loadUser() {
+      // Reload the page every 5 minutes (300,000 milliseconds)
+      setTimeout(() => {
+        window.location.reload();
+      }, 300000);
+
       // check for token-access cookie
       const access = await CookieStore("auth-token");
       const decode: any = jwtDecode(access as string);
