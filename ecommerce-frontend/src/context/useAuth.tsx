@@ -88,7 +88,7 @@ export const UserProvider = ({ children }: Props) => {
           } catch {
             toast.error("Failed to fetch user profile");
           }
-        }, 200); // 200ms delay
+        }, 500); // 200ms delay
       } else {
         toast.error("Invalid credentials");
       }
