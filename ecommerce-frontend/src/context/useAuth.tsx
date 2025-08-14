@@ -81,7 +81,7 @@ export const UserProvider = ({ children }: Props) => {
               withCredentials: true,
             });
             if (profileRes.status === 200) {
-              setUser(profileRes.data);
+              setUser(profileRes.data.user);
               toast.success("Login Successful!");
               router.push("/products");
             }
