@@ -72,19 +72,23 @@ export const UserProvider = ({ children }: Props) => {
   const loginUser = async (email: string, password: string) => {
     try {
       const res = await loginAPI(email, password);
-      if (res.status === 200) {
-        // Fetch and set user profile immediately
-        try {
-          const profileRes = await api.get("/user/profile");
-          if (profileRes.status === 200) {
-            setUser(profileRes.data.user);
-          }
-        } catch {
-          toast.error("Failed to fetch user profile");
-        }
 
-        toast.success("Login Successful!");
-        router.push("/products");
+      if (res.status === 200) {
+        // Wait until the cookie is available
+        setTimeout(async () => {
+          try {
+            const profileRes = await api.get("/user/profile", {
+              withCredentials: true,
+            });
+            if (profileRes.status === 200) {
+              setUser(profileRes.data);
+              toast.success("Login Successful!");
+              router.push("/products");
+            }
+          } catch {
+            toast.error("Failed to fetch user profile");
+          }
+        }, 200); // 200ms delay
       } else {
         toast.error("Invalid credentials");
       }
