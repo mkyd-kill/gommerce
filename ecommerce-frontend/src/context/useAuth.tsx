@@ -28,22 +28,29 @@ export const UserProvider = ({ children }: Props) => {
 
   useEffect(() => {
     async function loadUser() {
-      // Reload the page every 5 minutes (300,000 milliseconds)
-      setTimeout(() => {
+      // Reload every 5 minutes
+      const reloadTimer = setTimeout(() => {
         window.location.reload();
       }, 300000);
 
-      // check for token-access cookie
-      const access = await CookieStore("auth-token");
-      const decode: any = jwtDecode(access as string);
-      const now = Math.floor(Date.now() / 1000);
+      try {
+        const access = await CookieStore("auth-token");
+        if (!access) return;
 
-      if (decode.exp > now) {
-        const res = await api.get("/user/profile");
-        if (res.status === 200) {
-          setUser(res.data);
+        const decode: any = jwtDecode(access as string);
+        const now = Math.floor(Date.now() / 1000);
+
+        if (decode.exp > now) {
+          const res = await api.get("/user/profile");
+          if (res.status === 200) {
+            setUser(res.data);
+          }
         }
+      } catch {
+        // ignore if no valid token
       }
+
+      return () => clearTimeout(reloadTimer);
     }
     loadUser();
   }, []);
@@ -66,6 +73,16 @@ export const UserProvider = ({ children }: Props) => {
     try {
       const res = await loginAPI(email, password);
       if (res.status === 200) {
+        // Fetch and set user profile immediately
+        try {
+          const profileRes = await api.get("/user/profile");
+          if (profileRes.status === 200) {
+            setUser(profileRes.data);
+          }
+        } catch {
+          toast.error("Failed to fetch user profile");
+        }
+
         toast.success("Login Successful!");
         router.push("/products");
       } else {
