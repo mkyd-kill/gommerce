@@ -70,7 +70,6 @@ func Login(c *gin.Context) {
 	http.SetCookie(c.Writer, &http.Cookie{
 		Name:		"auth-token",
 		Value:		accessToken,
-		Path:		"/",
 		HttpOnly: 	false,
 		SameSite:	http.SameSiteNoneMode,
 		Secure:		true,
@@ -84,7 +83,6 @@ func Logout(c *gin.Context) {
 	http.SetCookie(c.Writer, &http.Cookie{
 		Name:		"auth-token",
 		Value:		"",
-		Path:		"/",
 		HttpOnly: 	false,
 		SameSite:	http.SameSiteNoneMode,
 		Secure:		true,
