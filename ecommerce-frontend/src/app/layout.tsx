@@ -1,11 +1,13 @@
 import { Metadata } from "next";
+import { UserProvider } from "@/context/useAuth";
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Not Found",
 };
 
-export default function NotFoundLayout({
+export default function BaseSiteLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -13,7 +15,9 @@ export default function NotFoundLayout({
   return (
     <html lang="en">
       <body>
+        <UserProvider>
         { children }
+        </UserProvider>
       </body>
     </html>
   );

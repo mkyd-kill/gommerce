@@ -1,3 +1,4 @@
+"use client";
 import { useContext, ReactNode } from "react";
 import Link from "next/link";
 import { SidebarContext } from "./Sidebar";
