@@ -81,14 +81,14 @@ export const UserProvider = ({ children }: Props) => {
               withCredentials: true,
             });
             if (profileRes.status === 200) {
-              setUser(profileRes.data.user);
+              setUser(profileRes.data);
               toast.success("Login Successful!");
               router.push("/products");
             }
           } catch {
             toast.error("Failed to fetch user profile");
           }
-        }, 500); // 200ms delay
+        }, 1600);
       } else {
         toast.error("Invalid credentials");
       }
