@@ -15,6 +15,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [icon, setIcon] = useState(eyeOff);
   const [type, setType] = useState("password");
+  const [loading, setLoading] = useState(false);
 
   const handleToggle = () => {
     if (type === "password") {
@@ -28,6 +29,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     loginUser(email, password);
   };
 
@@ -88,16 +90,16 @@ export default function LoginPage() {
                   </div>
                 </div>
               </div>
-              <button type="submit"
+              <button
+                type="submit"
+                disabled={loading}
                 className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2 px-[18px] py-2.5 rounded-lg bg-[#66004b] border border-[#66004b] cursor-pointer"
                 style={{
                   boxShadow: "0px 1px 2px 0 rgba(16,24,40,0.05)",
                 }}
               >
-                <div
-                  className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-white cursor-pointer"
-                >
-                  Sign in
+                <div className="flex-grow-0 flex-shrink-0 text-base font-semibold text-left text-white cursor-pointer">
+                  {loading ? "Loading..." : "Sign In"}
                 </div>
               </button>
             </form>
